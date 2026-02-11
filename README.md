@@ -29,8 +29,9 @@
 ## Quick Start
 
 1. [Download Kaku DMG](https://github.com/tw93/Kaku/releases/latest) & Drag to Applications
-2. Open Kaku. If macOS blocks the app, go to System Settings → Privacy & Security → click "Open Anyway"
-3. On first launch, Kaku will automatically set up your shell environment
+2. Or install with Homebrew: `brew tap tw93/tap && brew install --cask tw93/tap/kaku`
+3. Open Kaku. If macOS blocks the app, go to System Settings → Privacy & Security → click "Open Anyway"
+4. On first launch, Kaku will automatically set up your shell environment
 
 ## Usage Guide
 

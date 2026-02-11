@@ -29,8 +29,9 @@
 ## 快速开始
 
 1. [下载 Kaku DMG](https://github.com/tw93/Kaku/releases/latest) 并拖入 Applications
-2. 打开 Kaku。如果 macOS 阻止运行，前往 系统设置 → 隐私与安全性 → 点击「仍要打开」
-3. 首次启动时，Kaku 会自动配置你的 Shell 环境
+2. 或使用 Homebrew 安装：`brew tap tw93/tap && brew install --cask tw93/tap/kaku`
+3. 打开 Kaku。如果 macOS 阻止运行，前往 系统设置 → 隐私与安全性 → 点击「仍要打开」
+4. 首次启动时，Kaku 会自动配置你的 Shell 环境
 
 ## 使用指南
 
