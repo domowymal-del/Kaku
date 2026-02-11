@@ -14,6 +14,68 @@ TARGET_DIR="${TARGET_DIR:-target}"
 PROFILE="${PROFILE:-release}"
 OUT_DIR="${OUT_DIR:-dist}"
 OPEN_APP="${OPEN_APP:-0}"
+BUILD_ARCH="${BUILD_ARCH:-}"
+
+if [[ -z "$BUILD_ARCH" ]]; then
+	if [[ "$PROFILE" == "release" || "$PROFILE" == "release-opt" ]]; then
+		BUILD_ARCH="universal"
+	else
+		BUILD_ARCH="native"
+	fi
+fi
+
+resolve_native_target() {
+	case "$(uname -m)" in
+	arm64 | aarch64)
+		echo "aarch64-apple-darwin"
+		;;
+	x86_64)
+		echo "x86_64-apple-darwin"
+		;;
+	*)
+		echo "Unsupported macOS architecture: $(uname -m)" >&2
+		exit 1
+		;;
+	esac
+}
+
+resolve_build_targets() {
+	case "$BUILD_ARCH" in
+	universal)
+		echo "aarch64-apple-darwin x86_64-apple-darwin"
+		;;
+	native)
+		echo "$(resolve_native_target)"
+		;;
+	arm64)
+		echo "aarch64-apple-darwin"
+		;;
+	x86_64)
+		echo "x86_64-apple-darwin"
+		;;
+	*)
+		echo "Unsupported BUILD_ARCH=$BUILD_ARCH (expected: universal, native, arm64, x86_64)" >&2
+		exit 1
+		;;
+	esac
+}
+
+ensure_rust_targets() {
+	local installed
+	local missing=()
+
+	installed="$(rustup target list --installed)"
+	for target in "$@"; do
+		if ! grep -Fxq "$target" <<<"$installed"; then
+			missing+=("$target")
+		fi
+	done
+
+	if [[ ${#missing[@]} -gt 0 ]]; then
+		echo "Installing missing Rust targets: ${missing[*]}"
+		rustup target add "${missing[@]}"
+	fi
+}
 
 if [[ "${1:-}" == "--open" ]]; then
 	OPEN_APP=1
@@ -22,17 +84,53 @@ fi
 APP_BUNDLE_SRC="assets/macos/Kaku.app"
 APP_BUNDLE_OUT="$OUT_DIR/$APP_NAME.app"
 
-echo "[1/6] Building binaries ($PROFILE)..."
+echo "[1/6] Building binaries ($PROFILE, $BUILD_ARCH)..."
+PROFILE_DIR="debug"
+CARGO_PROFILE_ARGS=()
 if [[ "$PROFILE" == "release" ]]; then
-	cargo build --release -p kaku-gui -p kaku
-	BIN_DIR="$TARGET_DIR/release"
+	CARGO_PROFILE_ARGS=(--release)
+	PROFILE_DIR="release"
 elif [[ "$PROFILE" == "release-opt" ]]; then
-	cargo build --profile release-opt -p kaku-gui -p kaku
-	BIN_DIR="$TARGET_DIR/release-opt"
-else
-	cargo build -p kaku-gui -p kaku
-	BIN_DIR="$TARGET_DIR/debug"
+	CARGO_PROFILE_ARGS=(--profile release-opt)
+	PROFILE_DIR="release-opt"
 fi
+
+if ! BUILD_TARGETS_STR="$(resolve_build_targets)"; then
+	exit 1
+fi
+
+BUILD_TARGETS=()
+IFS=' ' read -r -a BUILD_TARGETS <<<"$BUILD_TARGETS_STR"
+if [[ ${#BUILD_TARGETS[@]} -eq 0 ]]; then
+	echo "No build targets resolved for BUILD_ARCH=$BUILD_ARCH" >&2
+	exit 1
+fi
+
+ensure_rust_targets "${BUILD_TARGETS[@]}"
+
+for target in "${BUILD_TARGETS[@]}"; do
+	echo "Building target: $target"
+	cargo build "${CARGO_PROFILE_ARGS[@]}" --target "$target" --target-dir "$TARGET_DIR" -p kaku-gui -p kaku
+done
+
+if [[ "$BUILD_ARCH" == "universal" ]]; then
+	BIN_DIR="$TARGET_DIR/universal/$PROFILE_DIR"
+	mkdir -p "$BIN_DIR"
+	for bin in kaku kaku-gui; do
+		lipo -create \
+			-output "$BIN_DIR/$bin" \
+			"$TARGET_DIR/aarch64-apple-darwin/$PROFILE_DIR/$bin" \
+			"$TARGET_DIR/x86_64-apple-darwin/$PROFILE_DIR/$bin"
+		chmod +x "$BIN_DIR/$bin"
+	done
+else
+	BIN_DIR="$TARGET_DIR/${BUILD_TARGETS[0]}/$PROFILE_DIR"
+fi
+
+for bin in kaku kaku-gui; do
+	echo -n "Built $bin: "
+	lipo -info "$BIN_DIR/$bin"
+done
 
 echo "[2/6] Preparing app bundle..."
 rm -rf "$APP_BUNDLE_OUT"
