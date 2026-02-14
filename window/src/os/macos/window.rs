@@ -1415,21 +1415,31 @@ impl WindowInner {
     }
 
     fn update_titlebar_background(&self) {
-        if !self
+        let should_color_titlebar = self
             .config
             .window_decorations
             .contains(WindowDecorations::MACOS_USE_BACKGROUND_COLOR_AS_TITLEBAR_COLOR)
-        {
+            || self.config.window_background_opacity < 1.0;
+        if !should_color_titlebar {
             return;
         }
 
         // Set the titlebar background to the theme color falling back to black if there is no
         // specified color scheme
-        let color = self
+        let mut color = self
             .config
             .resolved_palette
             .background
-            .unwrap_or(RgbaColor::from(SrgbaTuple(0., 0., 0., 255.)));
+            .unwrap_or(RgbaColor::from(SrgbaTuple(0., 0., 0., 1.0)));
+        if self.config.window_background_opacity < 1.0 {
+            let SrgbaTuple(r, g, b, a) = *color;
+            color = RgbaColor::from(SrgbaTuple(
+                r,
+                g,
+                b,
+                (a * self.config.window_background_opacity).clamp(0.0, 1.0),
+            ));
+        }
 
         unsafe {
             if let Some(titlebar_view_container) = get_titlebar_view_container(&self.window) {

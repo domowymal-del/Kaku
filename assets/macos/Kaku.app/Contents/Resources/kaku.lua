@@ -49,9 +49,7 @@ local fullscreen_uniform_padding = {
 local resize_state_by_window = setmetatable({}, { __mode = 'k' })
 
 local function monotonic_now()
-  if wezterm.time and wezterm.time.now then
-    return wezterm.time.now()
-  end
+  -- Keep this numeric for debounce arithmetic.
   return os.clock()
 end
 

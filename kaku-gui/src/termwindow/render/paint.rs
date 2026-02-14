@@ -218,9 +218,100 @@ impl crate::TermWindow {
                 }
             }
             _ if window_is_transparent => {
-                // Avoid doubling up the background color: the panes
-                // will render out through the padding so there
-                // should be no gaps that need filling in
+                // Avoid doubling up the background color for the main pane area.
+                // We still need to paint strips that are intentionally excluded
+                // from pane background quads.
+                let strip_background = if panes.len() == 1 {
+                    panes[0].pane.palette().background
+                } else {
+                    self.palette().background
+                }
+                .to_linear()
+                .mul_alpha(self.config.window_background_opacity);
+                let border = self.get_os_border();
+                let tab_bar_height = if self.show_tab_bar {
+                    self.tab_bar_pixel_height().context("tab_bar_pixel_height")?
+                } else {
+                    0.0
+                };
+                let padding_bottom = self
+                    .config
+                    .window_padding
+                    .bottom
+                    .evaluate_as_pixels(DimensionContext {
+                        dpi: self.dimensions.dpi as f32,
+                        pixel_max: self.terminal_size.pixel_height as f32,
+                        pixel_cell: self.render_metrics.cell_size.height as f32,
+                    });
+                let top_fill_height = border.top.get() as f32
+                    + if self.config.tab_bar_at_bottom {
+                        0.0
+                    } else {
+                        tab_bar_height
+                    };
+                let bottom_fill_height = padding_bottom + border.bottom.get() as f32;
+                let bottom_reserved_for_right_strip = bottom_fill_height
+                    + if self.config.tab_bar_at_bottom {
+                        tab_bar_height
+                    } else {
+                        0.0
+                    };
+                let right_fill_width =
+                    self.effective_right_padding(&self.config) as f32 + border.right.get() as f32;
+                let window_width = self.dimensions.pixel_width as f32;
+                let window_height = self.dimensions.pixel_height as f32;
+
+                if top_fill_height > 0.0 {
+                    self.filled_rectangle(
+                        &mut layers,
+                        0,
+                        euclid::rect(
+                            0.0,
+                            0.0,
+                            window_width,
+                            top_fill_height.min(window_height),
+                        ),
+                        strip_background,
+                    )
+                    .context("filled_rectangle for transparent top strip")?;
+                }
+
+                if bottom_fill_height > 0.0 {
+                    let clamped_height = bottom_fill_height.min(window_height);
+                    self.filled_rectangle(
+                        &mut layers,
+                        0,
+                        euclid::rect(
+                            0.0,
+                            (window_height - clamped_height).max(0.0),
+                            window_width,
+                            clamped_height,
+                        ),
+                        strip_background,
+                    )
+                    .context("filled_rectangle for transparent bottom strip")?;
+                }
+
+                if right_fill_width > 0.0 {
+                    let clamped_width = right_fill_width.min(window_width);
+                    let right_fill_y = top_fill_height.min(window_height);
+                    let right_fill_height = (window_height
+                        - right_fill_y
+                        - bottom_reserved_for_right_strip.min(window_height))
+                    .max(0.0);
+                    self.filled_rectangle(
+                        &mut layers,
+                        0,
+                        euclid::rect(
+                            window_width - clamped_width,
+                            right_fill_y,
+                            clamped_width,
+                            right_fill_height,
+                        ),
+                        strip_background,
+                    )
+                    .context("filled_rectangle for transparent right strip")?;
+                }
             }
             _ => {
                 paint_terminal_background = true;
