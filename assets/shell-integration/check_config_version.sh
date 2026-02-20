@@ -8,7 +8,7 @@ YELLOW='\033[1;33m'
 BOLD='\033[1m'
 NC='\033[0m'
 
-CURRENT_CONFIG_VERSION=10
+CURRENT_CONFIG_VERSION=11
 CONFIG_DIR="$HOME/.config/kaku"
 STATE_FILE="$CONFIG_DIR/state.json"
 LEGACY_VERSION_FILE="$CONFIG_DIR/.kaku_config_version"
@@ -65,11 +65,11 @@ echo ""
 # Show only current release highlights to keep this prompt short and maintainable.
 echo -e "${BOLD}What's new:${NC}"
 case "$CURRENT_CONFIG_VERSION" in
-10)
-	echo "  • Smart Tab: prefers completion for arguments and path-like tokens"
-	echo "  • Optional CLI tools (Starship, Delta, Lazygit) via Homebrew"
-	echo "  • Auto-detect 1Password SSH agent to prevent auth failures"
-	echo "  • Shell config centralized in managed kaku.zsh (single source)"
+11)
+	echo "  • AI error fixer: only suggests actions when commands fail"
+	echo "  • One-key apply for latest suggested fix command"
+	echo "  • Shell hooks now expose failed command + exit code to Kaku"
+	echo "  • Better bottom status feedback for troubleshooting flow"
 	;;
 *)
 	echo "  • Shell integration and reliability improvements"

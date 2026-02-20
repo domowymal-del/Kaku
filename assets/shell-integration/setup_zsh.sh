@@ -320,6 +320,69 @@ if [[ -f "\$KAKU_ZSH_DIR/plugins/zsh-syntax-highlighting/zsh-syntax-highlighting
     precmd_functions+=(zsh_syntax_highlighting_defer)
 fi
 
+# Kaku AI fix hooks (error-only):
+# - preexec captures the command text
+# - precmd captures the previous command exit code
+# Lua listens to these user vars and only suggests fixes when exit code != 0.
+_kaku_set_user_var() {
+    local name="\$1"
+    local value="\$2"
+
+    if [[ "\$TERM" != "kaku" ]]; then
+        return
+    fi
+
+    if [[ "\${WEZTERM_SHELL_SKIP_USER_VARS:-}" == "1" ]]; then
+        return
+    fi
+
+    local encoded=""
+    if command -v base64 >/dev/null 2>&1; then
+        encoded="\$(printf '%s' "\$value" | base64 | tr -d '\r\n')"
+    else
+        return
+    fi
+
+    if [[ -n "\${TMUX:-}" ]]; then
+        printf "\033Ptmux;\033\033]1337;SetUserVar=%s=%s\007\033\\\\" "\$name" "\$encoded"
+    else
+        printf "\033]1337;SetUserVar=%s=%s\007" "\$name" "\$encoded"
+    fi
+}
+
+# Only emit exit code when a real command was executed.
+# Empty Enter should not re-trigger AI suggestions for the previous failure.
+typeset -g _kaku_ai_cmd_pending=0
+
+_kaku_ai_preexec() {
+    if [[ -n "\${KAKU_AUTO_DISABLE:-}" ]]; then
+        return
+    fi
+    _kaku_ai_cmd_pending=1
+    _kaku_set_user_var "kaku_last_cmd" "\$1"
+}
+
+_kaku_ai_precmd() {
+    local last_exit_code="\$?"
+    if [[ -n "\${KAKU_AUTO_DISABLE:-}" ]]; then
+        _kaku_ai_cmd_pending=0
+        return 0
+    fi
+    if [[ "\${_kaku_ai_cmd_pending:-0}" != "1" ]]; then
+        return 0
+    fi
+    _kaku_set_user_var "kaku_last_exit_code" "\$last_exit_code"
+    _kaku_ai_cmd_pending=0
+    return 0
+}
+
+if [[ \${preexec_functions[(Ie)_kaku_ai_preexec]} -eq 0 ]]; then
+    preexec_functions+=(_kaku_ai_preexec)
+fi
+if [[ \${precmd_functions[(Ie)_kaku_ai_precmd]} -eq 0 ]]; then
+    precmd_functions=(_kaku_ai_precmd "\${precmd_functions[@]}")
+fi
+
 # Auto-set TERM to xterm-256color for SSH connections when running under kaku,
 # since remote hosts typically lack the kaku terminfo entry.
 # Also auto-detect 1Password SSH agent and add IdentitiesOnly=yes to prevent
