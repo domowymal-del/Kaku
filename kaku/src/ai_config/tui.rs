@@ -6,8 +6,8 @@ use crossterm::event::{
     MouseEventKind,
 };
 use crossterm::terminal::{disable_raw_mode, enable_raw_mode};
-use ratatui::Terminal;
 use ratatui::backend::CrosstermBackend;
+use ratatui::Terminal;
 use std::io;
 use std::path::{Path, PathBuf};
 

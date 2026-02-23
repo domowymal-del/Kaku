@@ -1,6 +1,6 @@
 //! Configuration for the gui portion of the terminal
 
-use anyhow::{Context, Error, anyhow, bail};
+use anyhow::{anyhow, bail, Context, Error};
 use lazy_static::lazy_static;
 use mlua::Lua;
 use ordered_float::NotNan;

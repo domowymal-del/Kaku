@@ -5,7 +5,7 @@
 //!
 //! The configuration is stored in `assistant.toml` in the user's Kaku config directory.
 
-use anyhow::{Context, anyhow};
+use anyhow::{anyhow, Context};
 use std::path::{Path, PathBuf};
 
 /// Default AI model to use when none is specified.

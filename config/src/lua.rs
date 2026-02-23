@@ -4,7 +4,7 @@ use crate::{
     Config, FontAttributes, FontStretch, FontStyle, FontWeight, FreeTypeLoadTarget, RgbaColor,
     TextStyle,
 };
-use anyhow::{Context, anyhow};
+use anyhow::{anyhow, Context};
 use luahelper::{from_lua_value_dynamic, lua_value_to_dynamic, to_lua};
 use mlua::{FromLua, IntoLuaMulti, Lua, Table, Value, Variadic};
 use ordered_float::NotNan;
