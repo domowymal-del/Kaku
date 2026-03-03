@@ -322,7 +322,7 @@ end
             )
             .context("set wezterm.config_dir")?;
 
-        lua.set_named_registry_value("wezterm-watch-paths", Vec::<String>::new())?;
+        lua.set_named_registry_value("kaku-watch-paths", Vec::<String>::new())?;
         wezterm_mod.set(
             "add_to_config_reload_watch_list",
             lua.create_function(add_to_config_reload_watch_list)?,
@@ -814,8 +814,22 @@ pub async fn emit_event<'lua>(
     lua: &'lua Lua,
     (name, args): (String, mlua::MultiValue<'lua>),
 ) -> mlua::Result<bool> {
+    // Save previous value to support nested emit_event calls
+    let was_event: bool = lua.named_registry_value(IS_EVENT).unwrap_or(false);
     lua.set_named_registry_value(IS_EVENT, true)?;
 
+    let result = emit_event_inner(lua, name, args).await;
+
+    // Restore previous value
+    lua.set_named_registry_value(IS_EVENT, was_event)?;
+    result
+}
+
+async fn emit_event_inner<'lua>(
+    lua: &'lua Lua,
+    name: String,
+    args: mlua::MultiValue<'lua>,
+) -> mlua::Result<bool> {
     let decorated_name = format!("wezterm-event-{}", name);
     let tbl: mlua::Value = lua.named_registry_value(&decorated_name)?;
     match tbl {
@@ -824,12 +838,9 @@ pub async fn emit_event<'lua>(
                 let func = func?;
                 match func.call_async(args.clone()).await? {
                     mlua::Value::Boolean(b) if !b => {
-                        // Default action prevented
                         return Ok(false);
                     }
-                    _ => {
-                        // Continue with other handlers
-                    }
+                    _ => {}
                 }
             }
             Ok(true)
@@ -902,9 +913,9 @@ pub fn add_to_config_reload_watch_list<'lua>(
     lua: &'lua Lua,
     args: Variadic<String>,
 ) -> mlua::Result<()> {
-    let mut watch_paths: Vec<String> = lua.named_registry_value("wezterm-watch-paths")?;
+    let mut watch_paths: Vec<String> = lua.named_registry_value("kaku-watch-paths")?;
     watch_paths.extend_from_slice(&args);
-    lua.set_named_registry_value("wezterm-watch-paths", watch_paths)?;
+    lua.set_named_registry_value("kaku-watch-paths", watch_paths)?;
     Ok(())
 }
 
