@@ -100,11 +100,11 @@ fn render_fields(frame: &mut ratatui::Frame, area: Rect, app: &App) {
     items.push(ListItem::new(Line::from("")));
     items.push(ListItem::new(Line::from(vec![
         Span::styled("    ", Style::default()),
+        Span::styled("ESC", Style::default().fg(text_fg())),
+        Span::styled(" save and apply changes", Style::default().fg(muted())),
+        Span::styled("  ·  ", Style::default().fg(muted())),
         Span::styled("E", Style::default().fg(text_fg())),
         Span::styled(" open full config", Style::default().fg(muted())),
-        Span::styled("  ·  ", Style::default().fg(muted())),
-        Span::styled("ESC", Style::default().fg(text_fg())),
-        Span::styled(" save & exit", Style::default().fg(muted())),
     ])));
 
     let mut state = ListState::default();
