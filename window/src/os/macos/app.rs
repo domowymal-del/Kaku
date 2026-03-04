@@ -100,8 +100,8 @@ const OPEN_UNTITLED_DEFER_SPAWN_DELAY: Duration = Duration::from_millis(350);
 // macOS may still emit applicationOpenUntitledFile and cause an extra “~/” tab.
 // Use 2 seconds to balance startup race protection vs. user intent for new windows.
 const OPEN_UNTITLED_AFTER_SERVICE_OPEN_GUARD: Duration = Duration::from_secs(2);
-const SCREEN_WAKE_RETRY_DELAY: Duration = Duration::from_millis(100);
-const SCREEN_WAKE_MAX_RETRIES: usize = 5;
+const DISPLAY_CHANGE_RETRY_DELAY: Duration = Duration::from_millis(100);
+const DISPLAY_CHANGE_MAX_RETRIES: usize = 5;
 static OPEN_UNTITLED_SPAWN_SEQUENCE: AtomicU64 = AtomicU64::new(0);
 
 fn note_service_open_request() {
@@ -447,7 +447,7 @@ extern "C" fn application_did_finish_launching(this: &mut Object, _sel: Sel, _no
         let () = msg_send![NSApp(), setServicesProvider: this as *mut Object];
         (*this).set_ivar("launched", YES);
 
-        // Register for screen wake notifications to update OpenGL contexts
+        // Register for screen wake notifications to update OpenGL contexts.
         let workspace: id = msg_send![class!(NSWorkspace), sharedWorkspace];
         let notification_center: id = msg_send![workspace, notificationCenter];
         let notification_name = nsstring("NSWorkspaceScreensDidWakeNotification");
@@ -458,39 +458,78 @@ extern "C" fn application_did_finish_launching(this: &mut Object, _sel: Sel, _no
             object: nil
         ];
         log::debug!("registered for NSWorkspaceScreensDidWakeNotification");
+
+        // Register for display topology changes (monitor connect/disconnect,
+        // resolution updates) and refresh all window backends the same way.
+        let app_notification_center: id = msg_send![class!(NSNotificationCenter), defaultCenter];
+        let app_notification_name = nsstring("NSApplicationDidChangeScreenParametersNotification");
+        let () = msg_send![app_notification_center,
+            addObserver: this as *mut Object
+            selector: sel!(screenParametersDidChange:)
+            name: *app_notification_name
+            object: nil
+        ];
+        log::debug!("registered for NSApplicationDidChangeScreenParametersNotification");
     }
     sync_global_hotkey_registration();
+}
+
+fn refresh_all_window_contexts_after_display_change(
+    reason: &'static str,
+    remaining_retries: usize,
+) {
+    let Some(conn) = Connection::get() else {
+        return;
+    };
+
+    let windows: Vec<_> = conn.windows.borrow().values().cloned().collect();
+    let mut busy_windows = false;
+    for window in windows {
+        if let Ok(mut inner) = window.try_borrow_mut() {
+            if !inner.refresh_after_display_change() {
+                busy_windows = true;
+            }
+        } else {
+            busy_windows = true;
+        }
+    }
+
+    if busy_windows && remaining_retries > 0 {
+        log::debug!(
+            "retrying display refresh after {} because some windows were busy (remaining_retries={})",
+            reason,
+            remaining_retries
+        );
+        promise::spawn::spawn_into_main_thread(async move {
+            async_io::Timer::after(DISPLAY_CHANGE_RETRY_DELAY).await;
+            refresh_all_window_contexts_after_display_change(reason, remaining_retries - 1);
+        })
+        .detach();
+    }
 }
 
 /// Called when the system wakes from sleep. Updates all OpenGL contexts to
 /// prevent crashes from stale surfaces when AppKit tries to flush the backing layer.
 extern "C" fn screens_did_wake(_self: &mut Object, _sel: Sel, _notification: *mut Object) {
     log::debug!("NSWorkspaceScreensDidWakeNotification received, updating OpenGL contexts");
-    fn update_all_window_contexts_after_wake(remaining_retries: usize) {
-        let Some(conn) = Connection::get() else {
-            return;
-        };
+    refresh_all_window_contexts_after_display_change("system wake", DISPLAY_CHANGE_MAX_RETRIES);
+}
 
-        let windows: Vec<_> = conn.windows.borrow().values().cloned().collect();
-        let mut busy_windows = false;
-        for window in windows {
-            if let Ok(mut inner) = window.try_borrow_mut() {
-                inner.update_opengl_context_after_wake();
-            } else {
-                busy_windows = true;
-            }
-        }
-
-        if busy_windows && remaining_retries > 0 {
-            promise::spawn::spawn_into_main_thread(async move {
-                async_io::Timer::after(SCREEN_WAKE_RETRY_DELAY).await;
-                update_all_window_contexts_after_wake(remaining_retries - 1);
-            })
-            .detach();
-        }
-    }
-
-    update_all_window_contexts_after_wake(SCREEN_WAKE_MAX_RETRIES);
+/// Called when macOS reports a display topology change (screen attach/detach,
+/// resolution or arrangement changes). Refreshes all window backends so stale
+/// OpenGL drawables and cached screen-dependent values are rebuilt promptly.
+extern "C" fn screen_parameters_did_change(
+    _self: &mut Object,
+    _sel: Sel,
+    _notification: *mut Object,
+) {
+    log::debug!(
+        "NSApplicationDidChangeScreenParametersNotification received, refreshing displays"
+    );
+    refresh_all_window_contexts_after_display_change(
+        "screen parameter change",
+        DISPLAY_CHANGE_MAX_RETRIES,
+    );
 }
 
 extern "C" fn application_open_untitled_file(
@@ -933,6 +972,10 @@ fn get_class() -> &'static Class {
             cls.add_method(
                 sel!(screensDidWake:),
                 screens_did_wake as extern "C" fn(&mut Object, Sel, *mut Object),
+            );
+            cls.add_method(
+                sel!(screenParametersDidChange:),
+                screen_parameters_did_change as extern "C" fn(&mut Object, Sel, *mut Object),
             );
         }
 
