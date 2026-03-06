@@ -2217,10 +2217,10 @@ pub fn derive_command_from_key_assignment(action: &KeyAssignment) -> Option<Comm
             icon: None,
         },
         CompleteSelection(destination) => CommandDef {
-            brief: format!("Completes selection, and copy {destination:?}").into(),
+            brief: format!("Completes selection; copies if copy_on_select is enabled").into(),
             doc: format!(
-                "Completes text selection using the mouse, and copies \
-                to {destination:?}"
+                "Completes text selection using the mouse. If \
+                copy_on_select is enabled, copy to {destination:?}"
             )
             .into(),
             keys: vec![],
@@ -2230,13 +2230,14 @@ pub fn derive_command_from_key_assignment(action: &KeyAssignment) -> Option<Comm
         },
         CompleteSelectionOrOpenLinkAtMouseCursor(destination) => CommandDef {
             brief: format!(
-                "Open a URL or Completes selection \
-            by copying to {destination:?}"
+                "Open a URL or complete selection \
+            with optional copy to {destination:?}"
             )
             .into(),
             doc: format!(
                 "If the mouse is over a link, open it, otherwise, completes \
-                text selection using the mouse, and copies to {destination:?}"
+                text selection using the mouse. If copy_on_select is enabled, \
+                copy to {destination:?}"
             )
             .into(),
             keys: vec![],

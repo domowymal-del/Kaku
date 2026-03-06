@@ -460,7 +460,8 @@ pub struct Config {
     #[dynamic(default)]
     pub disable_default_mouse_bindings: bool,
     /// When false, completing a mouse text selection will not copy text
-    /// to the clipboard and will not show copy toast notifications.
+    /// to the clipboard. Kaku may show a one-time in-window hint so the
+    /// selection behavior is less surprising.
     #[dynamic(default = "default_true")]
     pub copy_on_select: bool,
 

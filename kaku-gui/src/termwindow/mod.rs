@@ -748,6 +748,7 @@ pub struct TermWindow {
 
     /// Toast notification: (start_time, message, lifetime)
     toast: Option<(Instant, String, Duration)>,
+    selection_copy_disabled_hint_shown: bool,
 
     /// Stack of working dirs from recently closed tabs, for ReopenLastClosedTab.
     /// Most recently closed is at the back.
@@ -1170,6 +1171,7 @@ impl TermWindow {
             modal: RefCell::new(None),
             opengl_info: None,
             toast: None,
+            selection_copy_disabled_hint_shown: false,
             live_resizing: false,
             closed_tabs: std::collections::VecDeque::new(),
         };
@@ -3465,6 +3467,8 @@ impl TermWindow {
                     if self.config.copy_on_select {
                         self.copy_to_clipboard(*dest, text);
                         self.show_copy_toast();
+                    } else {
+                        self.show_copy_on_select_disabled_hint();
                     }
                 } else {
                     self.do_open_link_at_mouse_cursor(pane);
@@ -3475,6 +3479,8 @@ impl TermWindow {
                 if !text.is_empty() && self.config.copy_on_select {
                     self.copy_to_clipboard(*dest, text);
                     self.show_copy_toast();
+                } else if !text.is_empty() {
+                    self.show_copy_on_select_disabled_hint();
                 }
             }
             ClearScrollback(erase_mode) => {
