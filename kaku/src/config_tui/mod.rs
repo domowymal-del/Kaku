@@ -16,6 +16,17 @@ use std::path::{Path, PathBuf};
 const KAKU_AUTO_COLOR_SCHEME_EXPR: &str =
     "(wezterm.gui and wezterm.gui.get_appearance() or 'Dark'):find('Dark') and 'Kaku Dark' or 'Kaku Light'";
 
+#[derive(Clone, Copy, Debug, Eq, PartialEq)]
+enum NormalModeAction {
+    ExitAndSave,
+    ExitDiscard,
+    OpenEditor,
+    MoveUp,
+    MoveDown,
+    StartEdit,
+    Noop,
+}
+
 pub fn run(config_path: PathBuf) -> anyhow::Result<()> {
     enable_raw_mode().context("enable raw mode")?;
     let mut stdout = io::stdout();
@@ -67,16 +78,17 @@ fn run_app(
         }
 
         match app.mode {
-            Mode::Normal => match key.code {
-                // Q / ESC: exit (auto-save if dirty, signal if any save occurred)
-                KeyCode::Char('q') | KeyCode::Char('Q') | KeyCode::Esc => {
+            Mode::Normal => match normal_mode_action(key.code) {
+                NormalModeAction::ExitAndSave => {
                     if let Err(e) = app.save_if_dirty() {
                         return Err(e);
                     }
                     return Ok(());
                 }
-                // E: open in editor (save first if dirty)
-                KeyCode::Char('e') | KeyCode::Char('E') => {
+                NormalModeAction::ExitDiscard => {
+                    return Ok(());
+                }
+                NormalModeAction::OpenEditor => {
                     if let Err(e) = app.save_if_dirty() {
                         return Err(e);
                     }
@@ -88,16 +100,16 @@ fn run_app(
                     }
                     return Ok(());
                 }
-                KeyCode::Up | KeyCode::Char('k') => {
+                NormalModeAction::MoveUp => {
                     app.move_up();
                 }
-                KeyCode::Down | KeyCode::Char('j') => {
+                NormalModeAction::MoveDown => {
                     app.move_down();
                 }
-                KeyCode::Enter | KeyCode::Char(' ') => {
+                NormalModeAction::StartEdit => {
                     app.start_edit();
                 }
-                _ => {}
+                NormalModeAction::Noop => {}
             },
             Mode::Editing => match key.code {
                 KeyCode::Esc => {
@@ -147,6 +159,18 @@ fn run_app(
                 _ => {}
             },
         }
+    }
+}
+
+fn normal_mode_action(key: KeyCode) -> NormalModeAction {
+    match key {
+        KeyCode::Esc => NormalModeAction::ExitAndSave,
+        KeyCode::Char('q') | KeyCode::Char('Q') => NormalModeAction::ExitDiscard,
+        KeyCode::Char('e') | KeyCode::Char('E') => NormalModeAction::OpenEditor,
+        KeyCode::Up | KeyCode::Char('k') => NormalModeAction::MoveUp,
+        KeyCode::Down | KeyCode::Char('j') => NormalModeAction::MoveDown,
+        KeyCode::Enter | KeyCode::Char(' ') => NormalModeAction::StartEdit,
+        _ => NormalModeAction::Noop,
     }
 }
 
@@ -310,6 +334,24 @@ impl App {
                 value: String::new(),
                 default: "On".into(),
                 options: vec!["On", "Off"],
+                skip_write: false,
+            },
+            ConfigField {
+                section: "Window",
+                key: "Background Opacity",
+                lua_key: "window_background_opacity",
+                value: String::new(),
+                default: "1.0".into(),
+                options: vec![],
+                skip_write: false,
+            },
+            ConfigField {
+                section: "Window",
+                key: "Background Blur",
+                lua_key: "macos_window_background_blur",
+                value: String::new(),
+                default: "0".into(),
+                options: vec![],
                 skip_write: false,
             },
             ConfigField {
@@ -609,7 +651,10 @@ impl App {
                     Some(raw.to_string())
                 }
             }
-            "font_size" | "line_height" => {
+            "font_size"
+            | "line_height"
+            | "window_background_opacity"
+            | "macos_window_background_blur" => {
                 if Self::is_number_literal(raw) {
                     Some(raw.to_string())
                 } else {
@@ -805,6 +850,13 @@ impl App {
     fn confirm_edit(&mut self) {
         let mut new_value = self.edit_buffer.clone();
         let field = &self.fields[self.selected];
+
+        if Self::expects_numeric_input(field.lua_key)
+            && !new_value.is_empty()
+            && !Self::is_number_literal(&new_value)
+        {
+            new_value = self.edit_original.clone();
+        }
 
         // Validate hotkey input: if invalid, revert to original value
         // so UI display matches what will be saved to file.
@@ -1109,9 +1161,11 @@ impl App {
                 }
             }
             "font" => format!("wezterm.font('{}')", field.value),
-            "font_size" | "line_height" | "window_background_opacity" | "split_pane_gap" => {
-                field.value.clone()
-            }
+            "font_size"
+            | "line_height"
+            | "window_background_opacity"
+            | "macos_window_background_blur"
+            | "split_pane_gap" => field.value.clone(),
             "copy_on_select"
             | "enable_scroll_bar"
             | "tab_close_confirmation"
@@ -1169,6 +1223,16 @@ impl App {
         }
     }
 
+    fn expects_numeric_input(lua_key: &str) -> bool {
+        matches!(
+            lua_key,
+            "font_size"
+                | "line_height"
+                | "window_background_opacity"
+                | "macos_window_background_blur"
+        )
+    }
+
     fn selecting_view(&self) -> Option<(&ConfigField, usize)> {
         if self.mode == Mode::Selecting {
             Some((&self.fields[self.selected], self.select_index))
@@ -1212,7 +1276,11 @@ fn signal_config_changed() {
 
 #[cfg(test)]
 mod tests {
-    use super::{ensure_editable_config_exists, App, Mode, KAKU_AUTO_COLOR_SCHEME_EXPR};
+    use super::{
+        ensure_editable_config_exists, normal_mode_action, App, Mode, NormalModeAction,
+        KAKU_AUTO_COLOR_SCHEME_EXPR,
+    };
+    use crossterm::event::KeyCode;
     use std::path::PathBuf;
     use tempfile::tempdir;
 
@@ -1499,6 +1567,53 @@ mod tests {
             "confirming the existing selection should not mark the app dirty"
         );
         assert_eq!(app.fields[idx].value, "");
+    }
+
+    #[test]
+    fn normal_mode_maps_q_to_discard_and_escape_to_save() {
+        assert_eq!(
+            normal_mode_action(KeyCode::Char('q')),
+            NormalModeAction::ExitDiscard
+        );
+        assert_eq!(
+            normal_mode_action(KeyCode::Char('Q')),
+            NormalModeAction::ExitDiscard
+        );
+        assert_eq!(
+            normal_mode_action(KeyCode::Esc),
+            NormalModeAction::ExitAndSave
+        );
+    }
+
+    #[test]
+    fn numeric_fields_accept_opacity_and_blur_values() {
+        assert_eq!(
+            App::normalize_value("window_background_opacity", "0.95"),
+            Some("0.95".into())
+        );
+        assert_eq!(
+            App::normalize_value("macos_window_background_blur", "20"),
+            Some("20".into())
+        );
+    }
+
+    #[test]
+    fn invalid_numeric_edit_reverts_to_original_value() {
+        let mut app = test_app();
+        let idx = app
+            .fields
+            .iter()
+            .position(|f| f.lua_key == "window_background_opacity")
+            .expect("window_background_opacity field to exist");
+        app.selected = idx;
+        app.fields[idx].value = "0.9".into();
+
+        app.start_edit();
+        app.edit_buffer = "not-a-number".into();
+        app.edit_cursor = app.edit_buffer.chars().count();
+        app.confirm_edit();
+
+        assert_eq!(app.fields[idx].value, "0.9");
     }
 
     #[test]

@@ -30,9 +30,9 @@ fn footer_copy(mode: Mode) -> FooterCopy {
             primary_key: "ESC",
             primary_long: " save and apply changes",
             primary_short: " apply",
-            secondary_key: Some("E"),
-            secondary_long: Some(" open full config"),
-            secondary_short: Some(" config"),
+            secondary_key: Some("Q"),
+            secondary_long: Some(" discard and quit"),
+            secondary_short: Some(" discard"),
         },
         Mode::Selecting => FooterCopy {
             primary_key: "Enter",
@@ -475,9 +475,9 @@ mod tests {
                 primary_key: "ESC",
                 primary_long: " save and apply changes",
                 primary_short: " apply",
-                secondary_key: Some("E"),
-                secondary_long: Some(" open full config"),
-                secondary_short: Some(" config"),
+                secondary_key: Some("Q"),
+                secondary_long: Some(" discard and quit"),
+                secondary_short: Some(" discard"),
             }
         );
     }
