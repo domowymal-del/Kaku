@@ -848,18 +848,16 @@ impl CommandDef {
 
                         menu.add_item(&MenuItem::new_separator());
 
-                        #[allow(unexpected_cfgs)] // <https://github.com/SSheldon/rust-objc/issues/125>
+                        #[allow(unexpected_cfgs)]
+                        // <https://github.com/SSheldon/rust-objc/issues/125>
                         let show_settings_window_sel = sel!(showSettingsWindow:);
                         let app_delegate = unsafe {
                             let app = cocoa::appkit::NSApp();
                             let delegate: cocoa::base::id = msg_send![app, delegate];
                             delegate
                         };
-                        let settings_item = MenuItem::new_with(
-                            "Settings...",
-                            Some(show_settings_window_sel),
-                            ",",
-                        );
+                        let settings_item =
+                            MenuItem::new_with("Settings...", Some(show_settings_window_sel), ",");
                         settings_item
                             .set_key_equiv_modifier_mask(NSEventModifierFlags::NSCommandKeyMask);
                         if !app_delegate.is_null() {
