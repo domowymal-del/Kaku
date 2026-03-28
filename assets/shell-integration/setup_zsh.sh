@@ -526,7 +526,7 @@ fi
 
 # Validate required plugin directories up front.
 # setup_zsh.sh may be run standalone, so provide a clear dependency hint.
-for plugin in zsh-z zsh-autosuggestions zsh-syntax-highlighting zsh-completions; do
+for plugin in fast-syntax-highlighting zsh-autosuggestions zsh-completions; do
 	if [[ ! -d "$VENDOR_DIR/$plugin" ]]; then
 		echo -e "${YELLOW}Error: Missing plugin vendor directory: $VENDOR_DIR/$plugin${NC}"
 		echo -e "${YELLOW}Hint: Run scripts/download_vendor.sh before setup_zsh.sh.${NC}"
@@ -534,10 +534,12 @@ for plugin in zsh-z zsh-autosuggestions zsh-syntax-highlighting zsh-completions;
 	fi
 done
 
+# Remove legacy plugins replaced in this version
+rm -rf "$USER_CONFIG_DIR/plugins/zsh-z"
+rm -rf "$USER_CONFIG_DIR/plugins/zsh-syntax-highlighting"
 # Copy Plugins
-cp -R "$VENDOR_DIR/zsh-z" "$USER_CONFIG_DIR/plugins/"
+cp -R "$VENDOR_DIR/fast-syntax-highlighting" "$USER_CONFIG_DIR/plugins/"
 cp -R "$VENDOR_DIR/zsh-autosuggestions" "$USER_CONFIG_DIR/plugins/"
-cp -R "$VENDOR_DIR/zsh-syntax-highlighting" "$USER_CONFIG_DIR/plugins/"
 cp -R "$VENDOR_DIR/zsh-completions" "$USER_CONFIG_DIR/plugins/"
 echo -e "  ${GREEN}✓${NC} ${BOLD}Tools${NC}       Installed Zsh plugins ${NC}(~/.config/kaku/zsh/plugins)${NC}"
 
@@ -1045,28 +1047,14 @@ if ! (( \${+functions[_main_complete]} )) || ! (( \${+_comps} )); then
     fi
 fi
 
-# Load zsh-z only if user config has not already provided \`z\`.
-_kaku_has_dir_jump_provider() {
-    (( \${+functions[zshz]} )) && return 0
-    (( \${+functions[z]} )) && return 0
-    (( \${+aliases[z]} )) && return 0
-    return 1
-}
-
-if ! _kaku_has_dir_jump_provider && [[ -f "\$KAKU_ZSH_DIR/plugins/zsh-z/zsh-z.plugin.zsh" ]]; then
-    # Default to smart case matching so z kaku prefers Kaku over lowercase
-    # path entries. Users can still override this in their own shell config.
-    : "\${ZSHZ_CASE:=smart}"
-    export ZSHZ_CASE
-    source "\$KAKU_ZSH_DIR/plugins/zsh-z/zsh-z.plugin.zsh"
+# Load zoxide (smart directory jumping) if not already provided by user config.
+if command -v zoxide &>/dev/null && ! (( \${+functions[__zoxide_z]} )); then
+    eval "\$(zoxide init zsh)"
 fi
 
-# z supports fuzzy directory jumps, but users also expect cd + Tab to
-# reuse visited paths in a layered way. Keep default _cd behavior and
-# only fall back to zsh-z history when filesystem completion has no match.
-# Delegate ranking/matching to zshz --complete so behavior stays aligned
-# with the plugin (frecency ordering, smart-case, future plugin changes).
-if (( \${+functions[zshz]} )); then
+# cd + Tab falls back to zoxide frecency history when filesystem completion
+# has no match. Only register when zoxide is available.
+if command -v zoxide &>/dev/null; then
     _kaku_cd_history_complete() {
         emulate -L zsh
         setopt extended_glob no_sh_word_split
@@ -1083,18 +1071,16 @@ if (( \${+functions[zshz]} )); then
         [[ "\$token" != -* ]] || return \$ret
         [[ "\$token" == */* ]] || return \$ret
 
-        (( \${+functions[zshz]} )) || return \$ret
-
         local -a matches
         local match
         while IFS= read -r match; do
             [[ -n "\$match" ]] || continue
             matches+=("\$match")
-        done < <(zshz --complete -- "\$token" 2>/dev/null)
+        done < <(zoxide query --list -- "\$token" 2>/dev/null)
 
         (( \${#matches[@]} )) || return \$ret
 
-        compadd -Q -U -X "zsh-z history dirs" -- "\${matches[@]}"
+        compadd -Q -U -X "zoxide history dirs" -- "\${matches[@]}"
         return 0
     }
 
@@ -1159,23 +1145,20 @@ if [[ -z "\${KAKU_SMART_TAB_DISABLE:-}" ]] && [[ "\${TERM_PROGRAM:-}" == "Kaku" 
     bindkey '^I' _kaku_tab_widget
 fi
 
-# Defer zsh-syntax-highlighting to first prompt (~40ms saved at startup)
+# Defer fast-syntax-highlighting to first prompt (~40ms saved at startup)
 # This plugin must be loaded LAST, and we delay it for faster shell startup.
 # If user config already loaded it, skip to avoid overriding user settings.
-if ! (( \${+functions[_zsh_highlight]} )) && [[ -f "\$KAKU_ZSH_DIR/plugins/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh" ]]; then
-    # Simplified highlighters for better performance (removed brackets, pattern, cursor)
-    export ZSH_HIGHLIGHT_HIGHLIGHTERS=(main)
-
+if ! (( \${+functions[_zsh_highlight]} )) && [[ -f "\$KAKU_ZSH_DIR/plugins/fast-syntax-highlighting/fast-syntax-highlighting.plugin.zsh" ]]; then
     # Defer loading until first prompt display
-    zsh_syntax_highlighting_defer() {
-        source "\$KAKU_ZSH_DIR/plugins/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh"
+    fast_syntax_highlighting_defer() {
+        source "\$KAKU_ZSH_DIR/plugins/fast-syntax-highlighting/fast-syntax-highlighting.plugin.zsh"
 
         # Remove this hook after first run
-        precmd_functions=("\${precmd_functions[@]:#zsh_syntax_highlighting_defer}")
+        precmd_functions=("\${precmd_functions[@]:#fast_syntax_highlighting_defer}")
     }
 
     # Hook into precmd (runs before prompt is displayed)
-    precmd_functions+=(zsh_syntax_highlighting_defer)
+    precmd_functions+=(fast_syntax_highlighting_defer)
 fi
 
 # Kaku AI fix hooks (error-only):

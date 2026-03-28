@@ -199,6 +199,9 @@ collect_missing_tools() {
 	if should_install_formula "yazi" "yazi" 0; then
 		MISSING_TOOLS+=("yazi")
 	fi
+	if should_install_formula "zoxide" "zoxide" 0; then
+		MISSING_TOOLS+=("zoxide")
+	fi
 }
 
 migrate_legacy_binary_if_shadowed() {

@@ -125,6 +125,9 @@ mod imp {
         r#"    : "${ZSHZ_CASE:=smart}""#,
         "    export ZSHZ_CASE",
         r#"    source "$KAKU_ZSH_DIR/plugins/zsh-z/zsh-z.plugin.zsh""#,
+        "# Load zoxide (smart directory jumping) if not already provided by user config.",
+        r#"if command -v zoxide &>/dev/null && ! (( ${+functions[__zoxide_z]} )); then"#,
+        r#"    eval "$(zoxide init zsh)""#,
         "# Load zsh-autosuggestions - Async, minimal impact",
         r#"if [[ -f "$KAKU_ZSH_DIR/plugins/zsh-autosuggestions/zsh-autosuggestions.zsh" ]]; then"#,
         r#"    source "$KAKU_ZSH_DIR/plugins/zsh-autosuggestions/zsh-autosuggestions.zsh""#,
@@ -160,6 +163,14 @@ mod imp {
         "    }",
         "    # Hook into precmd (runs before prompt is displayed)",
         "    precmd_functions+=(zsh_syntax_highlighting_defer)",
+        "# Defer fast-syntax-highlighting to first prompt (~40ms saved at startup)",
+        "# This plugin must be loaded LAST, and we delay it for faster shell startup.",
+        r#"if ! (( ${+functions[_zsh_highlight]} )) && [[ -f "$KAKU_ZSH_DIR/plugins/fast-syntax-highlighting/fast-syntax-highlighting.plugin.zsh" ]]; then"#,
+        "    fast_syntax_highlighting_defer() {",
+        r#"        source "$KAKU_ZSH_DIR/plugins/fast-syntax-highlighting/fast-syntax-highlighting.plugin.zsh""#,
+        r#"        precmd_functions=("${precmd_functions[@]:#fast_syntax_highlighting_defer}")"#,
+        "    }",
+        "    precmd_functions+=(fast_syntax_highlighting_defer)",
     ];
 
     const KAKU_GIT_DEFAULTS: &[(&str, &str)] = &[
