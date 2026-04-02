@@ -75,7 +75,9 @@ pub fn provider_names() -> Vec<String> {
 pub fn detect_provider(base_url: &str) -> &'static str {
     let normalized = base_url.trim().trim_end_matches('/').to_ascii_lowercase();
     for preset in PROVIDER_PRESETS {
-        if !preset.base_url.is_empty() && normalized == preset.base_url.trim_end_matches('/') {
+        if !preset.base_url.is_empty()
+            && normalized == preset.base_url.trim_end_matches('/').to_ascii_lowercase()
+        {
             return preset.name;
         }
     }

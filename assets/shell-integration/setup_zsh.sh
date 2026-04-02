@@ -535,7 +535,9 @@ for plugin in fast-syntax-highlighting zsh-autosuggestions zsh-completions zsh-z
 done
 
 # Remove legacy plugins replaced in this version
-rm -rf "$USER_CONFIG_DIR/plugins/zsh-syntax-highlighting"
+if [[ -n "$USER_CONFIG_DIR" ]]; then
+	rm -rf "$USER_CONFIG_DIR/plugins/zsh-syntax-highlighting"
+fi
 # Copy Plugins
 cp -R "$VENDOR_DIR/fast-syntax-highlighting" "$USER_CONFIG_DIR/plugins/"
 cp -R "$VENDOR_DIR/zsh-autosuggestions" "$USER_CONFIG_DIR/plugins/"

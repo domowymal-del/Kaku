@@ -279,7 +279,11 @@ fn summarize_bell_tokens(tokens: &[&str]) -> Option<String> {
             while idx < tokens.len() {
                 let t = tokens[idx];
                 if SUDO_OPT_WITH_ARG.contains(&t) {
-                    idx += 2; // skip flag + its argument
+                    if idx + 1 < tokens.len() {
+                        idx += 2; // skip flag + its argument
+                    } else {
+                        break;
+                    }
                 } else if t.starts_with('-') {
                     idx += 1; // skip standalone flag
                 } else {
