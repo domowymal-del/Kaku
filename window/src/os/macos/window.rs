@@ -225,11 +225,16 @@ impl GlContextPair {
             // Importantly, we must set its scale to 1.0 prior to initializing
             // EGL to prevent undesirable scaling.
             let layer: id;
+            let layer_opaque = if config::configuration().window_background_opacity >= 1.0 {
+                YES
+            } else {
+                NO
+            };
             unsafe {
                 let _: () = msg_send![view, setWantsLayer: YES];
                 layer = msg_send![view, layer];
                 let _: () = msg_send![layer, setContentsScale: 1.0f64];
-                let _: () = msg_send![layer, setOpaque: NO];
+                let _: () = msg_send![layer, setOpaque: layer_opaque];
             };
 
             let conn = Connection::get().ok_or_else(|| anyhow!("connection not initialized"))?;
@@ -255,8 +260,8 @@ impl GlContextPair {
                     let sublayers: id = msg_send![layer, sublayers];
                     let layer_count = sublayers.count();
                     for i in 0..layer_count {
-                        let layer = sublayers.objectAtIndex(i);
-                        let _: () = msg_send![layer, setOpaque: NO];
+                        let sublayer = sublayers.objectAtIndex(i);
+                        let _: () = msg_send![sublayer, setOpaque: layer_opaque];
                     }
                 }
             }
@@ -1815,6 +1820,7 @@ impl WindowInner {
                     );
                     let () = msg_send![layer, setCornerRadius: corner_radius];
                     let () = msg_send![layer, setMasksToBounds: (corner_radius > 0.0) as BOOL];
+                    let () = msg_send![layer, setOpaque: is_opaque];
                     let sublayers: id = msg_send![layer, sublayers];
                     if !sublayers.is_null() {
                         let count = sublayers.count();
@@ -1822,6 +1828,7 @@ impl WindowInner {
                             let sublayer = sublayers.objectAtIndex(i);
                             let () = msg_send![sublayer, setCornerRadius: corner_radius];
                             let () = msg_send![sublayer, setMasksToBounds: (corner_radius > 0.0) as BOOL];
+                            let () = msg_send![sublayer, setOpaque: is_opaque];
                         }
                     }
                 }
@@ -3724,10 +3731,14 @@ impl WindowView {
         YES
     }
 
-    // Tell the window/view/layer stuff that we only have a single opaque
-    // thing in the window so that it can optimize rendering
+    // Tell macOS the view is opaque when window_background_opacity is 1.0
+    // so the compositor can skip blending it with content behind it.
     extern "C" fn is_opaque(_this: &Object, _sel: Sel) -> BOOL {
-        NO
+        if config::configuration().window_background_opacity >= 1.0 {
+            YES
+        } else {
+            NO
+        }
     }
 
     extern "C" fn mouse_down_can_move_window(_this: &Object, _sel: Sel) -> BOOL {

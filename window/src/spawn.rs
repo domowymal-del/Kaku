@@ -241,10 +241,13 @@ impl SpawnQueue {
         let spawned_funcs = Mutex::new(VecDeque::new());
         let spawned_funcs_low_pri = Mutex::new(VecDeque::new());
 
+        // Use kCFRunLoopBeforeWaiting instead of kCFRunLoopAllActivities so the
+        // observer only fires once per idle cycle rather than on every activity
+        // flag, reducing unnecessary runloop wakeups and CPU wake events.
         let observer = unsafe {
             CFRunLoopObserverCreate(
                 std::ptr::null(),
-                kCFRunLoopAllActivities,
+                kCFRunLoopBeforeWaiting,
                 1,
                 0,
                 SpawnQueue::trigger,

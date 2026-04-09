@@ -1021,6 +1021,7 @@ pub struct TermWindow {
     line_quad_cache: RefCell<LfuCache<LineQuadCacheKey, LineQuadCacheValue>>,
 
     last_status_call: Instant,
+    last_pane_output_invalidate: Option<Instant>,
     status_update_queued: bool,
     title_update_queued: bool,
     cursor_blink_state: RefCell<ColorEase>,
@@ -1239,7 +1240,11 @@ impl TermWindow {
             self.invalidate_fancy_tab_bar();
         }
 
-        window.invalidate();
+        // Only repaint when becoming visible; an occluded window doesn't need a
+        // compositor frame and the extra invalidate burns power for no visual gain.
+        if visible {
+            window.invalidate();
+        }
     }
 
     fn created(&mut self, ctx: RenderContext) -> anyhow::Result<()> {
@@ -1578,6 +1583,7 @@ impl TermWindow {
                 &config,
             )),
             last_status_call: Instant::now(),
+            last_pane_output_invalidate: None,
             status_update_queued: false,
             title_update_queued: false,
             cursor_blink_state: RefCell::new(ColorEase::new(
@@ -2415,7 +2421,18 @@ impl TermWindow {
         metrics::histogram!("mux.pane_output_event.rate").record(1.);
         if self.is_pane_visible(pane_id) {
             if let Some(ref win) = self.window {
-                win.invalidate();
+                // Coalesce rapid output events: only invalidate once per 8ms
+                // (well above the 16ms render interval at 60fps) to avoid
+                // waking the runloop more often than the display can consume.
+                let now = Instant::now();
+                let should_invalidate = self
+                    .last_pane_output_invalidate
+                    .map(|t| now.duration_since(t) >= Duration::from_millis(8))
+                    .unwrap_or(true);
+                if should_invalidate {
+                    self.last_pane_output_invalidate = Some(now);
+                    win.invalidate();
+                }
             }
         }
     }
@@ -4118,9 +4135,10 @@ impl TermWindow {
             EmitEvent(name) => {
                 if name == "kaku-ai-chat" {
                     let dims = pane.get_dimensions();
-                    let range =
-                        dims.physical_top..dims.physical_top + dims.viewport_rows as StableRowIndex;
-                    let (_, lines) = pane.get_lines(range);
+                    // Collect only the last 20 visible rows for the system prompt context.
+                    let bottom = dims.physical_top + dims.viewport_rows as StableRowIndex;
+                    let top = bottom.saturating_sub(20);
+                    let (_, lines) = pane.get_lines(top..bottom);
                     let visible_lines: Vec<String> =
                         lines.iter().map(|l| l.as_str().to_string()).collect();
                     let cwd = pane
@@ -4130,7 +4148,6 @@ impl TermWindow {
                     let context = crate::overlay::ai_chat::TerminalContext {
                         cwd,
                         visible_lines,
-                        git_branch: None,
                     };
                     let pane_id = pane.pane_id();
                     let (overlay, future) =
@@ -4138,7 +4155,12 @@ impl TermWindow {
                             crate::overlay::ai_chat::ai_chat_overlay(pane_id, term, context)
                         });
                     self.assign_overlay_for_pane(pane_id, overlay);
-                    promise::spawn::spawn(future).detach();
+                    promise::spawn::spawn(async move {
+                        if let Err(e) = future.await {
+                            log::error!("AI chat overlay error for pane {pane_id}: {e:#}");
+                        }
+                    })
+                    .detach();
                 } else if name == "update-kaku" || name == "run-kaku-update" {
                     crate::frontend::run_kaku_update_from_menu();
                 } else if name == "run-kaku-cli" {
