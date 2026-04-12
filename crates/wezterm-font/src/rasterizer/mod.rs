@@ -68,7 +68,11 @@ pub(crate) fn swap_red_and_blue<Container: std::ops::Deref<Target = [u8]> + std:
 /// bearings after the transparent padding has been trimmed.
 pub(crate) fn crop_to_non_transparent<'a, Container>(
     image: &'a mut image::ImageBuffer<Rgba<u8>, Container>,
-) -> (u32, u32, image::SubImage<&'a mut ImageBuffer<Rgba<u8>, Container>>)
+) -> (
+    u32,
+    u32,
+    image::SubImage<&'a mut ImageBuffer<Rgba<u8>, Container>>,
+)
 where
     Container: std::ops::Deref<Target = [u8]>,
 {

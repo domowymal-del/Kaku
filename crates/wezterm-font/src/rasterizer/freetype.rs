@@ -356,8 +356,7 @@ impl FreeTypeRasterizer {
         // emoji glyphs don't always fill the bitmap size, so we compute
         // the non-transparent bounds
 
-        let (crop_x, crop_y, sub) =
-            crate::rasterizer::crop_to_non_transparent(&mut source_image);
+        let (crop_x, crop_y, sub) = crate::rasterizer::crop_to_non_transparent(&mut source_image);
         let mut cropped = sub.to_image();
         crate::rasterizer::swap_red_and_blue(&mut cropped);
 
