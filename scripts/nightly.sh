@@ -1,12 +1,13 @@
 #!/usr/bin/env bash
-# nightly.sh - Build a debug app bundle and publish it as a GitHub draft release.
+# nightly.sh - Build a debug app bundle and publish it as a GitHub prerelease.
 #
 # Usage:
-#   ./scripts/nightly.sh             # build + upload
-#   ./scripts/nightly.sh --upload-only  # skip build, re-upload existing dist/Kaku.app
+#   ./scripts/nightly.sh                     # build + upload
+#   ./scripts/nightly.sh --upload-only       # skip build, re-upload existing dist/Kaku.app
+#   ./scripts/nightly.sh --features=remote   # enable optional cargo features
 #
-# The release is always a draft (not published) so it never appears on the
-# public releases page. The same tag "nightly" is reused each time.
+# Published as a prerelease under the fixed tag "nightly"; each run clobbers
+# the previous artifact. Concurrent runs are blocked via a PID lock file.
 #
 # Requirements: gh CLI authenticated (gh auth login)
 
@@ -21,12 +22,23 @@ OUT_DIR="${OUT_DIR:-$REPO_ROOT/dist}"
 ZIP_NAME="Kaku-nightly.zip"
 ZIP_PATH="$OUT_DIR/$ZIP_NAME"
 UPLOAD_ONLY=0
+FEATURES=""
 
 for arg in "$@"; do
     case "$arg" in
         --upload-only) UPLOAD_ONLY=1 ;;
+        --features=*) FEATURES="${arg#--features=}" ;;
     esac
 done
+
+# Concurrency guard: only one nightly build at a time per checkout.
+mkdir -p "$OUT_DIR"
+LOCK="$OUT_DIR/.nightly.lock"
+if ! (set -o noclobber; echo $$ > "$LOCK") 2>/dev/null; then
+    echo "nightly.sh already running (PID $(cat "$LOCK" 2>/dev/null)); remove $LOCK if stale" >&2
+    exit 1
+fi
+trap 'rm -f "$LOCK"' EXIT
 
 # Colors
 GREEN='\033[0;32m'
@@ -38,7 +50,7 @@ warn() { echo -e "${YELLOW}[nightly]${NC} $*"; }
 # Build
 if [[ "$UPLOAD_ONLY" -eq 0 ]]; then
     log "Building debug app bundle..."
-    PROFILE=debug ./scripts/build.sh --app-only 2>&1 | grep -v 'ranlib: warning:.*has no symbols' || true
+    PROFILE=debug CARGO_FEATURES="$FEATURES" ./scripts/build.sh --app-only 2>&1 | grep -v 'ranlib: warning:.*has no symbols' || true
     log "Build complete: $OUT_DIR/Kaku.app"
 fi
 

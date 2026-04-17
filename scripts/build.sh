@@ -183,6 +183,13 @@ elif [[ "$PROFILE" == "release-opt" ]]; then
 	PROFILE_DIR="release-opt"
 fi
 
+# Optional cargo features, comma-separated. Set via `CARGO_FEATURES=remote` env.
+CARGO_FEATURE_ARGS=()
+if [[ -n "${CARGO_FEATURES:-}" ]]; then
+	CARGO_FEATURE_ARGS=(--features "$CARGO_FEATURES")
+	echo "  Extra cargo features: $CARGO_FEATURES"
+fi
+
 if ! BUILD_TARGETS_STR="$(resolve_build_targets)"; then
 	exit 1
 fi
@@ -198,7 +205,7 @@ ensure_rust_targets "${BUILD_TARGETS[@]}"
 
 for target in "${BUILD_TARGETS[@]}"; do
 	echo "Building target: $target"
-	CARGO_TERM_PROGRESS_WHEN=auto cargo build --locked ${CARGO_PROFILE_ARGS[@]+"${CARGO_PROFILE_ARGS[@]}"} --target "$target" --target-dir "$TARGET_DIR" -p kaku-gui -p kaku
+	CARGO_TERM_PROGRESS_WHEN=auto cargo build --locked ${CARGO_PROFILE_ARGS[@]+"${CARGO_PROFILE_ARGS[@]}"} ${CARGO_FEATURE_ARGS[@]+"${CARGO_FEATURE_ARGS[@]}"} --target "$target" --target-dir "$TARGET_DIR" -p kaku-gui -p kaku
 done
 
 if [[ "$BUILD_ARCH" == "universal" ]]; then
