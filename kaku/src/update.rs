@@ -151,19 +151,11 @@ mod imp {
             .context("failed to download update package")?;
 
         if let Some(sha_url) = sha_url {
-            match curl_get_text(sha_url, &current_version, &proxy) {
-                Ok(checksum_text) => {
-                    println!("Verifying package checksum...");
-                    verify_sha256(&zip_path, &checksum_text)
-                        .context("checksum verification failed")?;
-                }
-                Err(err) => {
-                    println!(
-                        "Checksum unavailable ({}). Continuing without checksum.",
-                        err
-                    );
-                }
-            }
+            println!("Verifying package checksum...");
+            let checksum_text = curl_get_text(sha_url, &current_version, &proxy).context(
+                "failed to fetch checksum; aborting to avoid installing an unverified build",
+            )?;
+            verify_sha256(&zip_path, &checksum_text).context("checksum verification failed")?;
         }
 
         let extracted_dir = work_dir.join("extracted");
