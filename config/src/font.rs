@@ -616,7 +616,11 @@ impl TextStyle {
             }
         }
 
-        // We bundle this emoji font as an in-memory fallback
+        // Add the system emoji font as a fallback so emoji codepoints render
+        // without relying on async font discovery to come back in time.
+        #[cfg(target_os = "macos")]
+        let emoji_fallback = FontAttributes::new_fallback("Apple Color Emoji");
+        #[cfg(not(target_os = "macos"))]
         let emoji_fallback = FontAttributes::new_fallback("Noto Color Emoji");
         if !font.iter().any(|f| *f == emoji_fallback) {
             font.push(emoji_fallback);

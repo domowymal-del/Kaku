@@ -294,11 +294,14 @@ fn build_fallback_list_impl() -> anyhow::Result<Vec<ParsedFont>> {
         }
     }
 
-    // Constrain to default weight/stretch/style
+    // Constrain to default weight/stretch/style; exclude .LastResort which covers all
+    // codepoints but renders hex boxes instead of glyphs
     fonts.retain(|f| {
         f.weight() == FontWeight::REGULAR
             && f.stretch() == FontStretch::Normal
             && f.style() == FontStyle::Normal
+            && f.names().family != ".LastResort"
+            && f.names().postscript_name.as_deref() != Some("LastResort")
     });
 
     let mut seen = HashSet::new();
