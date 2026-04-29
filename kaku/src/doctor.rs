@@ -3,7 +3,7 @@
 use crate::shell::{detect_shell_kind, ShellKind};
 use clap::Parser;
 use std::fs;
-use std::io::{self, ErrorKind, IsTerminal, Write};
+use std::io::{self, ErrorKind, Write};
 use std::path::{Path, PathBuf};
 use std::process::Command;
 use std::time::{Duration, Instant};
@@ -13,6 +13,10 @@ pub struct DoctorCommand {
     /// Apply safe automatic fixes, then rerun diagnostics
     #[arg(long)]
     pub fix: bool,
+
+    /// Prompt before offering safe automatic fixes
+    #[arg(long)]
+    pub prompt_fix: bool,
 }
 
 impl DoctorCommand {
@@ -25,8 +29,7 @@ impl DoctorCommand {
             return Ok(());
         }
 
-        if should_offer_auto_fix(&report) && io::stdin().is_terminal() && io::stdout().is_terminal()
-        {
+        if self.prompt_fix && should_offer_auto_fix(&report) {
             match prompt_yes_no("Run safe auto-fix now with `kaku init --update-only`? [Y/n] ") {
                 Ok(true) => run_auto_fix_and_rerun_report(),
                 Ok(false) => {}

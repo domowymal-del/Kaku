@@ -36,6 +36,10 @@ pub fn run(config_path: PathBuf) -> anyhow::Result<()> {
     let backend = CrosstermBackend::new(stdout);
     let mut terminal = Terminal::new(backend).context("create terminal")?;
 
+    terminal
+        .draw(|f| crate::tui_splash::render_splash(f, "Loading..."))
+        .ok();
+
     let mut app = App::new(config_path);
     app.load_config();
 
@@ -71,6 +75,11 @@ fn run_app(
 
         if key.code == KeyCode::Char('c') && key.modifiers.contains(KeyModifiers::CONTROL) {
             app.finalize_active_input();
+            if app.dirty {
+                terminal
+                    .draw(|f| crate::tui_splash::render_splash(f, "Saving..."))
+                    .ok();
+            }
             if let Err(e) = app.save_if_dirty() {
                 return Err(e);
             }
@@ -80,6 +89,11 @@ fn run_app(
         match app.mode {
             Mode::Normal => match normal_mode_action(key.code) {
                 NormalModeAction::ExitAndSave => {
+                    if app.dirty {
+                        terminal
+                            .draw(|f| crate::tui_splash::render_splash(f, "Saving..."))
+                            .ok();
+                    }
                     if let Err(e) = app.save_if_dirty() {
                         return Err(e);
                     }
@@ -89,6 +103,11 @@ fn run_app(
                     return Ok(());
                 }
                 NormalModeAction::OpenEditor => {
+                    if app.dirty {
+                        terminal
+                            .draw(|f| crate::tui_splash::render_splash(f, "Saving..."))
+                            .ok();
+                    }
                     if let Err(e) = app.save_if_dirty() {
                         return Err(e);
                     }
@@ -142,6 +161,11 @@ fn run_app(
                     // ESC in selector = confirm the highlighted option and exit,
                     // matching the "ESC saves and exits" mental model of Normal mode.
                     app.confirm_select();
+                    if app.dirty {
+                        terminal
+                            .draw(|f| crate::tui_splash::render_splash(f, "Saving..."))
+                            .ok();
+                    }
                     if let Err(e) = app.save_if_dirty() {
                         return Err(e);
                     }

@@ -36,6 +36,7 @@ mod kaku_theme;
 mod reset;
 mod shell;
 mod tui_core;
+mod tui_splash;
 mod update;
 mod utils;
 
@@ -350,10 +351,9 @@ fn run() -> anyhow::Result<()> {
             Ok(())
         }
         SubCommand::Update(cmd) => cmd.run(),
-        SubCommand::Config(cmd) => {
-            init_config(&opts)?;
-            cmd.run(opts.config_file.as_ref().map(PathBuf::from))
-        }
+        // Skip init_config: config TUI reads the file via std::fs directly and does
+        // not depend on the wezterm CONFIG global; full Lua reload is the slow path.
+        SubCommand::Config(cmd) => cmd.run(opts.config_file.as_ref().map(PathBuf::from)),
         SubCommand::Init(cmd) => cmd.run(),
         SubCommand::Doctor(cmd) => cmd.run(),
         SubCommand::Reset(cmd) => cmd.run(),

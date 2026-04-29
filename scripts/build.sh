@@ -211,7 +211,7 @@ done
 if [[ "$BUILD_ARCH" == "universal" ]]; then
 	BIN_DIR="$TARGET_DIR/universal/$PROFILE_DIR"
 	mkdir -p "$BIN_DIR"
-	for bin in kaku kaku-gui; do
+	for bin in kaku kaku-gui k; do
 		lipo -create \
 			-output "$BIN_DIR/$bin" \
 			"$TARGET_DIR/aarch64-apple-darwin/$PROFILE_DIR/$bin" \
@@ -222,7 +222,7 @@ else
 	BIN_DIR="$TARGET_DIR/${BUILD_TARGETS[0]}/$PROFILE_DIR"
 fi
 
-for bin in kaku kaku-gui; do
+for bin in kaku kaku-gui k; do
 	echo -n "Built $bin: "
 	lipo -info "$BIN_DIR/$bin"
 done
@@ -281,7 +281,7 @@ if ! tic -xe kaku -o "$APP_BUNDLE_OUT/Contents/Resources/terminfo" termwiz/data/
 	tic -x -o "$APP_BUNDLE_OUT/Contents/Resources/terminfo" termwiz/data/kaku.terminfo
 fi
 
-for bin in kaku kaku-gui; do
+for bin in kaku kaku-gui k; do
 	cp "$BIN_DIR/$bin" "$APP_BUNDLE_OUT/Contents/MacOS/$bin"
 	chmod +x "$APP_BUNDLE_OUT/Contents/MacOS/$bin"
 done
