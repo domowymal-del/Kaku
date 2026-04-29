@@ -303,16 +303,18 @@ fn push_input_snapshot(stack: &mut Vec<InputSnapshot>, input: &str, cursor: usiz
     });
 }
 
+/// Header / tool-call spinner: simple star twinkle. All glyphs are
+/// single-cell so frame width is stable. (Memory: `feedback_spinner_frames`
+/// warns against mixing wide glyphs into a narrow series.)
 const SPINNER_FRAMES: &[&str] = &["✦", "✶", "✺", "✵", "✸", "✹", "✺"];
 /// Input-row spinner uses solid half-circles that rotate visibly at a larger
 /// visual weight than the delicate star glyphs in the header. 4 frames give
 /// a crisp clockwise rotation; each glyph is single-cell so the prompt width
-/// stays stable across frames. (Memory: `feedback_spinner_frames` warns
-/// against mixing wide glyphs like ⬤ into a narrow series.)
+/// stays stable across frames.
 const SPINNER_FRAMES_INPUT: &[&str] = &["◐", "◓", "◑", "◒"];
-/// 80ms per frame (same as Pake's bin/utils/info.ts): fast enough to read as
-/// "active", slow enough that each glyph is legible.
-const SPINNER_INTERVAL_MS: u128 = 80;
+/// 50ms per frame: noticeably more "alive" than 80ms. At 50ms a 4-frame loop
+/// completes in 200ms and a 7-frame loop in 350ms — clearly active.
+const SPINNER_INTERVAL_MS: u128 = 50;
 
 /// Cap on how many wrapped rows the input box can occupy before it starts to
 /// scroll internally. Keeps the message area from collapsing when a user
