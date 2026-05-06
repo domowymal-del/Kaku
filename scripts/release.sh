@@ -100,6 +100,15 @@ check_clean_git() {
     if [[ "$branch" != "main" ]]; then
         die "Not on main branch (currently on: $branch). Releases must be from main."
     fi
+
+    log_info "Checking main is synchronized with origin/main..."
+    git fetch origin main
+    local head origin_main
+    head=$(git rev-parse HEAD)
+    origin_main=$(git rev-parse origin/main)
+    if [[ "$head" != "$origin_main" ]]; then
+        die "Local main is not synchronized with origin/main. Pull or push before releasing."
+    fi
 }
 
 # Verify version consistency across crates
@@ -240,6 +249,9 @@ check_notarization_creds() {
         log_warn "Or store a notarytool Keychain profile:"
         log_warn "  xcrun notarytool store-credentials kaku-notarytool --apple-id <apple-id> --team-id <team-id>"
         log_warn "  security add-generic-password -s 'kaku-notarytool-profile' -a 'kaku' -w 'kaku-notarytool'"
+        if [[ ! -t 0 ]]; then
+            die "Notarization credentials are missing and stdin is not interactive."
+        fi
         read -r -p "Continue anyway? [y/N] " response
         if [[ ! "$response" =~ ^[Yy]$ ]]; then
             exit 1
@@ -478,8 +490,8 @@ update_homebrew_tap() {
         local expected_version="$version"
         local remote_version=""
         local attempt=0
-        local max_attempts=12
-        local sleep_seconds=15
+        local max_attempts="${HOMEBREW_TAP_VERIFY_ATTEMPTS:-12}"
+        local sleep_seconds="${HOMEBREW_TAP_VERIFY_SLEEP_SECONDS:-15}"
         while (( attempt < max_attempts )); do
             attempt=$((attempt + 1))
             remote_version=$(gh api "repos/${HOMEBREW_TAP_REPO}/contents/Casks/kakuku.rb?ref=main" --jq '.download_url' 2>/dev/null \

@@ -10,6 +10,20 @@ Open the AI settings panel inside Kaku. Configure external coding tools (Claude 
 kaku ai
 ```
 
+## kaku chat
+
+Start Kaku's standalone AI chat from any shell. This is a discoverable alias for
+the bundled `k` helper, so it works even when `k` is not on your PATH.
+
+```bash
+kaku chat                 # open interactive chat
+kaku chat "explain this"  # one-shot prompt
+```
+
+The chat uses `~/.config/kaku/assistant.toml`, shares the same conversation and
+memory files as the `Cmd + L` overlay, and supports `/new`, `/resume`, `/clear`,
+`/status`, `/memory`, and `/exit` in interactive mode.
+
 ## kaku config
 
 Open the Kaku configuration file (`~/.config/kaku/kaku.lua`) in your default editor. Also accessible from the settings panel with `Cmd + ,`.

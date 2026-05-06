@@ -15,6 +15,25 @@ Run `kaku ai` to open the AI settings panel. Enable Kaku Assistant, pick a provi
 
 Selecting a provider auto-fills the base URL and populates the model dropdown.
 
+## AI Chat Panel
+
+Press `Cmd + L` to open the built-in AI chat panel. It streams Markdown answers,
+highlights code blocks, can include terminal context, and can use approved tools
+for project files, shell commands, web search, and memory. Press `Shift + Tab`
+inside the panel to toggle between `chat_model` and `fast_model` when both are
+configured.
+
+From a shell, use `k` or `kaku chat` for the same conversation store:
+
+```bash
+k "summarize the current project"
+kaku chat
+```
+
+The standalone CLI is intentionally simpler than the overlay: it streams plain
+terminal text and supports `/new`, `/resume`, `/clear`, `/status`, `/memory`,
+and `/exit`.
+
 **Error recovery**
 
 When a command exits with a non-zero status, Kaku Assistant automatically sends the failed command, exit code, working directory, and git branch to the LLM and displays a suggested fix inline. Press `Cmd + Shift + E` to paste the suggestion into the terminal. Dangerous commands (e.g. `rm -rf`, `git reset --hard`) are pasted but never auto-executed.
@@ -41,9 +60,28 @@ The config lives at `~/.config/kaku/assistant.toml`:
 | :--- | :--- |
 | `enabled` | `true` to enable, `false` to disable |
 | `api_key` | Your provider API key |
-| `model` | Model identifier, e.g. `gpt-5.4-mini` |
+| `model` | Inline `#` command-generation model, e.g. `gpt-5.4-mini` |
+| `chat_model` | Primary `Cmd + L` / `k` chat model |
+| `fast_model` | Optional fast chat model toggled with `Shift + Tab` |
+| `chat_model_choices` | Optional curated list of chat models for the overlay picker |
 | `base_url` | OpenAI-compatible API root URL |
 | `custom_headers` | Extra HTTP headers for enterprise proxies, e.g. `["X-Customer-ID: your-id"]` |
+| `web_search_provider` | Optional search backend: `brave`, `pipellm`, or `tavily` |
+| `web_search_api_key` | API key for the selected search backend |
+| `web_fetch_script` | Optional custom URL-to-Markdown fetch script |
+| `chat_tools_enabled` | Set to `false` to disable tool calling for chat providers without tool support |
+| `auth_type` | Advanced auth mode, e.g. `api_key`, `copilot`, or `codex` |
+| `memory_curator_model` | Optional cheaper model for background memory curation |
+
+---
+
+## Window Snapshots
+
+Kaku saves multi-tab and multi-pane window layouts automatically when you close
+or hide a window. Use **Shell > Restore Previous Window** or
+`Cmd + Option + Shift + T` to reopen the last saved layout. Kaku tolerates
+missing or corrupted snapshot files and simply reports that no snapshot is
+available.
 
 ---
 
