@@ -107,20 +107,26 @@ pub fn execute(
             web::exec_read_url(url, provider, api_key)?
         }
         "project_summary" => {
-            let scan_path = args["path"]
-                .as_str()
+            let raw_path = args["path"].as_str();
+            let scan_path = raw_path
                 .map(|p| paths::resolve(p, cwd))
                 .transpose()?
                 .unwrap_or_else(|| PathBuf::from(cwd.as_str()));
+            if let Some(raw_path) = raw_path {
+                paths::reject_relative_cwd_escape(raw_path, &scan_path, cwd)?;
+            }
             paths::reject_if_sensitive(&scan_path)?;
             project::exec_project_summary(&scan_path)?
         }
         "file_tree" => {
-            let tree_path = args["path"]
-                .as_str()
+            let raw_path = args["path"].as_str();
+            let tree_path = raw_path
                 .map(|p| paths::resolve(p, cwd))
                 .transpose()?
                 .unwrap_or_else(|| PathBuf::from(cwd.as_str()));
+            if let Some(raw_path) = raw_path {
+                paths::reject_relative_cwd_escape(raw_path, &tree_path, cwd)?;
+            }
             paths::reject_if_sensitive(&tree_path)?;
             let depth = args["depth"].as_u64().unwrap_or(3).min(6) as usize;
             project::exec_file_tree(&tree_path, depth)?
@@ -129,6 +135,7 @@ pub fn execute(
             let query = args["query"].as_str().context("missing query")?;
             let search_path = args["path"].as_str().unwrap_or(cwd);
             let resolved = paths::resolve(search_path, cwd)?;
+            paths::reject_relative_cwd_escape(search_path, &resolved, cwd)?;
             paths::reject_if_sensitive(&resolved)?;
             let kind = args["kind"].as_str().unwrap_or("all");
             let glob_filter = args["glob"].as_str();
@@ -138,6 +145,7 @@ pub fn execute(
             let pattern = args["pattern"].as_str().context("missing pattern")?;
             let search_path = args["path"].as_str().unwrap_or(cwd);
             let resolved = paths::resolve(search_path, cwd)?;
+            paths::reject_relative_cwd_escape(search_path, &resolved, cwd)?;
             paths::reject_if_sensitive(&resolved)?;
             let context_lines = args["context_lines"].as_u64().unwrap_or(2) as usize;
             let case_insensitive = args["case_insensitive"].as_bool().unwrap_or(false);
@@ -264,6 +272,104 @@ mod tests {
                 err
             );
         }
+    }
+
+    #[test]
+    fn search_tools_reject_relative_cwd_escape() {
+        let sandbox = tempfile::tempdir().expect("tempdir");
+        let project = sandbox.path().join("project");
+        let outside = sandbox.path().join("outside");
+        std::fs::create_dir_all(&project).unwrap();
+        std::fs::create_dir_all(&outside).unwrap();
+        std::fs::write(outside.join("lib.rs"), "fn outside_fn() {}\n").unwrap();
+
+        let mut cwd = project.to_string_lossy().into_owned();
+        let cfg = dummy_config();
+        let cancel = no_cancel();
+        let cases = [
+            ("project_summary", serde_json::json!({"path": "../outside"})),
+            ("file_tree", serde_json::json!({"path": "../outside"})),
+            (
+                "symbol_search",
+                serde_json::json!({"query": "outside_fn", "path": "../outside"}),
+            ),
+            (
+                "grep_search",
+                serde_json::json!({"pattern": "outside_fn", "path": "../outside"}),
+            ),
+        ];
+
+        for (name, args) in cases {
+            let err = execute(name, &args, &mut cwd, &cfg, &cancel)
+                .err()
+                .unwrap_or_else(|| panic!("{} should reject relative cwd escape", name));
+            assert!(
+                err.to_string().contains("outside the working directory"),
+                "{} returned wrong error: {}",
+                name,
+                err
+            );
+        }
+    }
+
+    #[test]
+    fn search_tools_allow_absolute_non_sensitive_paths() {
+        let sandbox = tempfile::tempdir().expect("tempdir");
+        let project = sandbox.path().join("project");
+        let outside = sandbox.path().join("outside");
+        std::fs::create_dir_all(&project).unwrap();
+        std::fs::create_dir_all(&outside).unwrap();
+        std::fs::write(
+            outside.join("Cargo.toml"),
+            "[package]\nname = \"outside\"\n",
+        )
+        .unwrap();
+        std::fs::write(outside.join("lib.rs"), "fn outside_fn() {}\n").unwrap();
+
+        let outside_path = outside.to_string_lossy().into_owned();
+        let mut cwd = project.to_string_lossy().into_owned();
+        let cfg = dummy_config();
+        let cancel = no_cancel();
+
+        let summary = execute(
+            "project_summary",
+            &serde_json::json!({"path": &outside_path}),
+            &mut cwd,
+            &cfg,
+            &cancel,
+        )
+        .unwrap();
+        assert!(summary.contains("outside"), "summary: {}", summary);
+
+        let tree = execute(
+            "file_tree",
+            &serde_json::json!({"path": &outside_path}),
+            &mut cwd,
+            &cfg,
+            &cancel,
+        )
+        .unwrap();
+        assert!(tree.contains("lib.rs"), "tree: {}", tree);
+
+        let symbols = execute(
+            "symbol_search",
+            &serde_json::json!({"query": "outside_fn", "kind": "function", "path": &outside_path}),
+            &mut cwd,
+            &cfg,
+            &cancel,
+        )
+        .unwrap();
+        assert!(symbols.contains("outside_fn"), "symbols: {}", symbols);
+
+        let grep = execute(
+            "grep_search",
+            &serde_json::json!({"pattern": "outside_fn", "path": &outside_path}),
+            &mut cwd,
+            &cfg,
+            &cancel,
+        )
+        .unwrap();
+        assert!(grep.contains("outside_fn"), "grep: {}", grep);
     }
 
     fn create_project_fixture() -> tempfile::TempDir {

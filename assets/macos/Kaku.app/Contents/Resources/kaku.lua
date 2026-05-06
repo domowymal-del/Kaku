@@ -174,13 +174,13 @@ local function resolve_kaku_color_scheme(scheme)
   return scheme
 end
 
--- Auto-sync Claude Code theme with Kaku color scheme.
--- Only runs when ~/.claude.json exists (Claude Code installed).
--- Escape hatch: KAKU_CLAUDE_SYNC=0 in env to disable.
+-- Optional Claude Code theme sync with Kaku color scheme.
+-- Disabled by default because it writes ~/.claude.json.
+-- Set KAKU_CLAUDE_SYNC=1 to opt in.
 local kaku_last_synced_cc_theme = nil
 
 local function sync_claude_code_theme(is_light)
-  if os.getenv('KAKU_CLAUDE_SYNC') == '0' then return end
+  if os.getenv('KAKU_CLAUDE_SYNC') ~= '1' then return end
   local target = is_light and 'light-ansi' or 'dark-ansi'
   if kaku_last_synced_cc_theme == target then return end
   local home = os.getenv('HOME')
