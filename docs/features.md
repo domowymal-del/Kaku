@@ -85,6 +85,23 @@ available.
 
 ---
 
+## AppleScript
+
+Kaku ships a minimal AppleScript dictionary so it shows up in Script Editor and other automation tools. The exposed surface is intentionally small and read-only apart from `quit`.
+
+```applescript
+tell application "Kaku"
+  get name        -- "Kaku"
+  get version     -- e.g. "0.10.0"
+  get frontmost   -- true / false
+  quit            -- optional `saving ask|yes|no`
+end tell
+```
+
+Open `/Applications/Kaku.app` in Script Editor → File → Open Dictionary to browse the full dictionary. There is no `do script` verb — Kaku does not expose shell execution to AppleScript.
+
+---
+
 ## Lazygit Integration
 
 Press `Cmd + Shift + G` to launch lazygit in the current pane. Kaku auto-detects the lazygit binary from PATH or common Homebrew locations.
