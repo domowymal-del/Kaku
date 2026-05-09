@@ -27,8 +27,8 @@
 18	zsh-z is bundled for directory jumping; your existing ~/.z history works immediately
 18	cd+Tab falls back to zsh-z history when filesystem completion has no match
 18	Zsh updates now preserve custom inline Kaku blocks when they contain user changes
-19	Global Hotkey now accepts Space as a hotkey in the config TUI
-19	Space can be bound as a global hotkey; zsh autosuggest handoff to Kiro and Amazon Q is now reliable
+19	Global Hotkey now supports Space in the config TUI
+19	Zsh suggestions now avoid conflicts with Kiro and Amazon Q CLI
 19	Zsh comment color is now visible in dark themes; no longer invisible against dark backgrounds
 19	AI Chat Panel: press Cmd+L to chat with AI directly inside the terminal, with streaming and scroll
 19	Shell user-var updates are now cached at startup for faster prompt rendering
