@@ -714,7 +714,12 @@ fn reasoning_delta_text<'a>(
         .or_else(|| delta["reasoning"]["content"].as_str())
         .or_else(|| delta["thinking"].as_str())
         .or_else(|| delta["thinking"]["content"].as_str())
+        .or_else(|| choice["reasoning_content"].as_str())
         .or_else(|| choice["reasoning"].as_str())
+        .or_else(|| choice["thinking"].as_str())
+        .or_else(|| choice["thinking"]["content"].as_str())
+        .or_else(|| choice["message"]["reasoning_content"].as_str())
+        .or_else(|| choice["message"]["reasoning"].as_str())
 }
 
 fn sse_data_payload(line: &str) -> Option<&str> {
@@ -723,7 +728,7 @@ fn sse_data_payload(line: &str) -> Option<&str> {
 
 // ─── Inline <think> / <thinking> tag filter ─────────────────────────────────
 
-const THINK_TAG_PAIRS: &[(&str, &str)] = &[("<think>", "</think>"), ("<thinking>", "</thinking>")];
+const THINK_TAG_NAMES: &[&str] = &["thinking", "think"];
 
 enum ThinkSegment {
     Token(String),
@@ -732,7 +737,7 @@ enum ThinkSegment {
 
 struct InlineThinkFilter {
     inside_think: bool,
-    close_tag: &'static str,
+    tag_name: &'static str,
     pending: String,
 }
 
@@ -740,35 +745,31 @@ impl InlineThinkFilter {
     fn new() -> Self {
         Self {
             inside_think: false,
-            close_tag: "",
+            tag_name: "",
             pending: String::new(),
         }
     }
 
-    fn find_open_tag(s: &str) -> Option<(usize, &'static str, &'static str)> {
-        let mut best: Option<(usize, &'static str, &'static str)> = None;
-        for &(open, close) in THINK_TAG_PAIRS {
-            if let Some(pos) = s.find(open) {
-                if best.map_or(true, |(bp, _, _)| pos < bp) {
-                    best = Some((pos, open, close));
-                }
+    fn find_open_tag(s: &str) -> Option<(usize, usize, &'static str)> {
+        for (pos, _) in s.match_indices('<') {
+            if let Some((end, name)) = parse_think_tag_at(s, pos, false, None) {
+                return Some((pos, end, name));
             }
         }
-        best
+        None
     }
 
-    fn safe_emit_len_multi(pending: &str, tags: &[&str]) -> usize {
-        let len = pending.len();
-        let mut min_safe = len;
-        for tag in tags {
-            for i in 1..=tag.len().min(len) {
-                if tag.as_bytes().starts_with(&pending.as_bytes()[len - i..]) {
-                    min_safe = min_safe.min(len - i);
-                    break;
-                }
+    fn find_close_tag(s: &str, tag_name: &str) -> Option<(usize, usize)> {
+        for (pos, _) in s.match_indices('<') {
+            if let Some((end, _)) = parse_think_tag_at(s, pos, true, Some(tag_name)) {
+                return Some((pos, end));
             }
         }
-        min_safe
+        None
+    }
+
+    fn safe_emit_len(pending: &str, closing: bool) -> usize {
+        partial_think_tag_start(pending, closing).unwrap_or(pending.len())
     }
 
     fn feed(&mut self, chunk: &str) -> Vec<ThinkSegment> {
@@ -776,32 +777,31 @@ impl InlineThinkFilter {
         let mut out = Vec::new();
         loop {
             if self.inside_think {
-                if let Some(pos) = self.pending.find(self.close_tag) {
+                if let Some((pos, end)) = Self::find_close_tag(&self.pending, self.tag_name) {
                     let reasoning = &self.pending[..pos];
                     if !reasoning.is_empty() {
                         out.push(ThinkSegment::Reasoning(reasoning.to_string()));
                     }
-                    self.pending = self.pending[pos + self.close_tag.len()..].to_string();
+                    self.pending = self.pending[end..].to_string();
                     self.inside_think = false;
                 } else {
-                    let safe = Self::safe_emit_len_multi(&self.pending, &[self.close_tag]);
+                    let safe = Self::safe_emit_len(&self.pending, true);
                     if safe > 0 {
                         out.push(ThinkSegment::Reasoning(self.pending[..safe].to_string()));
                         self.pending = self.pending[safe..].to_string();
                     }
                     break;
                 }
-            } else if let Some((pos, open, close)) = Self::find_open_tag(&self.pending) {
+            } else if let Some((pos, end, name)) = Self::find_open_tag(&self.pending) {
                 let text = &self.pending[..pos];
                 if !text.is_empty() {
                     out.push(ThinkSegment::Token(text.to_string()));
                 }
-                self.pending = self.pending[pos + open.len()..].to_string();
-                self.close_tag = close;
+                self.pending = self.pending[end..].to_string();
+                self.tag_name = name;
                 self.inside_think = true;
             } else {
-                let open_tags: Vec<&str> = THINK_TAG_PAIRS.iter().map(|&(o, _)| o).collect();
-                let safe = Self::safe_emit_len_multi(&self.pending, &open_tags);
+                let safe = Self::safe_emit_len(&self.pending, false);
                 if safe > 0 {
                     out.push(ThinkSegment::Token(self.pending[..safe].to_string()));
                     self.pending = self.pending[safe..].to_string();
@@ -824,6 +824,119 @@ impl InlineThinkFilter {
         }
         out
     }
+}
+
+fn parse_think_tag_at(
+    s: &str,
+    start: usize,
+    closing: bool,
+    expected_name: Option<&str>,
+) -> Option<(usize, &'static str)> {
+    let bytes = s.as_bytes();
+    if bytes.get(start) != Some(&b'<') {
+        return None;
+    }
+
+    let mut i = start + 1;
+    i = skip_ascii_whitespace(bytes, i);
+    if closing {
+        if bytes.get(i) != Some(&b'/') {
+            return None;
+        }
+        i += 1;
+        i = skip_ascii_whitespace(bytes, i);
+    } else if bytes.get(i) == Some(&b'/') {
+        return None;
+    }
+
+    let (name, next) = parse_think_tag_name(bytes, i)?;
+    if let Some(expected) = expected_name {
+        if name != expected {
+            return None;
+        }
+    }
+    i = skip_ascii_whitespace(bytes, next);
+    if bytes.get(i) != Some(&b'>') {
+        return None;
+    }
+    Some((i + 1, name))
+}
+
+fn parse_think_tag_name(bytes: &[u8], start: usize) -> Option<(&'static str, usize)> {
+    for name in THINK_TAG_NAMES {
+        let raw = name.as_bytes();
+        if bytes.len() < start + raw.len() {
+            continue;
+        }
+        if bytes[start..start + raw.len()].eq_ignore_ascii_case(raw) {
+            let next = start + raw.len();
+            match bytes.get(next) {
+                Some(b'>') | Some(b' ' | b'\t' | b'\n' | b'\r' | 0x0c) => {
+                    return Some((name, next));
+                }
+                _ => {}
+            }
+        }
+    }
+    None
+}
+
+fn partial_think_tag_start(s: &str, closing: bool) -> Option<usize> {
+    let pos = s.rfind('<')?;
+    let tail = &s[pos..];
+    if tail.contains('>') {
+        return None;
+    }
+
+    let bytes = tail.as_bytes();
+    let mut i = 1;
+    i = skip_ascii_whitespace(bytes, i);
+    if closing {
+        match bytes.get(i) {
+            None => return Some(pos),
+            Some(b'/') => {
+                i += 1;
+                i = skip_ascii_whitespace(bytes, i);
+            }
+            Some(c) if c.is_ascii_whitespace() => return Some(pos),
+            _ => return None,
+        }
+    } else {
+        match bytes.get(i) {
+            None => return Some(pos),
+            Some(b'/') => return None,
+            Some(c) if c.is_ascii_whitespace() => return Some(pos),
+            _ => {}
+        }
+    }
+
+    let name = &tail[i..];
+    if name.is_empty() || name.as_bytes().iter().all(|b| b.is_ascii_whitespace()) {
+        return Some(pos);
+    }
+
+    let trimmed = name.trim_end_matches(|c: char| c.is_ascii_whitespace());
+    if name.len() != trimmed.len() {
+        return THINK_TAG_NAMES
+            .iter()
+            .any(|tag| trimmed.eq_ignore_ascii_case(tag))
+            .then_some(pos);
+    }
+
+    THINK_TAG_NAMES
+        .iter()
+        .any(|tag| {
+            tag.as_bytes()
+                .starts_with(&trimmed.to_ascii_lowercase().into_bytes())
+        })
+        .then_some(pos)
+}
+
+fn skip_ascii_whitespace(bytes: &[u8], mut i: usize) -> usize {
+    while matches!(bytes.get(i), Some(b' ' | b'\t' | b'\n' | b'\r' | 0x0c)) {
+        i += 1;
+    }
+    i
 }
 
 /// Maps (base_url, auth_type) to a display provider name.
@@ -850,6 +963,50 @@ mod tests {
         AssistantConfig, InlineThinkFilter, ThinkSegment,
     };
     use reqwest::header::{AUTHORIZATION, USER_AGENT};
+
+    fn collect_segments(segs: Vec<ThinkSegment>) -> (String, String) {
+        let mut tokens = String::new();
+        let mut reasoning = String::new();
+        for seg in segs {
+            match seg {
+                ThinkSegment::Token(t) => tokens.push_str(&t),
+                ThinkSegment::Reasoning(r) => reasoning.push_str(&r),
+            }
+        }
+        (tokens, reasoning)
+    }
+
+    fn route_mock_sse_lines(lines: &[&str]) -> (String, String) {
+        let mut think_filter = InlineThinkFilter::new();
+        let mut tokens = String::new();
+        let mut reasoning = String::new();
+
+        for line in lines {
+            let Some(data) = sse_data_payload(line) else {
+                continue;
+            };
+            if data.trim() == "[DONE]" {
+                break;
+            }
+            let chunk: serde_json::Value = serde_json::from_str(data).unwrap();
+            let choice = &chunk["choices"][0];
+            let delta = &choice["delta"];
+
+            if let Some(text) = reasoning_delta_text(choice, delta) {
+                reasoning.push_str(text);
+            }
+            if let Some(content) = delta["content"].as_str() {
+                let (visible, hidden) = collect_segments(think_filter.feed(content));
+                tokens.push_str(&visible);
+                reasoning.push_str(&hidden);
+            }
+        }
+
+        let (visible, hidden) = collect_segments(think_filter.flush());
+        tokens.push_str(&visible);
+        reasoning.push_str(&hidden);
+        (tokens, reasoning)
+    }
 
     #[test]
     fn detects_copilot_and_codex_and_falls_back_to_custom() {
@@ -916,7 +1073,19 @@ mod tests {
                 serde_json::json!({"delta": {"thinking": {"content": "e"}}}),
                 "e",
             ),
+            (
+                serde_json::json!({"delta": {}, "reasoning_content": "fw"}),
+                "fw",
+            ),
             (serde_json::json!({"delta": {}, "reasoning": "f"}), "f"),
+            (
+                serde_json::json!({"delta": {}, "thinking": {"content": "g"}}),
+                "g",
+            ),
+            (
+                serde_json::json!({"delta": {}, "message": {"reasoning_content": "h"}}),
+                "h",
+            ),
         ];
 
         for (choice, expected) in cases {
@@ -935,6 +1104,33 @@ mod tests {
         assert_eq!(sse_data_payload("data:{\"x\":1}"), Some("{\"x\":1}"));
         assert_eq!(sse_data_payload("data: {\"x\":1}"), Some("{\"x\":1}"));
         assert_eq!(sse_data_payload("event: message"), None);
+    }
+
+    #[test]
+    fn mock_sse_routes_fireworks_reasoning_content_before_visible_content() {
+        let (tokens, reasoning) = route_mock_sse_lines(&[
+            r#"data: {"choices":[{"delta":{"reasoning_content":"hidden "},"finish_reason":null}]}"#,
+            r#"data: {"choices":[{"delta":{"content":"visible"},"finish_reason":null}]}"#,
+            "data: [DONE]",
+        ]);
+
+        assert_eq!(reasoning, "hidden ");
+        assert_eq!(tokens, "visible");
+    }
+
+    #[test]
+    fn mock_sse_inline_think_tags_split_across_chunks_do_not_leak() {
+        let (tokens, reasoning) = route_mock_sse_lines(&[
+            r#"data: {"choices":[{"delta":{"content":"<THI"},"finish_reason":null}]}"#,
+            r#"data: {"choices":[{"delta":{"content":"NK >one</ TH"},"finish_reason":null}]}"#,
+            r#"data: {"choices":[{"delta":{"content":"INK >visible<think"},"finish_reason":null}]}"#,
+            r#"data: {"choices":[{"delta":{"content":"ing>two</thinking>"},"finish_reason":null}]}"#,
+            "data: [DONE]",
+        ]);
+
+        assert_eq!(reasoning, "onetwo");
+        assert_eq!(tokens, "visible");
+        assert!(!tokens.to_ascii_lowercase().contains("think"));
     }
 
     #[test]
@@ -1093,6 +1289,14 @@ mod tests {
                 ThinkSegment::Reasoning(r) => reasoning.push_str(&r),
             }
         }
+        assert_eq!(reasoning, "deep");
+        assert_eq!(tokens, "answer");
+    }
+
+    #[test]
+    fn think_filter_is_case_and_spacing_tolerant() {
+        let mut f = InlineThinkFilter::new();
+        let (tokens, reasoning) = collect_segments(f.feed("< THINKING >deep</ THINKING >answer"));
         assert_eq!(reasoning, "deep");
         assert_eq!(tokens, "answer");
     }

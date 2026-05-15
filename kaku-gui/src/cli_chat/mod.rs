@@ -306,8 +306,12 @@ impl Tui {
         // Streaming partial.
         if self.is_streaming || !self.streaming_buf.is_empty() {
             out.push((theme.ai_label, "  AI".to_string()));
-            for line in Self::wrap(&self.streaming_buf, inner_w.saturating_sub(2)) {
-                out.push((ColorAttribute::Default, format!("  {}", line)));
+            if self.streaming_buf.is_empty() && !self.pending_reasoning.is_empty() {
+                out.push((theme.system_text, "  Thinking...".to_string()));
+            } else {
+                for line in Self::wrap(&self.streaming_buf, inner_w.saturating_sub(2)) {
+                    out.push((ColorAttribute::Default, format!("  {}", line)));
+                }
             }
         }
 
@@ -331,7 +335,12 @@ impl Tui {
                     changed = true;
                 }
                 Ok(StreamMsg::Reasoning(t)) => {
+                    let should_show_status =
+                        self.streaming_buf.is_empty() && self.pending_reasoning.is_empty();
                     self.pending_reasoning.push_str(&t);
+                    if should_show_status {
+                        changed = true;
+                    }
                 }
                 Ok(StreamMsg::AssistantStart) => {}
                 Ok(StreamMsg::ToolStart { name, args_preview }) => {
@@ -359,7 +368,9 @@ impl Tui {
                 }
                 Ok(StreamMsg::Done) => {
                     let ai_text = std::mem::take(&mut self.streaming_buf);
-                    self.messages.push(KMsg::Ai(ai_text));
+                    if !ai_text.is_empty() {
+                        self.messages.push(KMsg::Ai(ai_text));
+                    }
                     self.is_streaming = false;
                     changed = true;
                     // Don't put rx back; stream is finished.
@@ -809,7 +820,9 @@ fn print_recent_conversations() {
 
 #[cfg(test)]
 mod tests {
-    use super::truncate_to_chars;
+    use super::{truncate_to_chars, KMsg, Tui};
+    use crate::ai_chat_engine::StreamMsg;
+    use std::sync::mpsc::sync_channel;
 
     #[test]
     fn truncate_to_chars_handles_utf8_boundaries() {
@@ -817,5 +830,47 @@ mod tests {
         assert_eq!(truncate_to_chars(s, 0), "");
         assert_eq!(truncate_to_chars(s, 3), "k 你");
         assert_eq!(truncate_to_chars(s, 5), "k 你好 ");
+    }
+
+    #[test]
+    fn reasoning_stream_shows_compact_status_without_visible_text() {
+        let (tx, rx) = sync_channel(4);
+        let mut tui = Tui::new(80, 24);
+        tui.is_streaming = true;
+        tui.stream_rx = Some(rx);
+
+        tx.send(StreamMsg::Reasoning("hidden thought".to_string()))
+            .unwrap();
+
+        assert!(tui.drain_stream());
+        assert!(tui.streaming_buf.is_empty());
+        assert!(tui.pending_assistant.is_empty());
+        assert_eq!(tui.pending_reasoning, "hidden thought");
+
+        let lines = tui.all_display_lines();
+        assert!(lines.iter().any(|(_, text)| text == "  Thinking..."));
+        assert!(!lines
+            .iter()
+            .any(|(_, text)| text.contains("hidden thought")));
+    }
+
+    #[test]
+    fn reasoning_only_completion_does_not_record_empty_ai_message() {
+        let (tx, rx) = sync_channel(4);
+        let mut tui = Tui::new(80, 24);
+        tui.is_streaming = true;
+        tui.stream_rx = Some(rx);
+
+        tx.send(StreamMsg::Reasoning("hidden thought".to_string()))
+            .unwrap();
+        tx.send(StreamMsg::Done).unwrap();
+
+        assert!(tui.drain_stream());
+        assert!(!tui.is_streaming);
+        assert!(tui.pending_assistant.is_empty());
+        assert!(tui.messages.iter().all(|msg| match msg {
+            KMsg::Ai(text) => !text.is_empty(),
+            _ => true,
+        }));
     }
 }
