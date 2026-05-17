@@ -46,6 +46,4 @@ overlay:
 menu: {}
 config_tui: {}
 doctor: {}
-init: {}
-overlay: {}
 errors: {}

@@ -164,4 +164,36 @@ mod tests {
             assert_eq!(resolve_locale("zh"), "zh-CN");
         });
     }
+
+    #[test]
+    fn locale_files_do_not_duplicate_top_level_keys() {
+        let locales_dir = std::path::Path::new(env!("CARGO_MANIFEST_DIR")).join("../locales");
+
+        for locale in SUPPORTED_LOCALES {
+            let path = locales_dir.join(format!("{locale}.yml"));
+            let content = std::fs::read_to_string(&path)
+                .unwrap_or_else(|err| panic!("read {}: {err}", path.display()));
+            let mut seen = std::collections::HashSet::new();
+
+            for line in content.lines() {
+                let trimmed = line.trim();
+                if trimmed.is_empty()
+                    || trimmed.starts_with('#')
+                    || line.starts_with(char::is_whitespace)
+                {
+                    continue;
+                }
+
+                let Some((key, _)) = line.split_once(':') else {
+                    continue;
+                };
+                assert!(
+                    seen.insert(key.to_string()),
+                    "{} duplicates top-level locale key `{}`",
+                    path.display(),
+                    key
+                );
+            }
+        }
+    }
 }
