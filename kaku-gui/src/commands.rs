@@ -223,6 +223,7 @@ impl CommandDef {
             RestorePreviousWindow,
             // Edit menu
             CopyTo(ClipboardCopyDestination::Clipboard),
+            PreviewSelectionAsMarkdown,
             PasteFrom(ClipboardPasteSource::Clipboard),
             Search(Pattern::CurrentSelectionOrEmptyString),
             QuickSelect,
@@ -1249,6 +1250,14 @@ pub fn derive_command_from_key_assignment(action: &KeyAssignment) -> Option<Comm
             keys: vec![(Modifiers::CTRL, "Insert".into())],
             args: &[ArgType::ActivePane],
             menubar: &[],
+            icon: None,
+        },
+        PreviewSelectionAsMarkdown => CommandDef {
+            brief: "Preview selection as Markdown".into(),
+            doc: "Render the selected text as Markdown and LaTeX in a browser preview".into(),
+            keys: vec![],
+            args: &[ArgType::ActivePane],
+            menubar: &["Edit"],
             icon: None,
         },
         PasteFrom(ClipboardPasteSource::Clipboard) => CommandDef {
@@ -2738,6 +2747,7 @@ fn compute_default_actions() -> Vec<KeyAssignment> {
         #[cfg(not(target_os = "macos"))]
         CopyTo(ClipboardCopyDestination::PrimarySelection),
         CopyTo(ClipboardCopyDestination::Clipboard),
+        PreviewSelectionAsMarkdown,
         PasteFrom(ClipboardPasteSource::Clipboard),
         // Cmd+Z at the shell prompt: forward Ctrl+_ (0x1f), which zsh (ZLE
         // `undo`) and bash (readline `undo`) interpret as line-editor undo.
@@ -2914,5 +2924,19 @@ mod tests {
         assert!(CommandDef::actions_for_palette_only(&config)
             .iter()
             .any(|cmd| cmd.action == KeyAssignment::RestorePreviousWindow));
+    }
+
+    #[test]
+    fn markdown_preview_command_is_in_edit_menu_and_palette() {
+        let config = ConfigHandle::default_config();
+        let cmd = derive_command_from_key_assignment(&KeyAssignment::PreviewSelectionAsMarkdown)
+            .expect("command");
+
+        assert_eq!(cmd.brief, "Preview selection as Markdown");
+        assert_eq!(cmd.menubar, &["Edit"]);
+        assert!(cmd.keys.is_empty());
+        assert!(CommandDef::actions_for_palette_only(&config)
+            .iter()
+            .any(|cmd| cmd.action == KeyAssignment::PreviewSelectionAsMarkdown));
     }
 }

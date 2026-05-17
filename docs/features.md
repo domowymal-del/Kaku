@@ -34,6 +34,11 @@ The standalone CLI is intentionally simpler than the overlay: it streams plain
 terminal text and supports `/new`, `/resume`, `/clear`, `/status`, `/memory`,
 and `/exit`.
 
+Select any terminal output and run **Preview selection as Markdown** from the
+command palette or Edit menu to open a temporary browser preview. The preview
+renders Markdown and common LaTeX delimiters such as `$...$`, `$$...$$`, and
+`\[...\]` without changing the terminal scrollback or copied text.
+
 **Error recovery**
 
 When a command exits with a non-zero status, Kaku Assistant automatically sends the failed command, exit code, working directory, and git branch to the LLM and displays a suggested fix inline. Press `Cmd + Shift + E` to paste the suggestion into the terminal. Dangerous commands (e.g. `rm -rf`, `git reset --hard`) are pasted but never auto-executed.

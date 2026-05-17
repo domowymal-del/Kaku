@@ -4209,6 +4209,17 @@ impl TermWindow {
                     self.copy_to_clipboard(*dest, text);
                 }
             }
+            PreviewSelectionAsMarkdown => {
+                let text = self.selection_text(pane);
+                if crate::markdown_preview::selection_text_for_preview(&text).is_none() {
+                    self.show_toast("Select text to preview as Markdown".to_string());
+                } else {
+                    match crate::markdown_preview::open_selection_preview(&text) {
+                        Ok(_) => self.show_toast("Opened Markdown preview".to_string()),
+                        Err(err) => self.show_toast(format!("Markdown preview failed: {err:#}")),
+                    }
+                }
+            }
             CopyTextTo { text, destination } => {
                 self.copy_to_clipboard(*destination, text.clone());
             }

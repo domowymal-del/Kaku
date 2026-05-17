@@ -663,6 +663,7 @@ pub enum KeyAssignment {
         text: String,
         destination: ClipboardCopyDestination,
     },
+    PreviewSelectionAsMarkdown,
     PasteFrom(ClipboardPasteSource),
     ActivateTabRelative(isize),
     ActivateTabRelativeNoWrap(isize),

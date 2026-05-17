@@ -25,6 +25,7 @@ pub mod ai_client;
 pub mod ai_conversations;
 pub mod ai_tools;
 pub mod cli_chat;
+pub mod markdown_preview;
 pub mod soul;
 
 mod ai_auth;
