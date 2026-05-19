@@ -40,7 +40,13 @@ impl SimpleTempDir {
 
     fn path_for_content(&self, content_id: ContentId) -> Result<PathBuf, Error> {
         let path = self.root.path().join(format!("{content_id}"));
-        std::fs::create_dir_all(path.parent().unwrap())
+        let parent = path.parent().ok_or_else(|| {
+            Error::StorageDirIoError(
+                path.clone(),
+                std::io::Error::new(std::io::ErrorKind::InvalidInput, "path has no parent"),
+            )
+        })?;
+        std::fs::create_dir_all(parent)
             .map_err(|err| Error::StorageDirIoError(path.clone(), err))?;
         Ok(path)
     }

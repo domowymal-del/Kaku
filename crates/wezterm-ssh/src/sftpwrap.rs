@@ -116,7 +116,13 @@ impl SftpWrap {
             #[cfg(feature = "libssh-rs")]
             Self::LibSsh(sftp) => {
                 use std::convert::TryInto;
-                Ok(sftp.create_dir(filename.as_str(), mode.try_into().unwrap())?)
+                let mode: u32 = mode.try_into().map_err(|_| {
+                    std::io::Error::new(
+                        std::io::ErrorKind::InvalidInput,
+                        format!("invalid directory mode {mode}: must be non-negative"),
+                    )
+                })?;
+                Ok(sftp.create_dir(filename.as_str(), mode)?)
             }
         }
     }

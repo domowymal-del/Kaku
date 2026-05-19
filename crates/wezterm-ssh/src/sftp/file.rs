@@ -153,7 +153,10 @@ impl smol::io::AsyncRead for File {
         async fn read(tx: SessionSender, file_id: usize, len: usize) -> io::Result<Vec<u8>> {
             inner_read(tx, file_id, len).await.map_err(io::Error::other)
         }
-        let tx = self.tx.as_ref().unwrap().clone();
+        let tx = match self.tx.as_ref() {
+            Some(tx) => tx.clone(),
+            None => return Poll::Ready(Err(io::Error::new(io::ErrorKind::BrokenPipe, "file is closed"))),
+        };
         let file_id = self.file_id;
 
         let poll = self
@@ -192,7 +195,10 @@ impl smol::io::AsyncWrite for File {
                 .map_err(io::Error::other)
         }
 
-        let tx = self.tx.as_ref().unwrap().clone();
+        let tx = match self.tx.as_ref() {
+            Some(tx) => tx.clone(),
+            None => return Poll::Ready(Err(io::Error::new(io::ErrorKind::BrokenPipe, "file is closed"))),
+        };
         let file_id = self.file_id;
 
         let poll = self
@@ -213,7 +219,10 @@ impl smol::io::AsyncWrite for File {
             inner_flush(tx, file_id).await.map_err(io::Error::other)
         }
 
-        let tx = self.tx.as_ref().unwrap().clone();
+        let tx = match self.tx.as_ref() {
+            Some(tx) => tx.clone(),
+            None => return Poll::Ready(Err(io::Error::new(io::ErrorKind::BrokenPipe, "file is closed"))),
+        };
         let file_id = self.file_id;
 
         let poll = self
@@ -234,7 +243,10 @@ impl smol::io::AsyncWrite for File {
             inner_close(tx, file_id).await.map_err(io::Error::other)
         }
 
-        let tx = self.tx.as_ref().unwrap().clone();
+        let tx = match self.tx.as_ref() {
+            Some(tx) => tx.clone(),
+            None => return Poll::Ready(Ok(())),
+        };
         let file_id = self.file_id;
 
         let poll = self

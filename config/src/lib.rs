@@ -186,7 +186,13 @@ pub fn build_default_schemes() -> HashMap<String, Palette> {
     let mut color_schemes = HashMap::new();
     for (scheme_name, data) in scheme_data::SCHEMES.iter() {
         let scheme_name = scheme_name.to_string();
-        let scheme = ColorSchemeFile::from_toml_str(data).unwrap();
+        let scheme = match ColorSchemeFile::from_toml_str(data) {
+            Ok(s) => s,
+            Err(e) => {
+                log::warn!("Failed to parse bundled color scheme {scheme_name:?}: {e:#}");
+                continue;
+            }
+        };
         color_schemes.insert(scheme_name, scheme.colors.clone());
         for alias in scheme.metadata.aliases {
             color_schemes.insert(alias, scheme.colors.clone());
