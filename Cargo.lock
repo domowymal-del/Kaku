@@ -2966,6 +2966,7 @@ dependencies = [
  "k9",
  "kaku-ai-utils",
  "kaku-remote",
+ "kaku-unicode-names",
  "lazy_static",
  "lfucache",
  "libc",
@@ -3039,6 +3040,10 @@ dependencies = [
  "tokio",
  "tokio-tungstenite 0.26.2",
 ]
+
+[[package]]
+name = "kaku-unicode-names"
+version = "0.1.0"
 
 [[package]]
 name = "kasuari"

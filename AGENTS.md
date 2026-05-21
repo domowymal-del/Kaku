@@ -101,7 +101,7 @@ For GUI or rendering issues, read `kaku-gui/AGENTS.md` first and verify with `ma
 ## Current Risk Areas
 
 - AI chat and shell flows are active product surfaces. Preserve `fast_model`, proxy config, inline `#` query status, syntax highlighting, approval flow, and conversation state behavior.
-- Config release work currently centers on `config_version` 19. Config schema changes must update bundled defaults, docs, release checks, and migration behavior together.
+- Config release work currently centers on `config_version` 20. Config schema changes must update bundled defaults, docs, release checks, and migration behavior together.
 - GUI regressions can come from overlay resize, pane split/removal, macOS worker thread lifetime, WebGPU surface reconfigure, tab bar spacing, and alternate-screen wheel scroll behavior.
 - Startup performance depends on caching shell user vars, Lua bytecode, early appearance queries, GLSL version, and built-in fonts. Do not invalidate those caches without measurement.
 - Notification actions that call back into Kaku should resolve bundled executables relative to the running app, not an assumed system path.
@@ -116,3 +116,5 @@ Tag format is `V0.x.x`. `scripts/release.sh` is the source of truth for tagged r
 - Cross-crate behavior should update every affected subsystem guide.
 - Build, CI, release, and maintainer workflow changes belong in this root file.
 - Shared agent instructions belong in tracked docs. Personal overrides belong in ignored local files.
+- One-off review reports, scorecards, and diagnostic snapshots are evidence, not durable project docs. Extract stable rules or verification gates into `AGENTS.md`, `CLAUDE.md`, subsystem guides, scripts, or tests, then remove the transient report.
+- Do not hide user-visible behavior changes inside maintainability or cleanup patches. New UI, config fields, defaults, or workflow permissions should be split into their own change unless the maintainer explicitly approved that scope.

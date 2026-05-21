@@ -50,3 +50,6 @@ nix = {workspace=true, features=["resource"]}
 
 [target."cfg(windows)".dependencies]
 winapi = { workspace=true, features = ["winuser"]}
+
+[lints]
+workspace = true

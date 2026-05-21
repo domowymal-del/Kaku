@@ -119,7 +119,6 @@ mod stats;
 mod tabbar;
 mod termwindow;
 mod thread_util;
-mod unicode_names;
 mod uniforms;
 mod update;
 mod utilsprites;

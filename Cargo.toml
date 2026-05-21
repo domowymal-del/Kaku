@@ -13,6 +13,7 @@ members = [
   "crates/wezterm-ssh",
   "crates/wezterm-surface",
   "crates/wezterm-uds",
+  "crates/kaku-unicode-names",
 ]
 resolver = "2"
 exclude = [
@@ -44,6 +45,20 @@ panic = "abort"           # Smaller panic implementation
 # Disabled because it breaks builds on Windows
 split-debuginfo = "unpacked"
 
+# Workspace-wide lints. Only crates that opt in via `[lints] workspace = true`
+# are affected. Vendored crates under `deps/` deliberately do not opt in so
+# their upstream-tracking manifests stay clean.
+#
+# Conservative starter set: noisy lints like `unwrap_used` / `expect_used` are
+# tracked separately and are not enabled here to avoid swamping the IDE.
+[workspace.lints.rust]
+unused_must_use = "deny"
+unsafe_op_in_unsafe_fn = "warn"
+
+[workspace.lints.clippy]
+dbg_macro = "deny"
+todo = "warn"
+
 [workspace.dependencies]
 ahash = "0.8"
 axum = { version = "0.8", features = ["ws"] }
@@ -61,6 +76,7 @@ async-task = "4.7"
 async-trait = "0.1"
 async_ossl = { path = "crates/async_ossl" }
 kaku-ai-utils = { path = "crates/kaku-ai-utils" }
+kaku-unicode-names = { path = "crates/kaku-unicode-names" }
 backtrace = "0.3"
 base64 = {version="0.22", default-features=false }
 base91 = { path = "crates/base91" }

@@ -49,6 +49,7 @@ embed-resource.workspace = true
 [dependencies]
 anyhow.workspace = true
 kaku-ai-utils.workspace = true
+kaku-unicode-names.workspace = true
 bitflags.workspace = true
 bytemuck.workspace = true
 chrono.workspace = true
@@ -142,3 +143,6 @@ benchmarking.workspace = true
 env_logger.workspace = true
 k9.workspace = true
 tempfile.workspace = true
+
+[lints]
+workspace = true

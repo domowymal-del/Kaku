@@ -149,8 +149,64 @@ jobs:
             exit 1
           fi
 
+      - name: Guard production logging discipline
+        run: ./scripts/check_logs.sh
+
       - name: Check key crates
         run: cargo check --locked -p kaku -p kaku-gui
+
+  relay-check:
+    name: Relay Build
+    runs-on: macos-latest
+    needs: fmt
+    steps:
+      - name: Checkout
+        uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
+
+      - name: Install Rust
+        uses: dtolnay/rust-toolchain@631a55b12751854ce901bb631d5902ceb48146f7 # stable
+        with:
+          toolchain: 1.93.0
+
+      - name: Cache Cargo
+        uses: Swatinem/rust-cache@779680da715d629ac1d338a641029a2f4372abb5 # v2
+        with:
+          workspaces: crates/kaku-relay
+
+      # kaku-relay is in `workspace.exclude` because it ships to fly.io with
+      # its own dependency closure. CI builds and tests it here so the main
+      # branch never lands a relay that doesn't compile.
+      - name: Check kaku-relay
+        run: cargo check --locked --manifest-path crates/kaku-relay/Cargo.toml
+
+      - name: Test kaku-relay
+        run: cargo test --locked --manifest-path crates/kaku-relay/Cargo.toml
+
+  clippy:
+    name: Clippy
+    runs-on: macos-latest
+    needs: fmt
+    steps:
+      - name: Checkout
+        uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
+
+      - name: Install Rust
+        uses: dtolnay/rust-toolchain@631a55b12751854ce901bb631d5902ceb48146f7 # stable
+        with:
+          toolchain: 1.93.0
+          components: clippy
+
+      - name: Cache Cargo
+        uses: Swatinem/rust-cache@779680da715d629ac1d338a641029a2f4372abb5 # v2
+
+      # Only the crates that opt in via `[lints] workspace = true` in their
+      # own Cargo.toml are scoped here. Other crates (vendored, wezterm
+      # upstream-tracking, etc.) will be added incrementally.
+      - name: Run clippy on lint-opt-in crates
+        run: |
+          cargo clippy --locked --all-targets \
+            -p kaku -p kaku-gui -p mux -p config \
+            -- -D warnings
 
   release-notes-check:
     name: Release Notes Check
