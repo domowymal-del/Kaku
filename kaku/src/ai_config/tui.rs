@@ -65,32 +65,58 @@ mod ui;
 #[allow(dead_code)]
 pub(crate) mod provider_adapter {
     use super::Tool;
-    use std::path::PathBuf;
+    use std::path::{Path, PathBuf};
 
-    /// Common surface every provider already implements ad hoc on `Tool`
-    /// and around the dispatcher. Capturing it as a trait makes the future
-    /// per-provider modules pluggable without changing the call sites.
-    pub(super) trait ProviderAdapter {
-        /// `Tool` variant this adapter answers to.
+    /// Boxed per-provider state. Each provider's typed config
+    /// (KakuAssistantConfig, ClaudeConfig, ...) implements this so the TUI
+    /// dispatcher can hold adapters polymorphically without binding to a
+    /// concrete config type.
+    pub(crate) trait ProviderState: std::fmt::Debug + Send {
+        /// True iff the user has enabled this provider in their config.
+        fn enabled(&self) -> bool;
+        /// Currently-selected model name, if any.
+        fn model(&self) -> Option<&str>;
+    }
+
+    /// Editable (key, display_value) pair surfaced by the picker UI.
+    #[derive(Debug, Clone)]
+    pub(crate) struct FieldEntry {
+        pub key: String,
+        pub value: String,
+    }
+
+    /// Per-provider adapter contract. The first three methods are the
+    /// minimal identity surface (existing inline code already provides
+    /// them); the rest are the migration target so a future PR can lift
+    /// `match Tool::X => { ... }` arms out of `tui.rs` one provider at
+    /// a time, see `kaku/src/ai_config/providers/`.
+    pub(crate) trait ProviderAdapter: Send + Sync {
+        // ── Identity ──────────────────────────────────────────────────
         fn tool(&self) -> Tool;
-
-        /// Human-readable name shown in the picker (e.g. "Kaku Assistant").
         fn label(&self) -> &'static str;
-
-        /// On-disk config path the adapter reads / writes.
         fn config_path(&self) -> PathBuf;
 
-        // The methods below are intentionally **not** declared yet. Each
-        // future PR that extracts a provider adds its own slice (loader,
-        // refresher, OAuth flow, usage probe, …) and lifts the
-        // corresponding match arm out of the inline code in `tui.rs`.
-        // Adding them prematurely would force every existing inline
-        // implementation to migrate at once.
+        // ── Core lifecycle (each provider must implement) ────────────
+        /// Parse on-disk TOML/JSON into typed provider state.
+        fn load(&self, raw: &str) -> anyhow::Result<Box<dyn ProviderState>>;
+
+        /// Project state into editable (key, value) pairs for the UI.
+        fn extract_fields(&self, state: &dyn ProviderState) -> Vec<FieldEntry>;
+
+        /// Atomically persist a single edited field back to disk.
+        fn save_field(&self, key: &str, value: &str, path: &Path) -> anyhow::Result<()>;
+
+        // ── Optional capabilities (default: not supported) ───────────
+        /// Refresh model list from the provider's API. Returns None when
+        /// the provider does not support remote model listing.
+        fn refresh_models(&self, _state: &dyn ProviderState) -> Option<Vec<String>> {
+            None
+        }
     }
 }
 
 #[derive(Clone, Copy, PartialEq)]
-enum Tool {
+pub(crate) enum Tool {
     KakuAssistant,
     ClaudeCode,
     Codex,
