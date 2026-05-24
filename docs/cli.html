@@ -1,0 +1,71 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>CLI 参考 · Kaku Docs</title>
+  <meta name="description" content="从 shell 打开 AI 设置、聊天、配置、诊断、更新和 multiplexer 命令。">
+  <link rel="icon" href="/favicon.svg" type="image/svg+xml">
+  <link rel="canonical" href="https://kaku.tw93.fun/docs/cli">
+  <link rel="alternate" hreflang="en" href="https://kaku.tw93.fun/en/docs/cli">
+  <link rel="stylesheet" href="/styles.css">
+</head>
+<body>
+  <a class="skip-link" href="#main-content">跳到正文</a>
+  <nav class="site-nav" aria-label="主导航"><div class="wide nav-inner"><a class="brand" href="/"><strong>Kaku</strong><span>書く</span></a><div class="nav-links"><a href="/docs/" aria-current="page">文档</a><a href="/download">下载</a><a href="/roadmap">Roadmap</a><a href="/changelog">Changelog</a></div><div class="nav-actions"><a class="nav-pill" href="/en/docs/" hreflang="en">EN</a><a class="nav-pill primary" href="https://github.com/tw93/Kaku" target="_blank" rel="noopener noreferrer"><span>GitHub</span> ★</a></div></div></nav>
+  <main id="main-content" class="docs-page">
+    <header class="page-hero doc-hero"><div class="wide"><span class="label">Docs</span><h1>CLI 参考</h1><p>从 shell 打开 AI 设置、聊天、配置、诊断、更新和 multiplexer 命令。</p></div></header>
+    <section class="section docs-section">
+      <div class="wide docs-layout">
+        <aside class="docs-sidebar">
+          <a class="docs-home" href="/docs/">文档首页</a>
+          <nav class="docs-menu" aria-label="文档列表"><a href="/docs/features"><span>功能与 AI</span><small>Kaku Assistant、AI Chat、错误修复、自然语言命令，以及内置 shell 工具。</small></a><a href="/docs/cli" aria-current="page"><span>CLI 参考</span><small>从 shell 打开 AI 设置、聊天、配置、诊断、更新和 multiplexer 命令。</small></a><a href="/docs/configuration"><span>配置</span><small>Kaku 的 Lua 配置入口、外观、终端行为、键盘与 Assistant 设置。</small></a><a href="/docs/keybindings"><span>快捷键</span><small>窗口、标签、分屏、Shell 编辑、AI 功能、Lazygit 和 Yazi 的默认快捷键。</small></a><a href="/docs/faq"><span>FAQ</span><small>安装、配置、快捷键、AI Provider、滚动、字体、Homebrew 和通知问题。</small></a><a href="/docs/release-checklist"><span>发布检查</span><small>维护者发布前需要手动确认的 macOS tab bar、透明窗口和 issue triage 检查。</small></a></nav>
+          <div class="section-toc"><p>本页目录</p><a class="depth-2" href="#kaku-ai">kaku ai</a><a class="depth-2" href="#kaku-chat">kaku chat</a><a class="depth-2" href="#kaku-config">kaku config</a><a class="depth-2" href="#kaku-doctor">kaku doctor</a><a class="depth-2" href="#kaku-update">kaku update</a><a class="depth-2" href="#kaku-reset">kaku reset</a><a class="depth-2" href="#kaku-init">kaku init</a><a class="depth-2" href="#kaku-cli">kaku cli</a></div>
+        </aside>
+        <article class="doc-content">
+          <p>Run <code>kaku</code> in your terminal to see all available commands.</p>
+<h2 id="kaku-ai"><a class="anchor" href="#kaku-ai" aria-label="Link to kaku ai">#</a>kaku ai</h2><p>Open the AI settings panel inside Kaku. Configure external coding tools (Claude Code, Codex, Gemini CLI, Copilot CLI, Kimi Code, etc.) and Kaku Assistant.</p>
+<pre><code class="language-bash">kaku ai
+</code></pre>
+<h2 id="kaku-chat"><a class="anchor" href="#kaku-chat" aria-label="Link to kaku chat">#</a>kaku chat</h2><p>Start Kaku&#39;s standalone AI chat from any shell. This is a discoverable alias for
+the bundled <code>k</code> helper, so it works even when <code>k</code> is not on your PATH.</p>
+<pre><code class="language-bash">kaku chat                 # open interactive chat
+kaku chat &quot;explain this&quot;  # one-shot prompt
+</code></pre>
+<p>The chat uses <code>~/.config/kaku/assistant.toml</code>, shares the same conversation and
+memory files as the <code>Cmd + L</code> overlay, and supports <code>/new</code>, <code>/resume</code>, <code>/clear</code>,
+<code>/status</code>, <code>/memory</code>, and <code>/exit</code> in interactive mode.</p>
+<h2 id="kaku-config"><a class="anchor" href="#kaku-config" aria-label="Link to kaku config">#</a>kaku config</h2><p>Open the Kaku configuration file (<code>~/.config/kaku/kaku.lua</code>) in your default editor. Also accessible from the settings panel with <code>Cmd + ,</code>.</p>
+<pre><code class="language-bash">kaku config
+</code></pre>
+<h2 id="kaku-doctor"><a class="anchor" href="#kaku-doctor" aria-label="Link to kaku doctor">#</a>kaku doctor</h2><p>Run diagnostics and verify that Kaku&#39;s shell integration, PATH entries, and optional tool installations are healthy. Use this first if something feels broken.</p>
+<pre><code class="language-bash">kaku doctor
+</code></pre>
+<h2 id="kaku-update"><a class="anchor" href="#kaku-update" aria-label="Link to kaku update">#</a>kaku update</h2><p>Check for and install the latest Kaku release.</p>
+<pre><code class="language-bash">kaku update
+</code></pre>
+<h2 id="kaku-reset"><a class="anchor" href="#kaku-reset" aria-label="Link to kaku reset">#</a>kaku reset</h2><p>Reset Kaku&#39;s config and state files to defaults. Use with caution, this overwrites <code>~/.config/kaku/kaku.lua</code>.</p>
+<pre><code class="language-bash">kaku reset
+</code></pre>
+<h2 id="kaku-init"><a class="anchor" href="#kaku-init" aria-label="Link to kaku init">#</a>kaku init</h2><p>Set up Kaku&#39;s shell integration for zsh and/or fish. Creates <code>~/.config/kaku/zsh/kaku.zsh</code> and optionally <code>~/.config/kaku/fish/kaku.fish</code>. Also installs optional CLI tools (Starship, Delta, Lazygit, Yazi) via Homebrew.</p>
+<pre><code class="language-bash">kaku init
+</code></pre>
+<p>If the <code>kaku</code> command goes missing from your shell, restore it with:</p>
+<pre><code class="language-bash">/Applications/Kaku.app/Contents/MacOS/kaku init --update-only
+exec zsh -l
+</code></pre>
+<h2 id="kaku-cli"><a class="anchor" href="#kaku-cli" aria-label="Link to kaku cli">#</a>kaku cli</h2><p>Interact with the Kaku multiplexer from scripts and external tools.</p>
+<pre><code class="language-bash">kaku cli split-pane                          # split current pane
+kaku cli split-pane -- bash -c &quot;echo hello&quot;  # split and run a command
+kaku cli --help                              # list all subcommands
+kaku cli split-pane --help                   # help for a specific subcommand
+</code></pre>
+<p>Useful for integrating Kaku with AI tools or shell scripts that need to open panes or tabs programmatically.</p>
+          <nav class="doc-pager" aria-label="文档翻页"><a href="/docs/features"><span>上一篇</span><strong>功能与 AI</strong></a><a href="/docs/configuration"><span>下一篇</span><strong>配置</strong></a></nav>
+        </article>
+      </div>
+    </section>
+  </main>
+  <footer class="site-footer"><div class="wide"><div class="footer-brand"><a href="/">Kaku</a><p>一个为 AI 编码打磨的 macOS 终端，基于 WezTerm，默认就进入工作状态。</p></div><div class="footer-bottom">Kaku · Built on WezTerm · MIT License · © 2026 Tw93</div></div></footer>
+</body>
+</html>

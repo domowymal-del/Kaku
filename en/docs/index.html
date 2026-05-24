@@ -1,15 +1,27 @@
 <!doctype html>
 <html lang="en">
 <head>
-  <meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Kaku Docs</title>
-  <meta name="description" content="Kaku docs entry: install, AI features, configuration, keybindings, and migration paths.">
-  <link rel="icon" href="/favicon.svg" type="image/svg+xml"><link rel="canonical" href="https://kaku.tw93.fun/en/docs/"><link rel="alternate" hreflang="zh-CN" href="https://kaku.tw93.fun/docs/"><link rel="stylesheet" href="/styles.css">
+  <meta name="description" content="Kaku docs: features, CLI, configuration, keybindings, FAQ, and release checks.">
+  <link rel="icon" href="/favicon.svg" type="image/svg+xml">
+  <link rel="canonical" href="https://kaku.tw93.fun/en/docs/">
+  <link rel="alternate" hreflang="zh-CN" href="https://kaku.tw93.fun/docs/">
+  <link rel="stylesheet" href="/styles.css">
 </head>
 <body>
   <a class="skip-link" href="#main-content">Skip to content</a>
-  <nav class="site-nav" aria-label="Primary navigation"><div class="wide nav-inner"><a class="brand" href="/en/"><strong>Kaku</strong><span>書く</span></a><div class="nav-links"><a href="/en/docs/" aria-current="page">Docs</a><a href="/en/download">Download</a><a href="/en/roadmap">Roadmap</a><a href="/en/changelog">Changelog</a></div><div class="nav-actions"><a class="nav-pill" href="/docs/" hreflang="zh-CN">中</a><a class="nav-pill primary" href="https://github.com/tw93/Kaku" target="_blank" rel="noopener noreferrer"><span>GitHub</span> ★</a></div></div></nav>
-  <main id="main-content"><header class="page-hero"><div class="wide"><span class="label">Docs</span><h1>Start with what you are trying to do.</h1><p>The first docs surface stays lightweight: install, configure, use AI, check shortcuts, or file a focused issue.</p></div></header><section class="section"><div class="wide doc-grid"><a class="doc-card" href="/en/download"><h2>New user</h2><p>Install Kaku and make sure the app and shell environment are ready.</p><span>Go to download</span></a><a class="doc-card" href="https://github.com/tw93/Kaku#kaku-ai" target="_blank" rel="noopener noreferrer"><h2>Use AI</h2><p>Error recovery, natural-language commands, provider setup, and AI tools.</p><span>Read README</span></a><a class="doc-card" href="https://github.com/tw93/Kaku#usage-guide" target="_blank" rel="noopener noreferrer"><h2>Keybindings</h2><p>Tabs, panes, AI panel, apply suggestion, Lazygit, and Yazi shortcuts.</p><span>Open shortcuts</span></a><a class="doc-card" href="https://github.com/tw93/Kaku#features" target="_blank" rel="noopener noreferrer"><h2>Configure</h2><p>Kaku keeps WezTerm Lua compatibility while shipping better macOS defaults.</p><span>View configuration</span></a><a class="doc-card" href="https://github.com/tw93/Kaku/issues" target="_blank" rel="noopener noreferrer"><h2>Report an issue</h2><p>Include install method, Kaku version, macOS version, and reproduction steps.</p><span>Open Issues</span></a><a class="doc-card" href="/en/roadmap"><h2>Roadmap</h2><p>See what is happening now, next, and later.</p><span>Open roadmap</span></a></div></section></main>
+  <nav class="site-nav" aria-label="Primary navigation"><div class="wide nav-inner"><a class="brand" href="/en"><strong>Kaku</strong><span>書く</span></a><div class="nav-links"><a href="/en/docs/" aria-current="page">Docs</a><a href="/en/download">Download</a><a href="/en/roadmap">Roadmap</a><a href="/en/changelog">Changelog</a></div><div class="nav-actions"><a class="nav-pill" href="/docs/" hreflang="zh-CN">中</a><a class="nav-pill primary" href="https://github.com/tw93/Kaku" target="_blank" rel="noopener noreferrer"><span>GitHub</span> ★</a></div></div></nav>
+  <main id="main-content">
+    <header class="page-hero"><div class="wide"><span class="label">Docs</span><h1>Every current doc, rendered.</h1><p>Read the current public Markdown docs directly on the website, without jumping back to README fragments.</p></div></header>
+    <section class="section docs-index-section">
+      <div class="wide doc-grid"><a class="doc-card" href="/en/docs/features"><h2>Features</h2><p>Kaku Assistant, AI Chat, error recovery, natural-language commands, and built-in shell tools.</p><span>Read doc</span></a><a class="doc-card" href="/en/docs/cli"><h2>CLI Reference</h2><p>Open AI settings, chat, config, diagnostics, update, and multiplexer commands from the shell.</p><span>Read doc</span></a><a class="doc-card" href="/en/docs/configuration"><h2>Configuration</h2><p>Lua configuration, appearance, terminal behavior, keyboard settings, and Assistant options.</p><span>Read doc</span></a><a class="doc-card" href="/en/docs/keybindings"><h2>Keybindings</h2><p>Default shortcuts for windows, tabs, panes, shell editing, AI features, Lazygit, and Yazi.</p><span>Read doc</span></a><a class="doc-card" href="/en/docs/faq"><h2>FAQ</h2><p>Installation, config, shortcuts, AI providers, scrolling, fonts, Homebrew, and notification issues.</p><span>Read doc</span></a><a class="doc-card" href="/en/docs/release-checklist"><h2>Release Checklist</h2><p>Maintainer release checks for macOS tab bars, transparency, and issue triage.</p><span>Read doc</span></a></div>
+    </section>
+    <section class="section-tight"><div class="container prose"><span class="label">Local config</span><h2>Common paths</h2><p>Kaku config and AI settings live around the local user directory. These paths are usually the fastest place to start debugging.</p><pre class="code-box">~/.config/kaku/kaku.lua
+~/.config/kaku/assistant.toml
+/Applications/Kaku.app</pre></div></section>
+  </main>
   <footer class="site-footer"><div class="wide"><div class="footer-brand"><a href="/en/">Kaku</a><p>A macOS terminal for AI coding, built on WezTerm and shaped around practical defaults.</p></div><div class="footer-bottom">Kaku · Built on WezTerm · MIT License · © 2026 Tw93</div></div></footer>
 </body>
 </html>

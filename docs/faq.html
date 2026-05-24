@@ -1,0 +1,102 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>FAQ · Kaku Docs</title>
+  <meta name="description" content="安装、配置、快捷键、AI Provider、滚动、字体、Homebrew 和通知问题。">
+  <link rel="icon" href="/favicon.svg" type="image/svg+xml">
+  <link rel="canonical" href="https://kaku.tw93.fun/docs/faq">
+  <link rel="alternate" hreflang="en" href="https://kaku.tw93.fun/en/docs/faq">
+  <link rel="stylesheet" href="/styles.css">
+</head>
+<body>
+  <a class="skip-link" href="#main-content">跳到正文</a>
+  <nav class="site-nav" aria-label="主导航"><div class="wide nav-inner"><a class="brand" href="/"><strong>Kaku</strong><span>書く</span></a><div class="nav-links"><a href="/docs/" aria-current="page">文档</a><a href="/download">下载</a><a href="/roadmap">Roadmap</a><a href="/changelog">Changelog</a></div><div class="nav-actions"><a class="nav-pill" href="/en/docs/" hreflang="en">EN</a><a class="nav-pill primary" href="https://github.com/tw93/Kaku" target="_blank" rel="noopener noreferrer"><span>GitHub</span> ★</a></div></div></nav>
+  <main id="main-content" class="docs-page">
+    <header class="page-hero doc-hero"><div class="wide"><span class="label">Docs</span><h1>FAQ</h1><p>安装、配置、快捷键、AI Provider、滚动、字体、Homebrew 和通知问题。</p></div></header>
+    <section class="section docs-section">
+      <div class="wide docs-layout">
+        <aside class="docs-sidebar">
+          <a class="docs-home" href="/docs/">文档首页</a>
+          <nav class="docs-menu" aria-label="文档列表"><a href="/docs/features"><span>功能与 AI</span><small>Kaku Assistant、AI Chat、错误修复、自然语言命令，以及内置 shell 工具。</small></a><a href="/docs/cli"><span>CLI 参考</span><small>从 shell 打开 AI 设置、聊天、配置、诊断、更新和 multiplexer 命令。</small></a><a href="/docs/configuration"><span>配置</span><small>Kaku 的 Lua 配置入口、外观、终端行为、键盘与 Assistant 设置。</small></a><a href="/docs/keybindings"><span>快捷键</span><small>窗口、标签、分屏、Shell 编辑、AI 功能、Lazygit 和 Yazi 的默认快捷键。</small></a><a href="/docs/faq" aria-current="page"><span>FAQ</span><small>安装、配置、快捷键、AI Provider、滚动、字体、Homebrew 和通知问题。</small></a><a href="/docs/release-checklist"><span>发布检查</span><small>维护者发布前需要手动确认的 macOS tab bar、透明窗口和 issue triage 检查。</small></a></nav>
+          <div class="section-toc"><p>本页目录</p><a class="depth-2" href="#is-there-a-windows-or-linux-version">Is there a Windows or Linux version?</a><a class="depth-2" href="#can-i-use-a-transparent-window">Can I use a transparent window?</a><a class="depth-2" href="#how-do-i-turn-off-copy-on-select">How do I turn off copy on select?</a><a class="depth-2" href="#how-do-i-customize-keybindings">How do I customize keybindings?</a><a class="depth-2" href="#can-i-control-working-directory-inheritance">Can I control working directory inheritance?</a><a class="depth-2" href="#how-do-i-disable-kaku-assistant">How do I disable Kaku Assistant?</a><a class="depth-2" href="#how-do-i-use-a-custom-llm-provider">How do I use a custom LLM provider?</a><a class="depth-2" href="#how-do-i-restore-default-config">How do I restore default config?</a><a class="depth-2" href="#the-kaku-command-is-missing-how-do-i-recover-it">The kaku command is missing. How do I recover it?</a><a class="depth-2" href="#how-do-i-use-kaku-s-cli-from-scripts">How do I use Kaku's CLI from scripts?</a><a class="depth-2" href="#how-do-i-enable-the-scrollbar">How do I enable the scrollbar?</a><a class="depth-2" href="#how-do-i-scroll-inside-nano-vim-or-another-full-screen-terminal-app">How do I scroll inside nano, vim, or another full-screen terminal app?</a><a class="depth-2" href="#how-do-i-change-the-font-my-font-change-isn-t-taking-effect">How do I change the font? My font change isn't taking effect.</a><a class="depth-2" href="#my-window-padding-change-isn-t-working">My window_padding change isn't working.</a><a class="depth-2" href="#the-screen-jumps-to-the-top-while-claude-code-is-generating-output">The screen jumps to the top while Claude Code is generating output.</a><a class="depth-2" href="#cmd-shift-y-sends-a-local-path-when-inside-an-ssh-session">Cmd+Shift+Y sends a local path when inside an SSH session.</a><a class="depth-2" href="#the-y-shell-wrapper-doesn-t-sync-my-directory-on-exit">The y shell wrapper doesn't sync my directory on exit.</a><a class="depth-2" href="#homebrew-can-t-find-the-binary-wrong-kaku-gets-updated">Homebrew can't find the binary / wrong Kaku gets updated.</a><a class="depth-2" href="#claude-code-notifications-don-t-appear">Claude Code notifications don't appear.</a><a class="depth-2" href="#the-global-hotkey-doesn-t-work-on-non-qwerty-keyboards-e-g-colemak">The global hotkey doesn't work on non-QWERTY keyboards (e.g. Colemak).</a><a class="depth-2" href="#can-i-use-kaku-with-tiling-window-managers-yabai-aerospace">Can I use Kaku with tiling window managers (yabai, AeroSpace)?</a></div>
+        </aside>
+        <article class="doc-content">
+          <h2 id="is-there-a-windows-or-linux-version"><a class="anchor" href="#is-there-a-windows-or-linux-version" aria-label="Link to Is there a Windows or Linux version?">#</a>Is there a Windows or Linux version?</h2><p>Not currently. Kaku is macOS-only while the macOS experience is being polished. Windows and Linux may come later.</p>
+<h2 id="can-i-use-a-transparent-window"><a class="anchor" href="#can-i-use-a-transparent-window" aria-label="Link to Can I use a transparent window?">#</a>Can I use a transparent window?</h2><p>Yes. Add to <code>~/.config/kaku/kaku.lua</code>:</p>
+<pre><code class="language-lua">local config = require(&quot;kaku&quot;).config
+config.window_background_opacity = 0.92
+config.macos_window_background_blur = 20  -- optional blur, 0–100
+return config
+</code></pre>
+<h2 id="how-do-i-turn-off-copy-on-select"><a class="anchor" href="#how-do-i-turn-off-copy-on-select" aria-label="Link to How do I turn off copy on select?">#</a>How do I turn off copy on select?</h2><pre><code class="language-lua">config.copy_on_select = false
+</code></pre>
+<h2 id="how-do-i-customize-keybindings"><a class="anchor" href="#how-do-i-customize-keybindings" aria-label="Link to How do I customize keybindings?">#</a>How do I customize keybindings?</h2><p>Append to <code>config.keys</code>, do not replace it:</p>
+<pre><code class="language-lua">config.keys[#config.keys + 1] = {
+  key = &quot;RightArrow&quot;,
+  mods = &quot;CMD|SHIFT&quot;,
+  action = wezterm.action.ActivatePaneDirection(&quot;Right&quot;),
+}
+</code></pre>
+<p>See <a href="/docs/keybindings">keybindings.md</a> and <a href="/docs/configuration">configuration.md</a> for more examples.</p>
+<h2 id="can-i-control-working-directory-inheritance"><a class="anchor" href="#can-i-control-working-directory-inheritance" aria-label="Link to Can I control working directory inheritance?">#</a>Can I control working directory inheritance?</h2><p>Yes, individually for windows, tabs, and splits:</p>
+<pre><code class="language-lua">config.window_inherit_working_directory = true
+config.tab_inherit_working_directory = true
+config.split_pane_inherit_working_directory = true
+</code></pre>
+<p>All are enabled by default.</p>
+<h2 id="how-do-i-disable-kaku-assistant"><a class="anchor" href="#how-do-i-disable-kaku-assistant" aria-label="Link to How do I disable Kaku Assistant?">#</a>How do I disable Kaku Assistant?</h2><p>Run <code>kaku ai</code>, open Kaku Assistant settings, and set Enabled to Off. Or edit <code>~/.config/kaku/assistant.toml</code> directly:</p>
+<pre><code class="language-toml">enabled = false
+</code></pre>
+<h2 id="how-do-i-use-a-custom-llm-provider"><a class="anchor" href="#how-do-i-use-a-custom-llm-provider" aria-label="Link to How do I use a custom LLM provider?">#</a>How do I use a custom LLM provider?</h2><p>Run <code>kaku ai</code>, select &quot;Custom&quot; from the Provider dropdown, and enter your base URL and API key manually. The URL must be OpenAI-compatible (<code>/v1/chat/completions</code>).</p>
+<h2 id="how-do-i-restore-default-config"><a class="anchor" href="#how-do-i-restore-default-config" aria-label="Link to How do I restore default config?">#</a>How do I restore default config?</h2><pre><code class="language-bash">kaku reset
+</code></pre>
+<p>This overwrites <code>~/.config/kaku/kaku.lua</code> with defaults.</p>
+<h2 id="the-kaku-command-is-missing-how-do-i-recover-it"><a class="anchor" href="#the-kaku-command-is-missing-how-do-i-recover-it" aria-label="Link to The `kaku` command is missing. How do I recover it?">#</a>The <code>kaku</code> command is missing. How do I recover it?</h2><pre><code class="language-bash">/Applications/Kaku.app/Contents/MacOS/kaku init --update-only
+exec zsh -l
+</code></pre>
+<p>Then run <code>kaku doctor</code> to verify everything is healthy.</p>
+<h2 id="how-do-i-use-kaku-s-cli-from-scripts"><a class="anchor" href="#how-do-i-use-kaku-s-cli-from-scripts" aria-label="Link to How do I use Kaku&#39;s CLI from scripts?">#</a>How do I use Kaku&#39;s CLI from scripts?</h2><pre><code class="language-bash">kaku cli split-pane
+kaku cli split-pane -- bash -c &quot;echo hello&quot;
+kaku cli --help
+</code></pre>
+<p>See <a href="/docs/cli">cli.md</a> for full reference.</p>
+<h2 id="how-do-i-enable-the-scrollbar"><a class="anchor" href="#how-do-i-enable-the-scrollbar" aria-label="Link to How do I enable the scrollbar?">#</a>How do I enable the scrollbar?</h2><p>Open <code>kaku config</code> and toggle the scrollbar option, or add to <code>~/.config/kaku/kaku.lua</code>:</p>
+<pre><code class="language-lua">config.enable_scroll_bar = true
+</code></pre>
+<h2 id="how-do-i-scroll-inside-nano-vim-or-another-full-screen-terminal-app"><a class="anchor" href="#how-do-i-scroll-inside-nano-vim-or-another-full-screen-terminal-app" aria-label="Link to How do I scroll inside nano, vim, or another full-screen terminal app?">#</a>How do I scroll inside nano, vim, or another full-screen terminal app?</h2><p>Enable alternate-screen wheel forwarding:</p>
+<pre><code class="language-lua">config.alternate_screen_wheel_scrolls_terminal = true
+</code></pre>
+<h2 id="how-do-i-change-the-font-my-font-change-isn-t-taking-effect"><a class="anchor" href="#how-do-i-change-the-font-my-font-change-isn-t-taking-effect" aria-label="Link to How do I change the font? My font change isn&#39;t taking effect.">#</a>How do I change the font? My font change isn&#39;t taking effect.</h2><p>Font changes require explicitly setting <code>config.font</code> in your config:</p>
+<pre><code class="language-lua">config.font = wezterm.font(&#39;Your Font Name&#39;)
+</code></pre>
+<p>Note: Kaku&#39;s theme-aware font weight system only applies to the default JetBrains Mono stack. Once you set a custom font, Kaku will no longer override its weight automatically.</p>
+<h2 id="my-window-padding-change-isn-t-working"><a class="anchor" href="#my-window-padding-change-isn-t-working" aria-label="Link to My `window_padding` change isn&#39;t working.">#</a>My <code>window_padding</code> change isn&#39;t working.</h2><p><code>window_padding</code> values require a <code>&#39;px&#39;</code> unit suffix:</p>
+<pre><code class="language-lua">config.window_padding = { left = &#39;24px&#39;, right = &#39;24px&#39;, top = &#39;40px&#39;, bottom = &#39;20px&#39; }
+</code></pre>
+<p>Plain numbers (without <code>&#39;px&#39;</code>) are interpreted as terminal cell units, which may not match your intent.</p>
+<h2 id="the-screen-jumps-to-the-top-while-claude-code-is-generating-output"><a class="anchor" href="#the-screen-jumps-to-the-top-while-claude-code-is-generating-output" aria-label="Link to The screen jumps to the top while Claude Code is generating output.">#</a>The screen jumps to the top while Claude Code is generating output.</h2><p>This is a known interaction between trackpad scroll and Claude Code&#39;s streaming output. If you accidentally scroll to the top mid-stream, pressing the down arrow or scrolling back down returns you to the current output. A fix for the jump behavior has been tracked and shipped in recent releases.</p>
+<h2 id="cmd-shift-y-sends-a-local-path-when-inside-an-ssh-session"><a class="anchor" href="#cmd-shift-y-sends-a-local-path-when-inside-an-ssh-session" aria-label="Link to Cmd+Shift+Y sends a local path when inside an SSH session.">#</a>Cmd+Shift+Y sends a local path when inside an SSH session.</h2><p>The yazi remote-files feature (<code>Cmd+Shift+R</code>) is designed for SSH sessions and mounts the remote filesystem via sshfs. <code>Cmd+Shift+Y</code> is for local yazi. Use <code>Cmd+Shift+R</code> when you are inside an SSH pane.</p>
+<h2 id="the-y-shell-wrapper-doesn-t-sync-my-directory-on-exit"><a class="anchor" href="#the-y-shell-wrapper-doesn-t-sync-my-directory-on-exit" aria-label="Link to The `y` shell wrapper doesn&#39;t sync my directory on exit.">#</a>The <code>y</code> shell wrapper doesn&#39;t sync my directory on exit.</h2><p>Make sure the Kaku fish/zsh shell integration is sourced. Check with <code>kaku doctor</code>. The <code>y</code> wrapper requires the shell init to be loaded. A bare <code>yazi</code> call will not sync the directory.</p>
+<h2 id="homebrew-can-t-find-the-binary-wrong-kaku-gets-updated"><a class="anchor" href="#homebrew-can-t-find-the-binary-wrong-kaku-gets-updated" aria-label="Link to Homebrew can&#39;t find the binary / wrong Kaku gets updated.">#</a>Homebrew can&#39;t find the binary / wrong Kaku gets updated.</h2><p>There is an older unrelated package named <code>kaku</code> on Homebrew. Install Kaku with the tap to avoid conflicts:</p>
+<pre><code class="language-bash">brew install tw93/tap/kakuku
+</code></pre>
+<p>If you see checksum errors with <code>kaku update</code>, use <code>brew upgrade tw93/tap/kakuku</code> directly.</p>
+<h2 id="claude-code-notifications-don-t-appear"><a class="anchor" href="#claude-code-notifications-don-t-appear" aria-label="Link to Claude Code notifications don&#39;t appear.">#</a>Claude Code notifications don&#39;t appear.</h2><p>Kaku&#39;s notification permission may not be granted. Go to System Settings &gt; Notifications &gt; Kaku and enable Allow Notifications. Then restart Kaku.</p>
+<h2 id="the-global-hotkey-doesn-t-work-on-non-qwerty-keyboards-e-g-colemak"><a class="anchor" href="#the-global-hotkey-doesn-t-work-on-non-qwerty-keyboards-e-g-colemak" aria-label="Link to The global hotkey doesn&#39;t work on non-QWERTY keyboards (e.g. Colemak).">#</a>The global hotkey doesn&#39;t work on non-QWERTY keyboards (e.g. Colemak).</h2><p><code>Cmd + Opt + Ctrl + K</code> uses the physical QWERTY K position. On Colemak, this corresponds to a different key. Remap it in your config:</p>
+<pre><code class="language-lua">table.insert(config.keys, {
+  key = &#39;k&#39;,  -- adjust to your layout&#39;s physical key
+  mods = &#39;CMD|OPT|CTRL&#39;,
+  action = wezterm.action.EmitEvent(&#39;toggle-global-window&#39;),
+})
+</code></pre>
+<h2 id="can-i-use-kaku-with-tiling-window-managers-yabai-aerospace"><a class="anchor" href="#can-i-use-kaku-with-tiling-window-managers-yabai-aerospace" aria-label="Link to Can I use Kaku with tiling window managers (yabai, AeroSpace)?">#</a>Can I use Kaku with tiling window managers (yabai, AeroSpace)?</h2><p>Kaku is compatible with yabai and AeroSpace. If you see continuous flickering, it is usually caused by the tiling WM fighting with Kaku&#39;s fullscreen/resize logic. Disabling Kaku&#39;s native fullscreen (<code>config.native_macos_fullscreen_mode = false</code>) or excluding Kaku from the tiling WM&#39;s managed window list typically resolves it.</p>
+          <nav class="doc-pager" aria-label="文档翻页"><a href="/docs/keybindings"><span>上一篇</span><strong>快捷键</strong></a><a href="/docs/release-checklist"><span>下一篇</span><strong>发布检查</strong></a></nav>
+        </article>
+      </div>
+    </section>
+  </main>
+  <footer class="site-footer"><div class="wide"><div class="footer-brand"><a href="/">Kaku</a><p>一个为 AI 编码打磨的 macOS 终端，基于 WezTerm，默认就进入工作状态。</p></div><div class="footer-bottom">Kaku · Built on WezTerm · MIT License · © 2026 Tw93</div></div></footer>
+</body>
+</html>

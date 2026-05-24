@@ -4,7 +4,7 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Kaku 文档</title>
-  <meta name="description" content="Kaku 文档入口：安装、AI 功能、配置、快捷键和迁移指南。">
+  <meta name="description" content="Kaku 文档：功能、CLI、配置、快捷键、FAQ 和发布检查。">
   <link rel="icon" href="/favicon.svg" type="image/svg+xml">
   <link rel="canonical" href="https://kaku.tw93.fun/docs/">
   <link rel="alternate" hreflang="en" href="https://kaku.tw93.fun/en/docs/">
@@ -14,18 +14,11 @@
   <a class="skip-link" href="#main-content">跳到正文</a>
   <nav class="site-nav" aria-label="主导航"><div class="wide nav-inner"><a class="brand" href="/"><strong>Kaku</strong><span>書く</span></a><div class="nav-links"><a href="/docs/" aria-current="page">文档</a><a href="/download">下载</a><a href="/roadmap">Roadmap</a><a href="/changelog">Changelog</a></div><div class="nav-actions"><a class="nav-pill" href="/en/docs/" hreflang="en">EN</a><a class="nav-pill primary" href="https://github.com/tw93/Kaku" target="_blank" rel="noopener noreferrer"><span>GitHub</span> ★</a></div></div></nav>
   <main id="main-content">
-    <header class="page-hero"><div class="wide"><span class="label">Docs</span><h1>按你现在要做的事来读。</h1><p>首版文档入口先保持轻量，直接把安装、配置、AI 和迁移路径集中到一个页面。</p></div></header>
-    <section class="section">
-      <div class="wide doc-grid">
-        <a class="doc-card" href="/download"><h2>我是新用户</h2><p>从安装 Kaku 到第一次打开终端，先确认应用和 shell 环境都正常。</p><span>去下载页</span></a>
-        <a class="doc-card" href="https://github.com/tw93/Kaku#kaku-ai" target="_blank" rel="noopener noreferrer"><h2>我想用 AI</h2><p>了解错误自动修复、自然语言转命令、Provider 配置和 AI Tools 面板。</p><span>阅读 README</span></a>
-        <a class="doc-card" href="https://github.com/tw93/Kaku#usage-guide" target="_blank" rel="noopener noreferrer"><h2>我要查快捷键</h2><p>新建标签、分屏、AI 面板、应用建议、Lazygit 和 Yazi 都在这里。</p><span>查看快捷键</span></a>
-        <a class="doc-card" href="https://github.com/tw93/Kaku#features" target="_blank" rel="noopener noreferrer"><h2>我要配置</h2><p>Kaku 兼容 WezTerm Lua 配置，同时内置更适合 macOS 的默认值。</p><span>查看配置说明</span></a>
-        <a class="doc-card" href="https://github.com/tw93/Kaku/issues" target="_blank" rel="noopener noreferrer"><h2>我遇到问题</h2><p>带上安装方式、Kaku 版本、macOS 版本和复现步骤，方便快速定位。</p><span>提交 Issue</span></a>
-        <a class="doc-card" href="/roadmap"><h2>我想看计划</h2><p>查看 Kaku 现在、下一步和更长期的开发方向。</p><span>看 Roadmap</span></a>
-      </div>
+    <header class="page-hero"><div class="wide"><span class="label">Docs</span><h1>所有文档都在这里。</h1><p>直接阅读当前仓库里的公开 Markdown 文档，不再跳回 README 或 GitHub 片段。</p></div></header>
+    <section class="section docs-index-section">
+      <div class="wide doc-grid"><a class="doc-card" href="/docs/features"><h2>功能与 AI</h2><p>Kaku Assistant、AI Chat、错误修复、自然语言命令，以及内置 shell 工具。</p><span>阅读文档</span></a><a class="doc-card" href="/docs/cli"><h2>CLI 参考</h2><p>从 shell 打开 AI 设置、聊天、配置、诊断、更新和 multiplexer 命令。</p><span>阅读文档</span></a><a class="doc-card" href="/docs/configuration"><h2>配置</h2><p>Kaku 的 Lua 配置入口、外观、终端行为、键盘与 Assistant 设置。</p><span>阅读文档</span></a><a class="doc-card" href="/docs/keybindings"><h2>快捷键</h2><p>窗口、标签、分屏、Shell 编辑、AI 功能、Lazygit 和 Yazi 的默认快捷键。</p><span>阅读文档</span></a><a class="doc-card" href="/docs/faq"><h2>FAQ</h2><p>安装、配置、快捷键、AI Provider、滚动、字体、Homebrew 和通知问题。</p><span>阅读文档</span></a><a class="doc-card" href="/docs/release-checklist"><h2>发布检查</h2><p>维护者发布前需要手动确认的 macOS tab bar、透明窗口和 issue triage 检查。</p><span>阅读文档</span></a></div>
     </section>
-    <section class="section-tight"><div class="container prose"><span class="label">Local config</span><h2>常用路径</h2><p>Kaku 配置和 AI 设置会围绕本机用户目录工作。排查问题时，README 和 Issues 会优先使用这些路径作为上下文。</p><pre class="code-box">~/.config/kaku/kaku.lua
+    <section class="section-tight"><div class="container prose"><span class="label">Local config</span><h2>常用路径</h2><p>Kaku 配置和 AI 设置围绕本机用户目录工作。排查问题时，这些路径通常是最快的入口。</p><pre class="code-box">~/.config/kaku/kaku.lua
 ~/.config/kaku/assistant.toml
 /Applications/Kaku.app</pre></div></section>
   </main>

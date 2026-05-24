@@ -1,0 +1,285 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>快捷键 · Kaku Docs</title>
+  <meta name="description" content="窗口、标签、分屏、Shell 编辑、AI 功能、Lazygit 和 Yazi 的默认快捷键。">
+  <link rel="icon" href="/favicon.svg" type="image/svg+xml">
+  <link rel="canonical" href="https://kaku.tw93.fun/docs/keybindings">
+  <link rel="alternate" hreflang="en" href="https://kaku.tw93.fun/en/docs/keybindings">
+  <link rel="stylesheet" href="/styles.css">
+</head>
+<body>
+  <a class="skip-link" href="#main-content">跳到正文</a>
+  <nav class="site-nav" aria-label="主导航"><div class="wide nav-inner"><a class="brand" href="/"><strong>Kaku</strong><span>書く</span></a><div class="nav-links"><a href="/docs/" aria-current="page">文档</a><a href="/download">下载</a><a href="/roadmap">Roadmap</a><a href="/changelog">Changelog</a></div><div class="nav-actions"><a class="nav-pill" href="/en/docs/" hreflang="en">EN</a><a class="nav-pill primary" href="https://github.com/tw93/Kaku" target="_blank" rel="noopener noreferrer"><span>GitHub</span> ★</a></div></div></nav>
+  <main id="main-content" class="docs-page">
+    <header class="page-hero doc-hero"><div class="wide"><span class="label">Docs</span><h1>快捷键</h1><p>窗口、标签、分屏、Shell 编辑、AI 功能、Lazygit 和 Yazi 的默认快捷键。</p></div></header>
+    <section class="section docs-section">
+      <div class="wide docs-layout">
+        <aside class="docs-sidebar">
+          <a class="docs-home" href="/docs/">文档首页</a>
+          <nav class="docs-menu" aria-label="文档列表"><a href="/docs/features"><span>功能与 AI</span><small>Kaku Assistant、AI Chat、错误修复、自然语言命令，以及内置 shell 工具。</small></a><a href="/docs/cli"><span>CLI 参考</span><small>从 shell 打开 AI 设置、聊天、配置、诊断、更新和 multiplexer 命令。</small></a><a href="/docs/configuration"><span>配置</span><small>Kaku 的 Lua 配置入口、外观、终端行为、键盘与 Assistant 设置。</small></a><a href="/docs/keybindings" aria-current="page"><span>快捷键</span><small>窗口、标签、分屏、Shell 编辑、AI 功能、Lazygit 和 Yazi 的默认快捷键。</small></a><a href="/docs/faq"><span>FAQ</span><small>安装、配置、快捷键、AI Provider、滚动、字体、Homebrew 和通知问题。</small></a><a href="/docs/release-checklist"><span>发布检查</span><small>维护者发布前需要手动确认的 macOS tab bar、透明窗口和 issue triage 检查。</small></a></nav>
+          <div class="section-toc"><p>本页目录</p><a class="depth-2" href="#window">Window</a><a class="depth-2" href="#tabs">Tabs</a><a class="depth-2" href="#panes">Panes</a><a class="depth-2" href="#shell-editing">Shell Editing</a><a class="depth-2" href="#font-size">Font Size</a><a class="depth-2" href="#kaku-features">Kaku Features</a><a class="depth-2" href="#mouse">Mouse</a><a class="depth-2" href="#custom-keybindings">Custom Keybindings</a></div>
+        </aside>
+        <article class="doc-content">
+          <p>All keybindings use macOS-native modifier keys. <code>Opt</code> = Option/Alt, <code>Ctrl</code> = Control.</p>
+<h2 id="window"><a class="anchor" href="#window" aria-label="Link to Window">#</a>Window</h2><table>
+<thead>
+<tr>
+<th align="left">Action</th>
+<th align="left">Shortcut</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left">New window</td>
+<td align="left"><code>Cmd + N</code></td>
+</tr>
+<tr>
+<td align="left">Close pane / tab / hide</td>
+<td align="left"><code>Cmd + W</code></td>
+</tr>
+<tr>
+<td align="left">Close current tab</td>
+<td align="left"><code>Cmd + Shift + W</code></td>
+</tr>
+<tr>
+<td align="left">Hide application</td>
+<td align="left"><code>Cmd + H</code></td>
+</tr>
+<tr>
+<td align="left">Minimize window</td>
+<td align="left"><code>Cmd + M</code></td>
+</tr>
+<tr>
+<td align="left">Toggle fullscreen</td>
+<td align="left"><code>Cmd + Ctrl + F</code></td>
+</tr>
+<tr>
+<td align="left">Quit</td>
+<td align="left"><code>Cmd + Q</code></td>
+</tr>
+<tr>
+<td align="left">Toggle global window</td>
+<td align="left"><code>Cmd + Opt + Ctrl + K</code></td>
+</tr>
+</tbody></table>
+<blockquote>
+<p><code>Cmd + W</code> is smart: closes the active pane if there are multiple panes, closes the tab if there are multiple tabs or windows, otherwise hides the app.</p>
+</blockquote>
+<h2 id="tabs"><a class="anchor" href="#tabs" aria-label="Link to Tabs">#</a>Tabs</h2><table>
+<thead>
+<tr>
+<th align="left">Action</th>
+<th align="left">Shortcut</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left">New tab</td>
+<td align="left"><code>Cmd + T</code></td>
+</tr>
+<tr>
+<td align="left">Switch to tab 1–9</td>
+<td align="left"><code>Cmd + 1</code> – <code>Cmd + 9</code></td>
+</tr>
+<tr>
+<td align="left">Previous tab</td>
+<td align="left"><code>Cmd + Shift + [</code></td>
+</tr>
+<tr>
+<td align="left">Next tab</td>
+<td align="left"><code>Cmd + Shift + ]</code></td>
+</tr>
+<tr>
+<td align="left">Close tab</td>
+<td align="left"><code>Cmd + Shift + W</code></td>
+</tr>
+<tr>
+<td align="left">Reopen closed tab</td>
+<td align="left"><code>Cmd + Shift + T</code></td>
+</tr>
+<tr>
+<td align="left">Rename tab</td>
+<td align="left">Double-click tab title</td>
+</tr>
+</tbody></table>
+<h2 id="panes"><a class="anchor" href="#panes" aria-label="Link to Panes">#</a>Panes</h2><table>
+<thead>
+<tr>
+<th align="left">Action</th>
+<th align="left">Shortcut</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left">Split vertical</td>
+<td align="left"><code>Cmd + D</code></td>
+</tr>
+<tr>
+<td align="left">Split horizontal</td>
+<td align="left"><code>Cmd + Shift + D</code></td>
+</tr>
+<tr>
+<td align="left">Toggle split direction</td>
+<td align="left"><code>Cmd + Shift + S</code></td>
+</tr>
+<tr>
+<td align="left">Zoom / unzoom pane</td>
+<td align="left"><code>Cmd + Shift + Enter</code></td>
+</tr>
+<tr>
+<td align="left">Navigate panes</td>
+<td align="left"><code>Cmd + Opt + Arrows</code></td>
+</tr>
+<tr>
+<td align="left">Resize pane</td>
+<td align="left"><code>Cmd + Ctrl + Arrows</code></td>
+</tr>
+<tr>
+<td align="left">Broadcast input to current tab</td>
+<td align="left"><code>Cmd + Opt + I</code></td>
+</tr>
+<tr>
+<td align="left">Broadcast input to all tabs</td>
+<td align="left"><code>Cmd + Shift + I</code></td>
+</tr>
+</tbody></table>
+<h2 id="shell-editing"><a class="anchor" href="#shell-editing" aria-label="Link to Shell Editing">#</a>Shell Editing</h2><table>
+<thead>
+<tr>
+<th align="left">Action</th>
+<th align="left">Shortcut</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left">Jump word left / right</td>
+<td align="left"><code>Opt + Left</code> / <code>Opt + Right</code></td>
+</tr>
+<tr>
+<td align="left">Jump to line start / end</td>
+<td align="left"><code>Cmd + Left</code> / <code>Cmd + Right</code></td>
+</tr>
+<tr>
+<td align="left">Delete to line start</td>
+<td align="left"><code>Cmd + Backspace</code></td>
+</tr>
+<tr>
+<td align="left">Delete word</td>
+<td align="left"><code>Opt + Backspace</code></td>
+</tr>
+<tr>
+<td align="left">Newline without execute</td>
+<td align="left"><code>Cmd + Enter</code> or <code>Shift + Enter</code></td>
+</tr>
+</tbody></table>
+<h2 id="font-size"><a class="anchor" href="#font-size" aria-label="Link to Font Size">#</a>Font Size</h2><table>
+<thead>
+<tr>
+<th align="left">Action</th>
+<th align="left">Shortcut</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left">Increase</td>
+<td align="left"><code>Cmd + =</code></td>
+</tr>
+<tr>
+<td align="left">Decrease</td>
+<td align="left"><code>Cmd + -</code></td>
+</tr>
+<tr>
+<td align="left">Reset</td>
+<td align="left"><code>Cmd + 0</code></td>
+</tr>
+</tbody></table>
+<h2 id="kaku-features"><a class="anchor" href="#kaku-features" aria-label="Link to Kaku Features">#</a>Kaku Features</h2><table>
+<thead>
+<tr>
+<th align="left">Action</th>
+<th align="left">Shortcut</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left">Clear screen + scrollback</td>
+<td align="left"><code>Cmd + K</code></td>
+</tr>
+<tr>
+<td align="left">Open Settings panel</td>
+<td align="left"><code>Cmd + ,</code> (type to filter model lists inside the panel)</td>
+</tr>
+<tr>
+<td align="left">Open AI panel</td>
+<td align="left"><code>Cmd + Shift + A</code></td>
+</tr>
+<tr>
+<td align="left">Open AI Chat</td>
+<td align="left"><code>Cmd + L</code></td>
+</tr>
+<tr>
+<td align="left">Apply Kaku Assistant suggestion</td>
+<td align="left"><code>Cmd + Shift + E</code></td>
+</tr>
+<tr>
+<td align="left">Restore previous window snapshot</td>
+<td align="left"><code>Cmd + Opt + Shift + T</code></td>
+</tr>
+<tr>
+<td align="left">Open lazygit</td>
+<td align="left"><code>Cmd + Shift + G</code></td>
+</tr>
+<tr>
+<td align="left">Open yazi file manager</td>
+<td align="left"><code>Cmd + Shift + Y</code></td>
+</tr>
+<tr>
+<td align="left">Browse remote files (SSH)</td>
+<td align="left"><code>Cmd + Shift + R</code></td>
+</tr>
+<tr>
+<td align="left">Open Doctor panel</td>
+<td align="left"><code>Ctrl + Shift + L</code></td>
+</tr>
+</tbody></table>
+<h2 id="mouse"><a class="anchor" href="#mouse" aria-label="Link to Mouse">#</a>Mouse</h2><table>
+<thead>
+<tr>
+<th align="left">Action</th>
+<th align="left">Trigger</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left">Copy selection to clipboard</td>
+<td align="left">Release left mouse button after selecting</td>
+</tr>
+<tr>
+<td align="left">Open link</td>
+<td align="left"><code>Cmd + Click</code></td>
+</tr>
+<tr>
+<td align="left">Move cursor to clicked column</td>
+<td align="left"><code>Opt + Click</code> (same row, shell prompt only)</td>
+</tr>
+</tbody></table>
+<h2 id="custom-keybindings"><a class="anchor" href="#custom-keybindings" aria-label="Link to Custom Keybindings">#</a>Custom Keybindings</h2><p>Add bindings to <code>~/.config/kaku/kaku.lua</code> by <strong>appending</strong> to <code>config.keys</code>. Do not assign a new table, this would erase Kaku&#39;s defaults.</p>
+<pre><code class="language-lua">-- ~/.config/kaku/kaku.lua (after loading bundled config)
+table.insert(config.keys, {
+  key = &#39;RightArrow&#39;,
+  mods = &#39;CMD|SHIFT&#39;,
+  action = wezterm.action.ActivatePaneDirection(&#39;Right&#39;),
+})
+
+-- Example: rebind AI Chat to Cmd+Shift+Space (original default):
+table.insert(config.keys, {
+  key = &#39;Space&#39;,
+  mods = &#39;CMD|SHIFT&#39;,
+  action = wezterm.action.EmitEvent(&#39;kaku-ai-chat&#39;),
+})
+</code></pre>
+<p>For the full list of available actions, see <a href="https://wezfurlong.org/wezterm/config/lua/keyassignment/" target="_blank" rel="noopener noreferrer">WezTerm KeyAssignment reference</a>.</p>
+          <nav class="doc-pager" aria-label="文档翻页"><a href="/docs/configuration"><span>上一篇</span><strong>配置</strong></a><a href="/docs/faq"><span>下一篇</span><strong>FAQ</strong></a></nav>
+        </article>
+      </div>
+    </section>
+  </main>
+  <footer class="site-footer"><div class="wide"><div class="footer-brand"><a href="/">Kaku</a><p>一个为 AI 编码打磨的 macOS 终端，基于 WezTerm，默认就进入工作状态。</p></div><div class="footer-bottom">Kaku · Built on WezTerm · MIT License · © 2026 Tw93</div></div></footer>
+</body>
+</html>
