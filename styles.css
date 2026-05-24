@@ -47,7 +47,7 @@ body {
   font-family: var(--serif);
   font-size: 15px;
   line-height: 1.7;
-  letter-spacing: 0.04em;
+  letter-spacing: 0;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-rendering: optimizeLegibility;
@@ -89,9 +89,9 @@ button, input { font: inherit; }
   font-family: var(--sans);
   font-size: 11px;
   font-weight: 700;
-  letter-spacing: 0.08em;
+  letter-spacing: 0;
   line-height: 1;
-  text-transform: uppercase;
+  text-transform: none;
 }
 .eyebrow {
   margin: 0 0 18px;
@@ -99,14 +99,13 @@ button, input { font: inherit; }
   font-family: var(--sans);
   font-size: 12px;
   font-weight: 700;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
+  letter-spacing: 0;
+  text-transform: none;
 }
 .section-head {
   display: grid;
-  grid-template-columns: minmax(0, 0.66fr) minmax(240px, 0.34fr);
-  gap: 32px;
-  align-items: end;
+  max-width: 760px;
+  gap: 10px;
   margin-bottom: 24px;
 }
 .section-head h2 {
@@ -115,7 +114,7 @@ button, input { font: inherit; }
   font-size: clamp(28px, 4vw, 42px);
   font-weight: 700;
   line-height: 1.18;
-  letter-spacing: 0.02em;
+  letter-spacing: 0;
   text-wrap: balance;
 }
 .section-head p {
@@ -172,7 +171,7 @@ button, input { font: inherit; }
 .nav-inner {
   display: flex;
   align-items: center;
-  gap: 32px;
+  gap: 24px;
 }
 .brand {
   display: inline-flex;
@@ -186,7 +185,6 @@ button, input { font: inherit; }
   font-weight: 800;
   letter-spacing: 0;
 }
-.brand span { color: var(--ink-muted); font-size: 13px; }
 .nav-links { display: flex; gap: 22px; flex: 1; }
 .nav-links a {
   color: var(--ink-dim);
@@ -238,7 +236,7 @@ button, input { font: inherit; }
   color: var(--ink-dim);
   font-size: clamp(18px, 2.5vw, 24px);
   line-height: 1.55;
-  letter-spacing: 0.02em;
+  letter-spacing: 0;
   text-wrap: balance;
 }
 .hero-actions {
@@ -349,7 +347,7 @@ button, input { font: inherit; }
   display: grid;
   grid-template-columns: minmax(0, 0.9fr) minmax(320px, 1.1fr);
   gap: 34px;
-  align-items: center;
+  align-items: start;
 }
 .terminal-body {
   padding: 24px;
@@ -388,9 +386,11 @@ button, input { font: inherit; }
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
   gap: 12px;
+  align-items: stretch;
 }
 .feature {
   display: grid;
+  grid-template-rows: auto auto 1fr;
   gap: 10px;
   min-height: 150px;
   padding: 20px;
@@ -421,7 +421,7 @@ button, input { font: inherit; }
   display: grid;
   grid-template-columns: minmax(320px, 0.9fr) minmax(0, 1.1fr);
   gap: 34px;
-  align-items: stretch;
+  align-items: center;
 }
 .command-card {
   min-height: 100%;
@@ -430,6 +430,7 @@ button, input { font: inherit; }
 .command-row {
   padding: 12px 0;
   border-bottom: 1px solid rgba(255, 255, 255, 0.07);
+  overflow-wrap: anywhere;
 }
 .command-row:last-child { border-bottom: 0; }
 .command-label {
@@ -439,56 +440,39 @@ button, input { font: inherit; }
   font-family: var(--sans);
   font-size: 12px;
 }
-.migration-panel {
-  border: 1px solid var(--line-soft);
-  border-radius: var(--radius-md);
-  background: var(--paper-card);
-  box-shadow: none;
-  overflow: hidden;
-}
-.tabs {
-  display: flex;
-  padding: 8px;
-  gap: 8px;
+.workflow-list {
+  display: grid;
+  gap: 1px;
+  border-top: 1px solid var(--line-soft);
   border-bottom: 1px solid var(--line-soft);
-  background: var(--paper);
 }
-.tab {
-  min-height: 38px;
-  flex: 1;
-  border: 0;
-  border-radius: var(--radius-sm);
-  background: transparent;
-  color: var(--ink-dim);
-  font-family: var(--sans);
+.workflow-item {
+  display: grid;
+  grid-template-columns: 72px minmax(0, 0.34fr) minmax(0, 0.66fr);
+  gap: 24px;
+  padding: 20px 0;
+  border-top: 1px solid var(--line-soft);
+}
+.workflow-item:first-child { border-top: 0; }
+.workflow-item .mark {
+  color: var(--ink-muted);
+  font-family: var(--mono);
   font-size: 13px;
-  font-weight: 700;
-  cursor: pointer;
 }
-.tab.active { background: var(--brand); color: var(--paper-elev); }
-.panel { display: none; padding: 24px; }
-.panel.active { display: block; }
-.check-list { margin: 0; padding: 0; list-style: none; }
-.check-list li {
-  position: relative;
-  padding-left: 22px;
-  margin-bottom: 12px;
+.workflow-item h2 {
+  margin: 0;
+  color: var(--ink);
+  font-size: 24px;
+  font-weight: 700;
+  line-height: 1.2;
+}
+.workflow-item p {
+  margin: 0;
   color: var(--ink-dim);
   font-family: var(--sans);
-  font-size: 14px;
+  font-size: 15px;
+  line-height: 1.65;
 }
-.check-list li::before {
-  content: "";
-  position: absolute;
-  left: 0;
-  top: 0.75em;
-  width: 8px;
-  height: 8px;
-  border-radius: 50%;
-  background: var(--brand);
-  transform: translateY(-50%);
-}
-.panel a { font-family: var(--sans); font-size: 13px; font-weight: 800; }
 
 .gallery {
   display: grid;
@@ -525,6 +509,10 @@ button, input { font: inherit; }
   box-shadow: none;
 }
 .method, .doc-card, .quick-card { padding: 20px; }
+.doc-card {
+  display: grid;
+  grid-template-rows: auto 1fr auto;
+}
 .method h2, .doc-card h2, .quick-card h3 {
   margin: 0 0 12px;
   color: var(--ink);
@@ -601,8 +589,8 @@ button, input { font: inherit; }
   color: var(--brand);
   font-size: 12px;
   font-weight: 800;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
+  letter-spacing: 0;
+  text-transform: none;
 }
 .docs-menu {
   display: grid;
@@ -645,8 +633,8 @@ button, input { font: inherit; }
   color: var(--brand);
   font-size: 12px;
   font-weight: 800;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
+  letter-spacing: 0;
+  text-transform: none;
 }
 .section-toc a {
   padding: 4px 0;
@@ -777,8 +765,8 @@ button, input { font: inherit; }
   color: var(--brand);
   font-size: 12px;
   font-weight: 800;
-  letter-spacing: 0.04em;
-  text-transform: uppercase;
+  letter-spacing: 0;
+  text-transform: none;
 }
 .doc-content blockquote {
   margin: 24px 0;
@@ -816,8 +804,8 @@ button, input { font: inherit; }
   font-family: var(--sans);
   font-size: 12px;
   font-weight: 800;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
+  letter-spacing: 0;
+  text-transform: none;
 }
 .doc-pager strong {
   color: var(--brand);
@@ -914,8 +902,8 @@ details p {
   font-family: var(--sans);
   font-size: 12px;
   font-weight: 800;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
+  letter-spacing: 0;
+  text-transform: none;
 }
 .footer-col a {
   display: block;
@@ -952,6 +940,7 @@ details p {
   .section-head, .terminal-demo, .split, .docs-layout, .roadmap-stage, .release-card, .footer-brand {
     grid-template-columns: 1fr;
   }
+  .section-head { max-width: none; }
   .docs-layout { gap: 34px; }
   .docs-sidebar {
     position: static;
@@ -960,12 +949,11 @@ details p {
     padding-right: 0;
   }
   .docs-menu { grid-template-columns: repeat(2, minmax(0, 1fr)); }
-  .section-toc {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-    gap: 6px 16px;
-  }
+  .section-toc { display: none; }
   .section-toc p { grid-column: 1 / -1; }
   .feature-grid, .quick-grid, .method-grid, .doc-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .workflow-item { grid-template-columns: 48px minmax(0, 1fr); gap: 10px 18px; }
+  .workflow-item p { grid-column: 2; }
   .intro-strip .wide { grid-template-columns: 1fr; padding-top: 20px; padding-bottom: 20px; }
   .hero { min-height: auto; padding: 64px 0 38px; }
   .hero-sub { font-size: 18px; }
@@ -983,9 +971,26 @@ details p {
   .hero h1 { font-size: 58px; }
   .hero-actions { align-items: stretch; }
   .btn { width: 100%; }
-  .feature-grid, .quick-grid, .method-grid, .doc-grid, .docs-menu, .section-toc, .doc-pager, .gallery, .footer-cols { grid-template-columns: 1fr; }
+  .feature-grid, .quick-grid, .method-grid, .doc-grid, .doc-pager, .gallery, .footer-cols { grid-template-columns: 1fr; }
+  .docs-sidebar { gap: 12px; }
+  .docs-menu {
+    display: flex;
+    gap: 8px;
+    overflow-x: auto;
+    padding-bottom: 4px;
+    margin-right: -16px;
+    scrollbar-width: none;
+  }
+  .docs-menu::-webkit-scrollbar { display: none; }
+  .docs-menu a {
+    flex: 0 0 auto;
+    min-width: 124px;
+    padding: 10px 12px;
+  }
+  .workflow-item { grid-template-columns: 1fr; gap: 8px; }
+  .workflow-item p { grid-column: auto; }
   .doc-content { font-size: 15px; }
-  .doc-content .anchor { position: static; margin-right: 8px; opacity: 1; }
+  .doc-content .anchor { display: none; }
   .doc-content h2 { font-size: 30px; }
   .doc-content pre { margin-left: -2px; margin-right: -2px; padding: 14px; }
   .doc-content th, .doc-content td { min-width: 132px; padding: 10px 11px; }

@@ -19,21 +19,3 @@ document.querySelectorAll('[data-copy]').forEach((button) => {
     }
   });
 });
-
-document.querySelectorAll('[data-tabs]').forEach((root) => {
-  const tabs = root.querySelectorAll('[role="tab"]');
-  const panels = root.querySelectorAll('[data-panel]');
-  tabs.forEach((tab) => {
-    tab.addEventListener('click', () => {
-      const target = tab.getAttribute('data-tab');
-      tabs.forEach((item) => {
-        const active = item === tab;
-        item.classList.toggle('active', active);
-        item.setAttribute('aria-selected', active ? 'true' : 'false');
-      });
-      panels.forEach((panel) => {
-        panel.classList.toggle('active', panel.getAttribute('data-panel') === target);
-      });
-    });
-  });
-});
