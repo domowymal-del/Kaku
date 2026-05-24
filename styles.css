@@ -293,7 +293,12 @@ button, input { font: inherit; }
   font-size: 11px;
 }
 .hero-shot { position: relative; margin: 0; }
-.hero-shot img { display: block; width: 100%; height: auto; }
+.hero-shot img {
+  display: block;
+  width: 100%;
+  height: auto;
+  border-radius: var(--radius-md);
+}
 .hero-shot figcaption {
   position: absolute;
   left: 20px;
@@ -960,7 +965,13 @@ details p {
   .intro-strip .wide { grid-template-columns: 1fr; padding-top: 20px; padding-bottom: 20px; }
   .hero { min-height: auto; padding: 64px 0 38px; }
   .hero-sub { font-size: 18px; }
-  .hero-shot figcaption { position: static; padding: 12px 14px; text-shadow: none; background: var(--term); }
+  .hero-shot figcaption {
+    position: static;
+    padding: 8px 0 0;
+    color: var(--ink-muted);
+    text-shadow: none;
+    background: transparent;
+  }
 }
 @media (max-width: 560px) {
   .container, .wide, .hero-wrap { padding: 0 16px; }
