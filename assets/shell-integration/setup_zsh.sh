@@ -238,7 +238,7 @@ ensure_kaku_yazi_theme() {
 
 	if [[ ! -f "$YAZI_THEME_FILE" ]] || is_legacy_kaku_yazi_theme_file; then
 		cat <<EOF >"$YAZI_THEME_FILE"
-"\$schema" = "https://yazi-rs.github.io/schemas/theme.json"
+\$schema = "https://yazi-rs.github.io/schemas/theme.json"
 
 # Kaku manages the [flavor] section below so Yazi matches the current Kaku theme.
 # Add your own theme overrides in other sections if needed.
@@ -376,7 +376,7 @@ ensure_theme() {
 
 	if [[ ! -f "$YAZI_THEME_FILE" ]]; then
 		cat <<BLOCK >"$YAZI_THEME_FILE"
-"\$schema" = "https://yazi-rs.github.io/schemas/theme.json"
+\$schema = "https://yazi-rs.github.io/schemas/theme.json"
 
 # Kaku manages the [flavor] section below so Yazi matches the current Kaku theme.
 $(managed_block "$flavor")
@@ -702,7 +702,7 @@ ensure_yazi_edit_opener
 if [[ ! -f "$YAZI_KEYMAP_FILE" ]]; then
 	mkdir -p "$YAZI_CONFIG_DIR"
 	cat <<EOF >"$YAZI_KEYMAP_FILE"
-"\$schema" = "https://yazi-rs.github.io/schemas/keymap.json"
+\$schema = "https://yazi-rs.github.io/schemas/keymap.json"
 
 [mgr]
 prepend_keymap = [
