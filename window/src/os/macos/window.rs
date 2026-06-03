@@ -4394,7 +4394,12 @@ impl WindowView {
             modifiers = key_modifiers(nsevent.modifierFlags());
             screen_coords = NSEvent::mouseLocation(nsevent);
         }
-        let platform_click_count = unsafe { nsevent.clickCount() }.min(255) as u8;
+        let platform_click_count = match &kind {
+            MouseEventKind::Press(_) | MouseEventKind::Release(_) => {
+                unsafe { nsevent.clickCount() }.min(255) as u8
+            }
+            _ => 0,
+        };
         let event = MouseEvent {
             kind,
             coords: Point::new(coords.x as isize, coords.y as isize),
