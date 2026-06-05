@@ -3,26 +3,62 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Kaku 文档</title>
-  <meta name="description" content="Kaku 文档：安装、功能、CLI、配置、快捷键、FAQ、Roadmap 和 Changelog。">
-  <link rel="icon" href="/favicon.svg" type="image/svg+xml">
-  <link rel="alternate" hreflang="zh-CN" href="https://kaku.fun/zh/docs/">
+  <meta name="color-scheme" content="light">
+  <title>安装 · Kaku 文档</title>
+  <meta name="description" content="用 DMG、Homebrew 或源码构建，把 Kaku 加入你的 macOS 工作流。">
+  <link rel="icon" type="image/png" sizes="32x32" href="/img/favicon-kaku-32.png"><link rel="icon" type="image/png" sizes="192x192" href="/img/favicon-kaku-192.png"><link rel="apple-touch-icon" href="/img/favicon-kaku-180.png">
   <link rel="canonical" href="https://kaku.fun/zh/docs/">
   <link rel="alternate" hreflang="en" href="https://kaku.fun/docs/">
+  <link rel="alternate" hreflang="zh-CN" href="https://kaku.fun/zh/docs/">
   <link rel="stylesheet" href="/styles.css">
 </head>
 <body>
-  <a class="skip-link" href="#main-content">跳到正文</a>
-  <nav class="site-nav" aria-label="主导航"><div class="wide nav-inner"><a class="brand" href="/zh/"><strong>Kaku</strong></a><span class="eyebrow-sep">·</span><a class="version-link" href="/zh/changelog">v0.9.0</a><div class="nav-links"><a href="/zh/docs/" aria-current="page">文档</a></div><div class="nav-actions"><a class="nav-pill" aria-current="page" href="/zh/docs/" hreflang="zh-CN">中</a><a class="nav-pill" href="/docs/" hreflang="en">EN</a><a class="nav-pill primary" href="https://github.com/tw93/Kaku" target="_blank" rel="noopener noreferrer"><span>GitHub</span> ★</a></div></div></nav>
-  <main id="main-content">
-    <header class="page-hero"><div class="wide"><span class="label">Docs</span><h1>文档</h1><p>安装、功能、CLI、配置、快捷键、FAQ。</p></div></header>
-    <section class="section docs-index-section">
-      <div class="wide doc-grid"><a class="doc-card" href="/zh/docs/install"><h2>安装</h2><p>DMG、Homebrew、源码构建、诊断和安装问题排查。</p><span>阅读文档</span></a><a class="doc-card" href="/zh/docs/features"><h2>功能与 AI</h2><p>Kaku Assistant、AI Chat、错误修复、自然语言命令，以及内置 shell 工具。</p><span>阅读文档</span></a><a class="doc-card" href="/zh/docs/cli"><h2>CLI 参考</h2><p>从 shell 打开 AI 设置、聊天、配置、诊断、更新和 multiplexer 命令。</p><span>阅读文档</span></a><a class="doc-card" href="/zh/docs/configuration"><h2>配置</h2><p>Kaku 的 Lua 配置入口、外观、终端行为、键盘与 Assistant 设置。</p><span>阅读文档</span></a><a class="doc-card" href="/zh/docs/keybindings"><h2>快捷键</h2><p>窗口、标签、分屏、Shell 编辑、AI 功能、Lazygit 和 Yazi 的默认快捷键。</p><span>阅读文档</span></a><a class="doc-card" href="/zh/docs/faq"><h2>FAQ</h2><p>安装、配置、快捷键、AI Provider、滚动、字体、Homebrew 和通知问题。</p><span>阅读文档</span></a><a class="doc-card" href="/zh/docs/contributing"><h2>贡献</h2><p>本地环境、构建命令、PR 流程和 CI 检查项。</p><span>阅读文档</span></a><a class="doc-card" href="/zh/docs/release-checklist"><h2>发布检查</h2><p>维护者发布前需要手动确认的 macOS tab bar、透明窗口和 issue triage 检查。</p><span>阅读文档</span></a><a class="doc-card" href="/zh/roadmap"><h2>Roadmap</h2><p>Now、Next、Later，保持短而真实的官网路线图。</p><span>查看路线图</span></a><a class="doc-card" href="/zh/changelog"><h2>Changelog</h2><p>官网摘要和 GitHub Releases 入口。</p><span>查看更新记录</span></a></div>
+  <a class="skip-link" href="#main-content">跳到内容</a>
+  <nav class="site-nav" aria-label="主导航"><div class="wide nav-inner"><a class="brand" href="/zh/"><strong>Kaku</strong></a><span class="eyebrow-sep">·</span><a class="version-link" href="/zh/changelog">v0.12.0</a><div class="nav-links"><a href="/zh/docs/" aria-current="page">文档</a></div><div class="nav-actions"><a class="nav-pill" aria-current="page" href="/zh/docs/" hreflang="zh-CN">中</a><a class="nav-pill" href="/docs/" hreflang="en">EN</a><a class="nav-icon" href="https://github.com/tw93/Kaku" target="_blank" rel="noopener noreferrer" aria-label="GitHub"><svg width="16" height="16" viewBox="0 0 16 16" fill="currentColor"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.01 8.01 0 0016 8c0-4.42-3.58-8-8-8z"/></svg></a><a class="nav-icon" href="https://x.com/HiTw93" target="_blank" rel="noopener noreferrer" aria-label="X"><svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg></a></div></div></nav>
+  <main id="main-content" class="docs-page">
+    <header class="page-hero doc-hero"><div class="wide"><span class="label">文档</span><h1>安装</h1><p>用 DMG、Homebrew 或源码构建，把 Kaku 加入你的 macOS 工作流。</p></div></header>
+    <section class="section docs-section">
+      <div class="wide docs-layout">
+        <aside class="docs-sidebar">
+          <a class="docs-home" href="/zh/docs/">文档</a>
+          <nav class="docs-menu" aria-label="Documentation pages"><a href="/zh/docs/" aria-current="page"><span>安装</span></a><a href="/zh/docs/features"><span>功能与 AI</span></a><a href="/zh/docs/cli"><span>CLI 参考</span></a><a href="/zh/docs/configuration"><span>配置</span></a><a href="/zh/docs/keybindings"><span>快捷键</span></a><a href="/zh/docs/faq"><span>FAQ</span></a><a href="/zh/docs/contributing"><span>贡献</span></a></nav>
+          <div class="section-toc"><p>本页目录</p><a class="depth-2" href="#install-dmg">下载 DMG</a><a class="depth-2" href="#install-homebrew">Homebrew</a><a class="depth-2" href="#install-source">源码构建</a><a class="depth-2" href="#install-after-install">安装后</a><a class="depth-2" href="#install-troubleshooting">排查</a></div>
+        </aside>
+        <article class="doc-content">
+          <h2 id="install-dmg"><a class="anchor" href="#install-dmg" aria-label="链接到「下载 DMG」">#</a>下载 DMG</h2>
+                    <p>推荐大多数用户直接从 GitHub Releases 下载最新 DMG，下载后打开镜像，把 Kaku 拖到 Applications，再从应用列表启动。</p>
+                    <p><a href="https://github.com/tw93/Kaku/releases/latest" target="_blank" rel="noopener noreferrer">打开最新 Release</a></p>
+                    <h2 id="install-homebrew"><a class="anchor" href="#install-homebrew" aria-label="链接到「Homebrew」">#</a>Homebrew</h2>
+                    <p>如果你已经用 Homebrew 管理开发工具，可以用 tap 安装 Kaku。</p>
+                    <pre><code class="language-bash">brew install tw93/tap/kakuku
+open -a Kaku
+kaku doctor</code></pre>
+                    <p>Homebrew 适合需要命令行安装和自动化更新的机器，注意包名是 <code>tw93/tap/kakuku</code>，不是 Homebrew 上旧的无关 <code>kaku</code> 包。</p>
+                    <h2 id="install-source"><a class="anchor" href="#install-source" aria-label="链接到「源码构建」">#</a>源码构建</h2>
+                    <p>源码构建主要面向 contributor，需要 Rust 工具链、macOS 构建环境和仓库里的 release/build 脚本。</p>
+                    <pre><code class="language-bash">git clone https://github.com/tw93/Kaku.git
+cd Kaku
+make app</code></pre>
+                    <h2 id="install-after-install"><a class="anchor" href="#install-after-install" aria-label="链接到「安装后」">#</a>安装后</h2>
+                    <p>安装完成后先打开一次 Kaku，再运行 <code>kaku doctor</code>，会检查 app bundle、配置目录、PATH、zsh/fish shell 集成和可选工具。</p>
+                    <pre><code class="language-bash">/Applications/Kaku.app/Contents/MacOS/kaku doctor</code></pre>
+                    <p>如果 shell 里找不到 <code>kaku</code>，用应用内置二进制恢复 shell 集成，然后重开登录 shell：</p>
+                    <pre><code class="language-bash">/Applications/Kaku.app/Contents/MacOS/kaku init --update-only
+exec zsh -l</code></pre>
+                    <h2 id="install-troubleshooting"><a class="anchor" href="#install-troubleshooting" aria-label="链接到「排查」">#</a>排查</h2>
+                    <ul>
+                      <li>确认应用在 <code>/Applications/Kaku.app</code>，不要直接从 DMG 里运行。</li>
+                      <li>Homebrew 安装失败时，确认使用的是 <code>brew install tw93/tap/kakuku</code>。如果 <code>kaku update</code> 遇到 checksum 问题，直接运行 <code>brew upgrade tw93/tap/kakuku</code>。</li>
+                      <li>首次配置 shell 工具可以运行 <code>kaku init</code>，它会准备 zsh/fish 集成，并可通过 Homebrew 安装 Starship、Delta、Lazygit、Yazi。</li>
+                      <li>AI 功能不可用时，打开 <code>kaku ai</code> 检查 Provider、Base URL、Simple Model、Deep Model 和 API key。</li>
+                      <li>提交 issue 时带上安装方式、macOS 版本、Kaku 版本和复现步骤。</li>
+                    </ul>
+                    <p><a href="https://github.com/tw93/Kaku/issues" target="_blank" rel="noopener noreferrer">打开 GitHub Issues</a></p>
+          <nav class="doc-pager" aria-label="Pagination"><span></span><a href="/zh/docs/features"><span>下一页</span><strong>功能与 AI</strong></a></nav>
+        </article>
+      </div>
     </section>
-    <section class="section-tight"><div class="container prose"><span class="label">Local config</span><h2>常用路径</h2><p>Kaku 配置和 AI 设置围绕本机用户目录工作，排查问题时这些路径通常是最快的入口。</p><pre class="code-box">~/.config/kaku/kaku.lua
-~/.config/kaku/assistant.toml
-/Applications/Kaku.app</pre></div></section>
   </main>
-  <footer class="site-footer"><div class="wide"><div class="footer-brand"><a href="/zh/">Kaku</a><p>AI 编码时代的 macOS 终端。</p></div><div class="footer-cols"><div class="footer-col"><h2>产品</h2><a href="/zh/roadmap">Roadmap</a><a href="/zh/changelog">Changelog</a><a href="https://github.com/tw93/Kaku/releases" target="_blank" rel="noopener noreferrer">Releases</a></div><div class="footer-col"><h2>文档</h2><a href="/zh/docs/install">安装</a><a href="/zh/docs/features">AI 功能</a><a href="/zh/docs/configuration">配置</a></div><div class="footer-col"><h2>社区</h2><a href="https://github.com/tw93/Kaku">GitHub</a><a href="https://github.com/tw93/Kaku/issues">Issues</a><a href="https://twitter.com/HiTw93">X / Twitter</a></div><div class="footer-col"><h2>项目</h2><a href="https://github.com/wez/wezterm">Built on WezTerm</a><a href="https://github.com/tw93/Kaku/blob/main/LICENSE.md">MIT License</a><a href="https://github.com/tw93">Tw93</a></div></div><div class="footer-ethos">Tw93 出品。愿终端不再挡你的路。</div><div class="footer-bottom">Kaku · Built on WezTerm · MIT License · © 2026 Tw93</div></div></footer>
+  <footer class="site-footer"><div class="wide footer-inner"><div class="footer-mark"><img src="/img/kaku-mark.png" width="64" height="64" alt="Kaku" loading="lazy"><div><p class="wm-name">Kaku · 書</p><p class="wm-sub">AI 编码时代的 macOS 终端。</p></div></div><div class="footer-colophon"><p class="footer-links"><a href="/zh/roadmap">Roadmap</a> · <a href="/zh/changelog">Changelog</a> · <a href="/zh/docs/">文档</a> · <a href="https://github.com/tw93/Kaku">GitHub</a> · <a href="https://github.com/tw93/Kaku/issues">Issues</a> · <a href="https://twitter.com/HiTw93">X</a></p><p class="footer-ethos">Tw93 出品。愿终端不再挡你的路。 · Built on WezTerm · MIT · © 2026</p></div></div></footer>
 </body>
 </html>

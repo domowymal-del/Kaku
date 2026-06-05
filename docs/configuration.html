@@ -3,30 +3,31 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="color-scheme" content="light">
   <title>Configuration · Kaku Docs</title>
   <meta name="description" content="Lua configuration, appearance, terminal behavior, keyboard settings, and Assistant options.">
-  <link rel="icon" href="/favicon.svg" type="image/svg+xml">
-  <link rel="alternate" hreflang="en" href="https://kaku.fun/docs/configuration">
+  <link rel="icon" type="image/png" sizes="32x32" href="/img/favicon-kaku-32.png"><link rel="icon" type="image/png" sizes="192x192" href="/img/favicon-kaku-192.png"><link rel="apple-touch-icon" href="/img/favicon-kaku-180.png">
   <link rel="canonical" href="https://kaku.fun/docs/configuration">
+  <link rel="alternate" hreflang="en" href="https://kaku.fun/docs/configuration">
   <link rel="alternate" hreflang="zh-CN" href="https://kaku.fun/zh/docs/configuration">
   <link rel="stylesheet" href="/styles.css">
 </head>
 <body>
   <a class="skip-link" href="#main-content">Skip to content</a>
-  <nav class="site-nav" aria-label="Primary navigation"><div class="wide nav-inner"><a class="brand" href="/"><strong>Kaku</strong></a><span class="eyebrow-sep">·</span><a class="version-link" href="/changelog">v0.9.0</a><div class="nav-links"><a href="/docs/" aria-current="page">Docs</a></div><div class="nav-actions"><a class="nav-pill" href="/zh/docs/configuration" hreflang="zh-CN">中</a><a class="nav-pill" aria-current="page" href="/docs/configuration" hreflang="en">EN</a><a class="nav-pill primary" href="https://github.com/tw93/Kaku" target="_blank" rel="noopener noreferrer"><span>GitHub</span> ★</a></div></div></nav>
+  <nav class="site-nav" aria-label="Primary navigation"><div class="wide nav-inner"><a class="brand" href="/"><strong>Kaku</strong></a><span class="eyebrow-sep">·</span><a class="version-link" href="/changelog">v0.12.0</a><div class="nav-links"><a href="/docs/" aria-current="page">Docs</a></div><div class="nav-actions"><a class="nav-pill" href="/zh/docs/configuration" hreflang="zh-CN">中</a><a class="nav-pill" aria-current="page" href="/docs/configuration" hreflang="en">EN</a><a class="nav-icon" href="https://github.com/tw93/Kaku" target="_blank" rel="noopener noreferrer" aria-label="GitHub"><svg width="16" height="16" viewBox="0 0 16 16" fill="currentColor"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.01 8.01 0 0016 8c0-4.42-3.58-8-8-8z"/></svg></a><a class="nav-icon" href="https://x.com/HiTw93" target="_blank" rel="noopener noreferrer" aria-label="X"><svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg></a></div></div></nav>
   <main id="main-content" class="docs-page">
     <header class="page-hero doc-hero"><div class="wide"><span class="label">Docs</span><h1>Configuration</h1><p>Lua configuration, appearance, terminal behavior, keyboard settings, and Assistant options.</p></div></header>
     <section class="section docs-section">
       <div class="wide docs-layout">
         <aside class="docs-sidebar">
           <a class="docs-home" href="/docs/">Docs</a>
-          <nav class="docs-menu" aria-label="Documentation pages"><a href="/docs/install"><span>Install</span><small>DMG, Homebrew, source build, diagnostics, and install troubleshooting.</small></a><a href="/docs/features"><span>Features</span><small>Kaku Assistant, AI Chat, error recovery, natural-language commands, and built-in shell tools.</small></a><a href="/docs/cli"><span>CLI Reference</span><small>Open AI settings, chat, config, diagnostics, update, and multiplexer commands from the shell.</small></a><a href="/docs/configuration" aria-current="page"><span>Configuration</span><small>Lua configuration, appearance, terminal behavior, keyboard settings, and Assistant options.</small></a><a href="/docs/keybindings"><span>Keybindings</span><small>Default shortcuts for windows, tabs, panes, shell editing, AI features, Lazygit, and Yazi.</small></a><a href="/docs/faq"><span>FAQ</span><small>Installation, config, shortcuts, AI providers, scrolling, fonts, Homebrew, and notification issues.</small></a><a href="/docs/contributing"><span>Contributing</span><small>Local setup, build commands, PR workflow, and CI checks.</small></a><a href="/docs/release-checklist"><span>Release Checklist</span><small>Maintainer release checks for macOS tab bars, transparency, and issue triage.</small></a></nav>
-          <div class="section-toc"><p>On this page</p><a class="depth-2" href="#config-file">Config File</a><a class="depth-2" href="#appearance">Appearance</a><a class="depth-2" href="#terminal-behavior">Terminal Behavior</a><a class="depth-2" href="#custom-keybindings">Custom Keybindings</a><a class="depth-2" href="#advanced">Advanced</a></div>
+          <nav class="docs-menu" aria-label="Documentation pages"><a href="/docs/"><span>Install</span></a><a href="/docs/features"><span>Features</span></a><a href="/docs/cli"><span>CLI Reference</span></a><a href="/docs/configuration" aria-current="page"><span>Configuration</span></a><a href="/docs/keybindings"><span>Keybindings</span></a><a href="/docs/faq"><span>FAQ</span></a><a href="/docs/contributing"><span>Contributing</span></a></nav>
+          <div class="section-toc"><p>On this page</p><a class="depth-2" href="#configuration-config-file">Config File</a><a class="depth-2" href="#configuration-appearance">Appearance</a><a class="depth-2" href="#configuration-terminal-behavior">Terminal Behavior</a><a class="depth-2" href="#configuration-custom-keybindings">Custom Keybindings</a><a class="depth-2" href="#configuration-advanced">Advanced</a></div>
         </aside>
         <article class="doc-content">
-          <h2 id="config-file"><a class="anchor" href="#config-file" aria-label="Link to Config File">#</a>Config File</h2><p>Kaku auto-creates <code>~/.config/kaku/kaku.lua</code> with a commented template on first launch. Open it with <code>kaku config</code> or <code>Cmd + ,</code>.</p>
-<p>The file loads the bundled Kaku defaults first, then applies your overrides on top:</p>
-<pre><code class="language-lua">local wezterm = require &#39;wezterm&#39;
+          <h2 id="configuration-config-file"><a class="anchor" href="#configuration-config-file" aria-label="Link to Config File">#</a>Config File</h2><p>Kaku auto-creates <code>~/.config/kaku/kaku.lua</code> with a commented template on first launch. Open it with <code>kaku config</code> or <code>Cmd + ,</code>.</p>
+          <p>The file loads the bundled Kaku defaults first, then applies your overrides on top:</p>
+          <pre><code class="language-lua">local wezterm = require &#39;wezterm&#39;
 
 local function resolve_bundled_config()
   local resource_dir = wezterm.executable_dir:gsub(&#39;MacOS/?$&#39;, &#39;Resources&#39;)
@@ -49,18 +50,17 @@ config.window_background_opacity = 0.95
 
 return config
 </code></pre>
-<blockquote>
-<p>The full boilerplate with all available commented examples is auto-generated by <code>kaku init</code>. Most users only need to uncomment the lines they want to change.</p>
-</blockquote>
-<hr>
-<h2 id="appearance"><a class="anchor" href="#appearance" aria-label="Link to Appearance">#</a>Appearance</h2><p><strong>Theme</strong></p>
-<p>Kaku auto-switches between dark and light based on macOS system appearance. Override manually:</p>
-<pre><code class="language-lua">config.color_scheme = &quot;Kaku Dark&quot;   -- always dark
+          <blockquote>
+          <p>The full boilerplate with all available commented examples is auto-generated by <code>kaku init</code>. Most users only need to uncomment the lines they want to change.</p>
+          </blockquote>
+          <h2 id="configuration-appearance"><a class="anchor" href="#configuration-appearance" aria-label="Link to Appearance">#</a>Appearance</h2><p><strong>Theme</strong></p>
+          <p>Kaku auto-switches between dark and light based on macOS system appearance. Override manually:</p>
+          <pre><code class="language-lua">config.color_scheme = &quot;Kaku Dark&quot;   -- always dark
 config.color_scheme = &quot;Kaku Light&quot;  -- always light
 </code></pre>
-<p><strong>Color overrides</strong></p>
-<p>Remap specific hex colors to keep theme consistency with apps that output their own colors. <code>color_overrides</code> applies to rendered backgrounds, including palette-backed ANSI backgrounds and truecolor backgrounds. <code>foreground_color_overrides</code> applies only to truecolor text:</p>
-<pre><code class="language-lua">config.color_overrides = {
+          <p><strong>Color overrides</strong></p>
+          <p>Remap specific hex colors to keep theme consistency with apps that output their own colors. <code>color_overrides</code> applies to rendered backgrounds, including palette-backed ANSI backgrounds and truecolor backgrounds. <code>foreground_color_overrides</code> applies only to truecolor text:</p>
+          <pre><code class="language-lua">config.color_overrides = {
   [&#39;#6E6E6E&#39;] = &#39;#3A3942&#39;,
 }
 
@@ -68,79 +68,78 @@ config.foreground_color_overrides = {
   [&#39;#FFFFDB&#39;] = &#39;#575653&#39;,
 }
 </code></pre>
-<p><strong>Font</strong></p>
-<p>Kaku defaults to JetBrains Mono with PingFang SC as CJK fallback. Change font:</p>
-<pre><code class="language-lua">config.font = wezterm.font(&quot;Fira Code&quot;)
+          <p><strong>Font</strong></p>
+          <p>Kaku defaults to JetBrains Mono with PingFang SC as CJK fallback. Change font:</p>
+          <pre><code class="language-lua">config.font = wezterm.font(&quot;Fira Code&quot;)
 </code></pre>
-<p>Kaku disables ligatures by default. Re-enable:</p>
-<pre><code class="language-lua">config.harfbuzz_features = {}
+          <p>Kaku disables ligatures by default. Re-enable:</p>
+          <pre><code class="language-lua">config.harfbuzz_features = {}
 </code></pre>
-<p><strong>Font size</strong></p>
-<p>Kaku auto-selects 15px (low-res) or 17px (high-res) based on your display. Override:</p>
-<pre><code class="language-lua">config.font_size = 16
+          <p><strong>Font size</strong></p>
+          <p>Kaku auto-selects 15px (low-res) or 17px (high-res) based on your display. Override:</p>
+          <pre><code class="language-lua">config.font_size = 16
 </code></pre>
-<p><strong>Line height</strong></p>
-<pre><code class="language-lua">config.line_height = 1.28  -- default
+          <p><strong>Line height</strong></p>
+          <pre><code class="language-lua">config.line_height = 1.28  -- default
 </code></pre>
-<p><strong>Window transparency</strong></p>
-<pre><code class="language-lua">config.window_background_opacity = 0.92
+          <p><strong>Window transparency</strong></p>
+          <pre><code class="language-lua">config.window_background_opacity = 0.92
 config.macos_window_background_blur = 20  -- optional blur (0–100)
 </code></pre>
-<p><strong>Traffic lights (macOS)</strong></p>
-<p>By default, Kaku embeds the macOS traffic light buttons into the tab bar area using <code>INTEGRATED_BUTTONS|RESIZE</code>. To hide the traffic lights while keeping resize edges and tab-bar dragging:</p>
-<pre><code class="language-lua">config.window_decorations = &quot;RESIZE&quot;
+          <p><strong>Traffic lights (macOS)</strong></p>
+          <p>By default, Kaku embeds the macOS traffic light buttons into the tab bar area using <code>INTEGRATED_BUTTONS|RESIZE</code>. To hide the traffic lights while keeping resize edges and tab-bar dragging:</p>
+          <pre><code class="language-lua">config.window_decorations = &quot;RESIZE&quot;
 </code></pre>
-<p><code>RESIZE</code> preserves the ability to resize the window from its edges and drag it by the tab bar; it only removes the close/minimize/zoom buttons.</p>
-<p><strong>Padding</strong></p>
-<pre><code class="language-lua">config.window_padding = { left = &#39;24px&#39;, right = &#39;24px&#39;, top = &#39;40px&#39;, bottom = &#39;20px&#39; }
+          <p><code>RESIZE</code> preserves the ability to resize the window from its edges and drag it by the tab bar; it only removes the close/minimize/zoom buttons.</p>
+          <p><strong>Padding</strong></p>
+          <pre><code class="language-lua">config.window_padding = { left = &#39;24px&#39;, right = &#39;24px&#39;, top = &#39;40px&#39;, bottom = &#39;20px&#39; }
 </code></pre>
-<hr>
-<h2 id="terminal-behavior"><a class="anchor" href="#terminal-behavior" aria-label="Link to Terminal Behavior">#</a>Terminal Behavior</h2><p><strong>Cursor</strong></p>
-<pre><code class="language-lua">config.default_cursor_style = &quot;BlinkingBar&quot;
+          <h2 id="configuration-terminal-behavior"><a class="anchor" href="#configuration-terminal-behavior" aria-label="Link to Terminal Behavior">#</a>Terminal Behavior</h2><p><strong>Cursor</strong></p>
+          <pre><code class="language-lua">config.default_cursor_style = &quot;BlinkingBar&quot;
 config.cursor_thickness = &quot;2px&quot;
 config.cursor_blink_rate = 500
 </code></pre>
-<p><strong>Scrollback</strong></p>
-<pre><code class="language-lua">config.scrollback_lines = 10000  -- default
+          <p><strong>Scrollback</strong></p>
+          <pre><code class="language-lua">config.scrollback_lines = 10000  -- default
 </code></pre>
-<p><strong>Copy on select</strong></p>
-<p>Enabled by default. Disable:</p>
-<pre><code class="language-lua">config.copy_on_select = false
+          <p><strong>Copy on select</strong></p>
+          <p>Enabled by default. Disable:</p>
+          <pre><code class="language-lua">config.copy_on_select = false
 </code></pre>
-<p><strong>Strip leading whitespace on copy</strong></p>
-<p>When copying indented multi-line text (e.g. from a code block), remove the
-shared leading whitespace so the pasted result starts at column 0:</p>
-<pre><code class="language-lua">config.copy_strip_leading_whitespace = true  -- default: false
+          <p><strong>Strip leading whitespace on copy</strong></p>
+          <p>When copying indented multi-line text (e.g. from a code block), remove the
+          shared leading whitespace so the pasted result starts at column 0:</p>
+          <pre><code class="language-lua">config.copy_strip_leading_whitespace = true  -- default: false
 </code></pre>
-<p><strong>Restore previous session</strong></p>
-<p>Re-open the tabs and panes from your last session on launch:</p>
-<pre><code class="language-lua">config.restore_previous_session = true  -- default: false
+          <p><strong>Restore previous session</strong></p>
+          <p>Re-open the tabs and panes from your last session on launch. Enabled by default; set it to <code>false</code> to disable saving and restoring the session:</p>
+          <pre><code class="language-lua">config.restore_previous_session = false  -- default: true
 </code></pre>
-<p><strong>Working directory inheritance</strong></p>
-<pre><code class="language-lua">config.window_inherit_working_directory = true   -- new windows
+          <p><strong>Working directory inheritance</strong></p>
+          <pre><code class="language-lua">config.window_inherit_working_directory = true   -- new windows
 config.tab_inherit_working_directory = true       -- new tabs
 config.split_pane_inherit_working_directory = true -- new splits
 </code></pre>
-<p><strong>Tab bar</strong></p>
-<p>Hidden when only one tab is open. Change position or show only the current directory name:</p>
-<pre><code class="language-lua">config.tab_bar_at_bottom = false        -- move to top
+          <p><strong>Tab bar</strong></p>
+          <p>Hidden when only one tab is open. Change position or show only the current directory name:</p>
+          <pre><code class="language-lua">config.tab_bar_at_bottom = false        -- move to top
 config.tab_title_show_basename_only = true  -- show &quot;dirname&quot; instead of &quot;parent/dirname&quot;
 </code></pre>
-<p><strong>Scrollbar</strong></p>
-<p>Disabled by default. Enable via <code>kaku config</code> (toggle the scrollbar style option) or in Lua:</p>
-<pre><code class="language-lua">config.enable_scroll_bar = true
+          <p><strong>Scrollbar</strong></p>
+          <p>Disabled by default. Enable via <code>kaku config</code> (toggle the scrollbar style option) or in Lua:</p>
+          <pre><code class="language-lua">config.enable_scroll_bar = true
 </code></pre>
-<p>If you want the mouse wheel to scroll inside alternate-screen apps such as
-nano and vim, instead of peeking into Kaku&#39;s primary scrollback, enable:</p>
-<pre><code class="language-lua">config.alternate_screen_wheel_scrolls_terminal = true
+          <p>If you want the mouse wheel to scroll inside alternate-screen apps such as
+          nano and vim, instead of peeking into Kaku&#39;s primary scrollback, enable:</p>
+          <pre><code class="language-lua">config.alternate_screen_wheel_scrolls_terminal = true
 </code></pre>
-<p><strong>Selection drag + mouse wheel</strong></p>
-<p>Controls what the mouse wheel does while you are dragging out a selection
-with the left mouse button held down. Defaults to <code>&quot;Extend&quot;</code> (Kaku v0.11+),
-which matches macOS <code>NSTextView</code> apps such as Safari, TextEdit, VS Code,
-iTerm2 and <code>Terminal.app</code>: the wheel scrolls the scrollback and the
-selection grows to follow the cursor across screens.</p>
-<pre><code class="language-lua">-- Default (recommended): scroll AND extend the selection so you can grab
+          <p><strong>Selection drag + mouse wheel</strong></p>
+          <p>Controls what the mouse wheel does while you are dragging out a selection
+          with the left mouse button held down. Defaults to <code>&quot;Extend&quot;</code> (Kaku v0.11+),
+          which matches macOS <code>NSTextView</code> apps such as Safari, TextEdit, VS Code,
+          iTerm2 and <code>Terminal.app</code>: the wheel scrolls the scrollback and the
+          selection grows to follow the cursor across screens.</p>
+          <pre><code class="language-lua">-- Default (recommended): scroll AND extend the selection so you can grab
 -- text that spans more than one screen of output.
 config.selection_wheel_scroll_behavior = &quot;Extend&quot;
 
@@ -152,19 +151,30 @@ config.selection_wheel_scroll_behavior = &quot;ScrollOnly&quot;
 -- mouse, scrolling, and re-selecting.
 config.selection_wheel_scroll_behavior = &quot;Ignore&quot;
 </code></pre>
-<blockquote>
-<p><strong>Default change in v0.11</strong>: earlier Kaku versions behaved as if
-<code>&quot;Ignore&quot;</code> were set. Set <code>selection_wheel_scroll_behavior = &quot;Ignore&quot;</code> to
-restore the old behavior.</p>
-</blockquote>
-<p><strong>macOS Option key</strong></p>
-<p>Left Option sends Meta (useful for Vim/Neovim word navigation). Right Option sends compose characters.</p>
-<pre><code class="language-lua">config.send_composed_key_when_left_alt_is_pressed = false  -- default: left = Meta
+          <blockquote>
+          <p><strong>Default change in v0.11</strong>: earlier Kaku versions behaved as if
+          <code>&quot;Ignore&quot;</code> were set. Set <code>selection_wheel_scroll_behavior = &quot;Ignore&quot;</code> to
+          restore the old behavior.</p>
+          </blockquote>
+          <p><strong>macOS Option key</strong></p>
+          <p>Left Option sends Meta (useful for Vim/Neovim word navigation). Right Option sends compose characters.</p>
+          <pre><code class="language-lua">config.send_composed_key_when_left_alt_is_pressed = false  -- default: left = Meta
 config.send_composed_key_when_right_alt_is_pressed = true  -- default: right = Compose
 </code></pre>
-<hr>
-<h2 id="custom-keybindings"><a class="anchor" href="#custom-keybindings" aria-label="Link to Custom Keybindings">#</a>Custom Keybindings</h2><p>Always <strong>insert</strong> into <code>config.keys</code>, never replace it. Replacing erases all Kaku defaults.</p>
-<pre><code class="language-lua">-- Navigate pane right
+          <p><strong>Close confirmation</strong></p>
+          <p>Kaku can ask before you close a window, tab, or pane that still has work
+          running. Each option accepts <code>NeverPrompt</code>, <code>SmartPrompt</code>, or
+          <code>AlwaysPrompt</code>; the bundled config ships all three as <code>SmartPrompt</code>:</p>
+          <pre><code class="language-lua">config.window_close_confirmation = &quot;SmartPrompt&quot;  -- bundled default
+config.tab_close_confirmation = &quot;SmartPrompt&quot;     -- bundled default
+config.pane_close_confirmation = &quot;SmartPrompt&quot;    -- bundled default
+</code></pre>
+          <p><code>SmartPrompt</code> closes instantly when every affected pane sits at a bare
+          shell prompt, and asks first when an agent or editor (claude, codex, vim, and
+          similar) is still running. <code>Cmd + Q</code>, <code>Cmd + W</code>, and
+          <code>Cmd + Shift + W</code> all follow these settings.</p>
+          <h2 id="configuration-custom-keybindings"><a class="anchor" href="#configuration-custom-keybindings" aria-label="Link to Custom Keybindings">#</a>Custom Keybindings</h2><p>Always <strong>insert</strong> into <code>config.keys</code>, never replace it. Replacing erases all Kaku defaults.</p>
+          <pre><code class="language-lua">-- Navigate pane right
 table.insert(config.keys, {
   key = &#39;RightArrow&#39;,
   mods = &#39;CMD|SHIFT&#39;,
@@ -178,25 +188,24 @@ table.insert(config.keys, {
   action = wezterm.action.SplitHorizontal({ domain = &#39;CurrentPaneDomain&#39; }),
 })
 </code></pre>
-<p>Full list of available actions: <a href="https://wezfurlong.org/wezterm/config/lua/keyassignment/" target="_blank" rel="noopener noreferrer">WezTerm KeyAssignment reference</a>.</p>
-<hr>
-<h2 id="advanced"><a class="anchor" href="#advanced" aria-label="Link to Advanced">#</a>Advanced</h2><p><strong>Enterprise proxy headers</strong></p>
-<p>Add custom HTTP headers to Kaku Assistant API requests (for corporate proxies or API gateways):</p>
-<pre><code class="language-toml"># ~/.config/kaku/assistant.toml
+          <p>Full list of available actions: <a href="https://wezfurlong.org/wezterm/config/lua/keyassignment/" target="_blank" rel="noopener noreferrer">WezTerm KeyAssignment reference</a>.</p>
+          <h2 id="configuration-advanced"><a class="anchor" href="#configuration-advanced" aria-label="Link to Advanced">#</a>Advanced</h2><p><strong>Enterprise proxy headers</strong></p>
+          <p>Add custom HTTP headers to Kaku Assistant API requests (for corporate proxies or API gateways):</p>
+          <pre><code class="language-toml"># ~/.config/kaku/assistant.toml
 custom_headers = [&quot;X-Customer-ID: your-id&quot;, &quot;X-Org: your-org&quot;]
 </code></pre>
-<p>Note: <code>Authorization</code> and <code>Content-Type</code> are reserved and cannot be overridden.</p>
-<p><strong>Full WezTerm Lua API</strong></p>
-<p>Kaku uses WezTerm&#39;s configuration system. Any WezTerm config option works in <code>kaku.lua</code>. For the complete reference, see:</p>
-<ul>
-<li><a href="https://wezfurlong.org/wezterm/config/" target="_blank" rel="noopener noreferrer">WezTerm config options</a></li>
-<li><a href="https://wezfurlong.org/wezterm/config/lua/" target="_blank" rel="noopener noreferrer">WezTerm Lua API</a></li>
-</ul>
-          <nav class="doc-pager" aria-label="Docs pagination"><a href="/docs/cli"><span>Previous</span><strong>CLI Reference</strong></a><a href="/docs/keybindings"><span>Next</span><strong>Keybindings</strong></a></nav>
+          <p>Note: <code>Authorization</code> and <code>Content-Type</code> are reserved and cannot be overridden.</p>
+          <p><strong>Full WezTerm Lua API</strong></p>
+          <p>Kaku uses WezTerm&#39;s configuration system. Any WezTerm config option works in <code>kaku.lua</code>. For the complete reference, see:</p>
+          <ul>
+          <li><a href="https://wezfurlong.org/wezterm/config/" target="_blank" rel="noopener noreferrer">WezTerm config options</a></li>
+          <li><a href="https://wezfurlong.org/wezterm/config/lua/" target="_blank" rel="noopener noreferrer">WezTerm Lua API</a></li>
+          </ul>
+          <nav class="doc-pager" aria-label="Pagination"><a href="/docs/cli"><span>Previous</span><strong>CLI Reference</strong></a><a href="/docs/keybindings"><span>Next</span><strong>Keybindings</strong></a></nav>
         </article>
       </div>
     </section>
   </main>
-  <footer class="site-footer"><div class="wide"><div class="footer-brand"><a href="/">Kaku</a><p>A macOS terminal for AI coding.</p></div><div class="footer-cols"><div class="footer-col"><h2>Product</h2><a href="/roadmap">Roadmap</a><a href="/changelog">Changelog</a><a href="https://github.com/tw93/Kaku/releases" target="_blank" rel="noopener noreferrer">Releases</a></div><div class="footer-col"><h2>Docs</h2><a href="/docs/install">Install</a><a href="/docs/features">Features</a><a href="/docs/configuration">Configuration</a></div><div class="footer-col"><h2>Community</h2><a href="https://github.com/tw93/Kaku">GitHub</a><a href="https://github.com/tw93/Kaku/issues">Issues</a><a href="https://twitter.com/HiTw93">X / Twitter</a></div><div class="footer-col"><h2>Project</h2><a href="https://github.com/wez/wezterm">Built on WezTerm</a><a href="https://github.com/tw93/Kaku/blob/main/LICENSE.md">MIT License</a><a href="https://github.com/tw93">Tw93</a></div></div><div class="footer-ethos">Built by Tw93. May your terminal stay out of the way.</div><div class="footer-bottom">Kaku · Built on WezTerm · MIT License · © 2026 Tw93</div></div></footer>
+  <footer class="site-footer"><div class="wide footer-inner"><div class="footer-mark"><img src="/img/kaku-mark.png" width="64" height="64" alt="Kaku" loading="lazy"><div><p class="wm-name">Kaku · 書</p><p class="wm-sub">A macOS terminal for AI coding.</p></div></div><div class="footer-colophon"><p class="footer-links"><a href="/roadmap">Roadmap</a> · <a href="/changelog">Changelog</a> · <a href="/docs/">Docs</a> · <a href="https://github.com/tw93/Kaku">GitHub</a> · <a href="https://github.com/tw93/Kaku/issues">Issues</a> · <a href="https://twitter.com/HiTw93">X</a></p><p class="footer-ethos">Built by Tw93. May your terminal stay out of the way. · Built on WezTerm · MIT · © 2026</p></div></div></footer>
 </body>
 </html>

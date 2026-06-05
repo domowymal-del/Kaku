@@ -3,230 +3,223 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>功能与 AI · Kaku Docs</title>
-  <meta name="description" content="Kaku Assistant、AI Chat、错误修复、自然语言命令，以及内置 shell 工具。">
-  <link rel="icon" href="/favicon.svg" type="image/svg+xml">
-  <link rel="alternate" hreflang="zh-CN" href="https://kaku.fun/zh/docs/features">
+  <meta name="color-scheme" content="light">
+  <title>功能与 AI · Kaku 文档</title>
+  <meta name="description" content="Kaku Assistant、AI Chat、错误恢复、自然语言命令和内置 Shell 工具。">
+  <link rel="icon" type="image/png" sizes="32x32" href="/img/favicon-kaku-32.png"><link rel="icon" type="image/png" sizes="192x192" href="/img/favicon-kaku-192.png"><link rel="apple-touch-icon" href="/img/favicon-kaku-180.png">
   <link rel="canonical" href="https://kaku.fun/zh/docs/features">
   <link rel="alternate" hreflang="en" href="https://kaku.fun/docs/features">
+  <link rel="alternate" hreflang="zh-CN" href="https://kaku.fun/zh/docs/features">
   <link rel="stylesheet" href="/styles.css">
 </head>
 <body>
-  <a class="skip-link" href="#main-content">跳到正文</a>
-  <nav class="site-nav" aria-label="主导航"><div class="wide nav-inner"><a class="brand" href="/zh/"><strong>Kaku</strong></a><span class="eyebrow-sep">·</span><a class="version-link" href="/zh/changelog">v0.9.0</a><div class="nav-links"><a href="/zh/docs/" aria-current="page">文档</a></div><div class="nav-actions"><a class="nav-pill" aria-current="page" href="/zh/docs/features" hreflang="zh-CN">中</a><a class="nav-pill" href="/docs/features" hreflang="en">EN</a><a class="nav-pill primary" href="https://github.com/tw93/Kaku" target="_blank" rel="noopener noreferrer"><span>GitHub</span> ★</a></div></div></nav>
+  <a class="skip-link" href="#main-content">跳到内容</a>
+  <nav class="site-nav" aria-label="主导航"><div class="wide nav-inner"><a class="brand" href="/zh/"><strong>Kaku</strong></a><span class="eyebrow-sep">·</span><a class="version-link" href="/zh/changelog">v0.12.0</a><div class="nav-links"><a href="/zh/docs/" aria-current="page">文档</a></div><div class="nav-actions"><a class="nav-pill" aria-current="page" href="/zh/docs/features" hreflang="zh-CN">中</a><a class="nav-pill" href="/docs/features" hreflang="en">EN</a><a class="nav-icon" href="https://github.com/tw93/Kaku" target="_blank" rel="noopener noreferrer" aria-label="GitHub"><svg width="16" height="16" viewBox="0 0 16 16" fill="currentColor"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.01 8.01 0 0016 8c0-4.42-3.58-8-8-8z"/></svg></a><a class="nav-icon" href="https://x.com/HiTw93" target="_blank" rel="noopener noreferrer" aria-label="X"><svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg></a></div></div></nav>
   <main id="main-content" class="docs-page">
-    <header class="page-hero doc-hero"><div class="wide"><span class="label">Docs</span><h1>功能与 AI</h1><p>Kaku Assistant、AI Chat、错误修复、自然语言命令，以及内置 shell 工具。</p></div></header>
+    <header class="page-hero doc-hero"><div class="wide"><span class="label">文档</span><h1>功能与 AI</h1><p>Kaku Assistant、AI Chat、错误恢复、自然语言命令和内置 Shell 工具。</p></div></header>
     <section class="section docs-section">
       <div class="wide docs-layout">
         <aside class="docs-sidebar">
           <a class="docs-home" href="/zh/docs/">文档</a>
-          <nav class="docs-menu" aria-label="文档列表"><a href="/zh/docs/install"><span>安装</span><small>DMG、Homebrew、源码构建、诊断和安装问题排查。</small></a><a href="/zh/docs/features" aria-current="page"><span>功能与 AI</span><small>Kaku Assistant、AI Chat、错误修复、自然语言命令，以及内置 shell 工具。</small></a><a href="/zh/docs/cli"><span>CLI 参考</span><small>从 shell 打开 AI 设置、聊天、配置、诊断、更新和 multiplexer 命令。</small></a><a href="/zh/docs/configuration"><span>配置</span><small>Kaku 的 Lua 配置入口、外观、终端行为、键盘与 Assistant 设置。</small></a><a href="/zh/docs/keybindings"><span>快捷键</span><small>窗口、标签、分屏、Shell 编辑、AI 功能、Lazygit 和 Yazi 的默认快捷键。</small></a><a href="/zh/docs/faq"><span>FAQ</span><small>安装、配置、快捷键、AI Provider、滚动、字体、Homebrew 和通知问题。</small></a><a href="/zh/docs/contributing"><span>贡献</span><small>本地环境、构建命令、PR 流程和 CI 检查项。</small></a><a href="/zh/docs/release-checklist"><span>发布检查</span><small>维护者发布前需要手动确认的 macOS tab bar、透明窗口和 issue triage 检查。</small></a></nav>
-          <div class="section-toc"><p>本页目录</p><a class="depth-2" href="#kaku-assistant">Kaku Assistant</a><a class="depth-2" href="#ai-chat-panel">AI Chat Panel</a><a class="depth-2" href="#window-snapshots">Window Snapshots</a><a class="depth-2" href="#applescript">AppleScript</a><a class="depth-2" href="#lazygit-integration">Lazygit Integration</a><a class="depth-2" href="#yazi-file-manager">Yazi File Manager</a><a class="depth-2" href="#remote-files">Remote Files</a><a class="depth-2" href="#shell-suite">Shell Suite</a></div>
+          <nav class="docs-menu" aria-label="Documentation pages"><a href="/zh/docs/"><span>安装</span></a><a href="/zh/docs/features" aria-current="page"><span>功能与 AI</span></a><a href="/zh/docs/cli"><span>CLI 参考</span></a><a href="/zh/docs/configuration"><span>配置</span></a><a href="/zh/docs/keybindings"><span>快捷键</span></a><a href="/zh/docs/faq"><span>FAQ</span></a><a href="/zh/docs/contributing"><span>贡献</span></a></nav>
+          <div class="section-toc"><p>本页目录</p><a class="depth-2" href="#features-kaku-assistant">Kaku Assistant</a><a class="depth-2" href="#features-ai-chat-panel">AI Chat 面板</a><a class="depth-2" href="#features-window-snapshots">窗口快照</a><a class="depth-2" href="#features-applescript">AppleScript</a><a class="depth-2" href="#features-lazygit-integration">Lazygit 集成</a><a class="depth-2" href="#features-yazi-file-manager">Yazi 文件管理器</a><a class="depth-2" href="#features-remote-files">远端文件</a><a class="depth-2" href="#features-shell-suite">Shell 套件</a></div>
         </aside>
         <article class="doc-content">
-          <h2 id="kaku-assistant"><a class="anchor" href="#kaku-assistant" aria-label="Link to Kaku Assistant">#</a>Kaku Assistant</h2><p>Kaku Assistant has two modes: automatic error recovery and on-demand command generation from natural language.</p>
-<p><strong>Setup</strong></p>
-<p>Run <code>kaku ai</code> to open the AI settings panel. Enable Kaku Assistant, pick a provider, and enter your API key.</p>
-<table>
-<thead>
-<tr>
-<th align="left">Provider</th>
-<th align="left">Base URL</th>
-<th align="left">Models</th>
-</tr>
-</thead>
-<tbody><tr>
-<td align="left">OpenAI</td>
-<td align="left"><code>https://api.openai.com/v1</code></td>
-<td align="left">(free text)</td>
-</tr>
-<tr>
-<td align="left">Custom</td>
-<td align="left">(manual)</td>
-<td align="left">(free text)</td>
-</tr>
-</tbody></table>
-<p>Selecting a provider auto-fills the base URL and populates the model dropdown.</p>
-<h2 id="ai-chat-panel"><a class="anchor" href="#ai-chat-panel" aria-label="Link to AI Chat Panel">#</a>AI Chat Panel</h2><p>Press <code>Cmd + L</code> to open the built-in AI chat panel. It streams Markdown answers,
-highlights code blocks, can include terminal context, and can use approved tools
-for project files, shell commands, web search, and memory. Press <code>Shift + Tab</code>
-inside the panel to toggle between the Simple Model and Deep Model when they
-are different.</p>
-<p>From a shell, use <code>k</code> or <code>kaku chat</code> for the same conversation store:</p>
-<pre><code class="language-bash">k &quot;summarize the current project&quot;
+          <h2 id="features-kaku-assistant"><a class="anchor" href="#features-kaku-assistant" aria-label="链接到「Kaku Assistant」">#</a>Kaku Assistant</h2><p>Kaku Assistant 有两个模式：命令失败时自动修复，以及按需把一句人话生成命令。</p>
+          <p><strong>配置</strong></p>
+          <p>运行 <code>kaku ai</code> 打开 AI 设置面板，开启 Kaku Assistant，选一个 Provider，填上 API key。</p>
+          <table>
+          <thead>
+          <tr>
+          <th align="left">Provider</th>
+          <th align="left">Base URL</th>
+          <th align="left">模型</th>
+          </tr>
+          </thead>
+          <tbody><tr>
+          <td align="left">OpenAI</td>
+          <td align="left"><code>https://api.openai.com/v1</code></td>
+          <td align="left">（自由填写）</td>
+          </tr>
+          <tr>
+          <td align="left">Custom</td>
+          <td align="left">（手动填写）</td>
+          <td align="left">（自由填写）</td>
+          </tr>
+          </tbody></table>
+          <p>选好 Provider 后会自动填好 base URL，并把可用模型填进下拉框。</p>
+          <h2 id="features-ai-chat-panel"><a class="anchor" href="#features-ai-chat-panel" aria-label="链接到「AI Chat 面板」">#</a>AI Chat 面板</h2><p>按 <code>Cmd + L</code> 打开内置的 AI Chat 面板。它会流式输出 Markdown 答案，
+          高亮代码块，可以带上终端上下文，也可以在你授权后调用工具，
+          访问项目文件、shell 命令、网页搜索和记忆。当 Simple Model 和 Deep Model
+          不同时，在面板里按 <code>Shift + Tab</code> 在两者之间切换。在面板里输入 <code>/suggest</code>，
+          让 Kaku 预测你接下来可能想发的内容。</p>
+          <p>在 shell 里用 <code>k</code> 或 <code>kaku chat</code> 可以共享同一份对话存储：</p>
+          <pre><code class="language-bash">k &quot;summarize the current project&quot;
 kaku chat
 </code></pre>
-<p>The standalone CLI is intentionally simpler than the overlay: it streams plain
-terminal text and supports <code>/new</code>, <code>/resume</code>, <code>/clear</code>, <code>/status</code>, <code>/memory</code>,
-and <code>/exit</code>.</p>
-<p><strong>Error recovery</strong></p>
-<p>When a command exits with a non-zero status, Kaku Assistant automatically sends the failed command, exit code, working directory, and git branch to the LLM and displays a suggested fix inline. Press <code>Cmd + Shift + E</code> to paste the suggestion into the terminal. Dangerous commands (e.g. <code>rm -rf</code>, <code>git reset --hard</code>) are pasted but never auto-executed.</p>
-<p>The assistant does not trigger on: <code>Ctrl+C</code> exits, help flags, bare package manager calls, git pull conflicts, or non-shell foreground processes.</p>
-<p><strong>Natural language to command</strong></p>
-<p>Type <code># &lt;description&gt;</code> at the prompt and press Enter to generate a shell command from plain English. Kaku intercepts the line before the shell sees it, sends your query along with the current directory and git branch to the LLM, and injects the resulting command back into the prompt ready to review and run.</p>
-<pre><code># list all files modified in the last 7 days
+          <p>独立 CLI 故意做得比 overlay 简单：它只输出纯终端文本，支持
+          <code>/new</code>、<code>/resume</code>、<code>/clear</code>、<code>/status</code>、<code>/memory</code> 和 <code>/exit</code>。</p>
+          <p><strong>命令失败修复</strong></p>
+          <p>当一条命令以非零状态退出时，Kaku Assistant 会自动把失败的命令、退出码、工作目录和 git 分支发给 LLM，并在行内给出建议的修复方案。按 <code>Cmd + Shift + E</code> 把建议粘进终端。危险命令（比如 <code>rm -rf</code>、<code>git reset --hard</code>）只粘贴、永不自动执行。</p>
+          <p>以下情况不会触发 Assistant：<code>Ctrl+C</code> 退出、help 参数、单独的包管理器调用、git pull 冲突，以及非 shell 的前台进程。</p>
+          <p><strong>把一句人话变成命令</strong></p>
+          <p>在提示符里输入 <code># &lt;描述&gt;</code> 再回车，就能把一句人话生成 shell 命令。Kaku 在 shell 看到这行之前先拦下来，把你的描述连同当前目录和 git 分支发给 LLM，再把生成的命令注回提示符，等你审一眼再运行。</p>
+          <pre><code># list all files modified in the last 7 days
 # find and kill the process on port 3000
 # compress the src folder excluding node_modules
 </code></pre>
-<p>The <code>#</code> prefix works in both zsh and fish. The original query stays visible while the request is in flight. If the model cannot produce a safe command, it injects a short explanation instead. Dangerous commands are loaded but flagged for review, never auto-executed.</p>
-<p><strong>assistant.toml fields</strong></p>
-<p>The config lives at <code>~/.config/kaku/assistant.toml</code>:</p>
-<table>
-<thead>
-<tr>
-<th align="left">Field</th>
-<th align="left">Description</th>
-</tr>
-</thead>
-<tbody><tr>
-<td align="left"><code>enabled</code></td>
-<td align="left"><code>true</code> to enable, <code>false</code> to disable</td>
-</tr>
-<tr>
-<td align="left"><code>api_key</code></td>
-<td align="left">Your provider API key</td>
-</tr>
-<tr>
-<td align="left"><code>model</code></td>
-<td align="left">Simple Model for <code>#</code> command generation, command fixes, and lightweight chat</td>
-</tr>
-<tr>
-<td align="left"><code>chat_model</code></td>
-<td align="left">Deep Model for primary <code>Cmd + L</code> / <code>k</code> chat and tool use</td>
-</tr>
-<tr>
-<td align="left"><code>chat_model_choices</code></td>
-<td align="left">Optional curated list of chat models for the overlay picker</td>
-</tr>
-<tr>
-<td align="left"><code>auto_fix_ignored_exit_codes</code></td>
-<td align="left">Optional exit codes that should not trigger automatic command-fix suggestions, e.g. <code>[2]</code></td>
-</tr>
-<tr>
-<td align="left"><code>base_url</code></td>
-<td align="left">OpenAI-compatible API root URL</td>
-</tr>
-<tr>
-<td align="left"><code>custom_headers</code></td>
-<td align="left">Extra HTTP headers for enterprise proxies, e.g. <code>[&quot;X-Customer-ID: your-id&quot;]</code></td>
-</tr>
-<tr>
-<td align="left"><code>web_search_provider</code></td>
-<td align="left">Optional search backend: <code>brave</code>, <code>pipellm</code>, or <code>tavily</code></td>
-</tr>
-<tr>
-<td align="left"><code>web_search_api_key</code></td>
-<td align="left">API key for the selected search backend</td>
-</tr>
-<tr>
-<td align="left"><code>web_fetch_script</code></td>
-<td align="left">Optional custom URL-to-Markdown fetch script</td>
-</tr>
-<tr>
-<td align="left"><code>chat_tools_enabled</code></td>
-<td align="left">Set to <code>false</code> to disable tool calling for chat providers without tool support</td>
-</tr>
-<tr>
-<td align="left"><code>auth_type</code></td>
-<td align="left">Advanced auth mode, e.g. <code>api_key</code>, <code>copilot</code>, or <code>codex</code></td>
-</tr>
-<tr>
-<td align="left"><code>memory_curator_model</code></td>
-<td align="left">Optional cheaper model for background memory curation</td>
-</tr>
-</tbody></table>
-<p>Older configs may still contain <code>fast_model</code>; Kaku treats it as the Simple Model
-and folds it back into <code>model</code> the next time the assistant settings are saved.</p>
-<hr>
-<h2 id="window-snapshots"><a class="anchor" href="#window-snapshots" aria-label="Link to Window Snapshots">#</a>Window Snapshots</h2><p>Kaku saves multi-tab and multi-pane window layouts automatically when you close
-or hide a window. Use <strong>Shell &gt; Restore Previous Window</strong> or
-<code>Cmd + Option + Shift + T</code> to reopen the last saved layout. Kaku tolerates
-missing or corrupted snapshot files and simply reports that no snapshot is
-available.</p>
-<hr>
-<h2 id="applescript"><a class="anchor" href="#applescript" aria-label="Link to AppleScript">#</a>AppleScript</h2><p>Kaku ships a minimal AppleScript dictionary so it shows up in Script Editor and other automation tools. The exposed surface is intentionally small and read-only apart from <code>quit</code>.</p>
-<pre><code class="language-applescript">tell application &quot;Kaku&quot;
+          <p><code>#</code> 前缀在 zsh 和 fish 里都能用。请求进行中你的原始描述一直可见。如果模型给不出安全的命令，它会改成注入一段简短解释。危险命令会被载入但标记为需审查，永不自动执行。</p>
+          <p><strong>assistant.toml 字段</strong></p>
+          <p>配置文件在 <code>~/.config/kaku/assistant.toml</code>：</p>
+          <table>
+          <thead>
+          <tr>
+          <th align="left">字段</th>
+          <th align="left">说明</th>
+          </tr>
+          </thead>
+          <tbody><tr>
+          <td align="left"><code>enabled</code></td>
+          <td align="left"><code>true</code> 开启，<code>false</code> 关闭</td>
+          </tr>
+          <tr>
+          <td align="left"><code>api_key</code></td>
+          <td align="left">你的 Provider API key</td>
+          </tr>
+          <tr>
+          <td align="left"><code>model</code></td>
+          <td align="left">Simple Model，用于 <code>#</code> 命令生成、命令修复和轻量对话</td>
+          </tr>
+          <tr>
+          <td align="left"><code>chat_model</code></td>
+          <td align="left">Deep Model，用于主力 <code>Cmd + L</code> / <code>k</code> 对话和工具调用</td>
+          </tr>
+          <tr>
+          <td align="left"><code>chat_model_choices</code></td>
+          <td align="left">可选，给 overlay 选择器用的对话模型清单</td>
+          </tr>
+          <tr>
+          <td align="left"><code>auto_fix_ignored_exit_codes</code></td>
+          <td align="left">可选，不触发自动命令修复建议的退出码，比如 <code>[2]</code></td>
+          </tr>
+          <tr>
+          <td align="left"><code>base_url</code></td>
+          <td align="left">OpenAI 兼容的 API 根 URL</td>
+          </tr>
+          <tr>
+          <td align="left"><code>custom_headers</code></td>
+          <td align="left">给企业代理用的额外 HTTP 头，比如 <code>[&quot;X-Customer-ID: your-id&quot;]</code></td>
+          </tr>
+          <tr>
+          <td align="left"><code>web_search_provider</code></td>
+          <td align="left">可选搜索后端：<code>brave</code>、<code>pipellm</code> 或 <code>tavily</code></td>
+          </tr>
+          <tr>
+          <td align="left"><code>web_search_api_key</code></td>
+          <td align="left">所选搜索后端的 API key</td>
+          </tr>
+          <tr>
+          <td align="left"><code>web_fetch_script</code></td>
+          <td align="left">可选，自定义的 URL 转 Markdown 抓取脚本</td>
+          </tr>
+          <tr>
+          <td align="left"><code>chat_tools_enabled</code></td>
+          <td align="left">设为 <code>false</code> 可对不支持工具的对话 Provider 关闭工具调用</td>
+          </tr>
+          <tr>
+          <td align="left"><code>auth_type</code></td>
+          <td align="left">高级鉴权模式，比如 <code>api_key</code>、<code>copilot</code> 或 <code>codex</code></td>
+          </tr>
+          <tr>
+          <td align="left"><code>memory_curator_model</code></td>
+          <td align="left">可选，给后台记忆整理用的更便宜的模型</td>
+          </tr>
+          </tbody></table>
+          <p>旧配置里可能还有 <code>fast_model</code>，Kaku 会把它当作 Simple Model，
+          下次保存 Assistant 设置时再折叠回 <code>model</code>。</p>
+          <h2 id="features-window-snapshots"><a class="anchor" href="#features-window-snapshots" aria-label="链接到「窗口快照」">#</a>窗口快照</h2><p>关闭或隐藏窗口时，Kaku 会自动保存多标签、多分屏的窗口布局。用
+          <strong>Shell &gt; Restore Previous Window</strong> 或
+          <code>Cmd + Option + Shift + T</code> 重新打开上次保存的布局。快照文件缺失或损坏时
+          Kaku 也能容错，只会提示没有可用快照。</p>
+          <h2 id="features-applescript"><a class="anchor" href="#features-applescript" aria-label="链接到「AppleScript」">#</a>AppleScript</h2><p>Kaku 内置一份极简的 AppleScript 字典，因此它会出现在 Script Editor 和其他自动化工具里。暴露的接口故意做得很小，除了 <code>quit</code> 之外都是只读的。</p>
+          <pre><code class="language-applescript">tell application &quot;Kaku&quot;
   get name        -- &quot;Kaku&quot;
   get version     -- e.g. &quot;0.10.0&quot;
   get frontmost   -- true / false
   quit            -- optional `saving ask|yes|no`
 end tell
 </code></pre>
-<p>Open <code>/Applications/Kaku.app</code> in Script Editor → File → Open Dictionary to browse the full dictionary. There is no <code>do script</code> verb, Kaku does not expose shell execution to AppleScript.</p>
-<hr>
-<h2 id="lazygit-integration"><a class="anchor" href="#lazygit-integration" aria-label="Link to Lazygit Integration">#</a>Lazygit Integration</h2><p>Press <code>Cmd + Shift + G</code> to launch lazygit in the current pane. Kaku auto-detects the lazygit binary from PATH or common Homebrew locations.</p>
-<p>When a git repo has uncommitted changes and lazygit has not been used in that directory yet, Kaku shows a one-time hint to remind you it is available.</p>
-<p>Install lazygit with <code>brew install lazygit</code> or via <code>kaku init</code>.</p>
-<hr>
-<h2 id="yazi-file-manager"><a class="anchor" href="#yazi-file-manager" aria-label="Link to Yazi File Manager">#</a>Yazi File Manager</h2><p>Press <code>Cmd + Shift + Y</code> to launch yazi in the current pane. The shell wrapper <code>y</code> also launches yazi and syncs the shell working directory on exit.</p>
-<p><strong>Theme sync</strong>: Kaku automatically updates <code>~/.config/yazi/theme.toml</code> to match the active color scheme (Kaku Dark or Kaku Light). No manual yazi theme setup needed.</p>
-<p>Install yazi with <code>brew install yazi</code> or via <code>kaku init</code>.</p>
-<hr>
-<h2 id="remote-files"><a class="anchor" href="#remote-files" aria-label="Link to Remote Files">#</a>Remote Files</h2><p>Press <code>Cmd + Shift + R</code> to mount the current SSH session&#39;s remote filesystem locally via <code>sshfs</code> and open it in yazi.</p>
-<p>Kaku auto-detects the SSH target from the active pane. The mount lives at <code>~/Library/Caches/dev.kaku/sshfs/&lt;host&gt;</code>.</p>
-<p>Requirements: <code>sshfs</code> installed (<code>brew install macfuse sshfs</code>) and passwordless SSH auth (key-based) for the remote host.</p>
-<hr>
-<h2 id="shell-suite"><a class="anchor" href="#shell-suite" aria-label="Link to Shell Suite">#</a>Shell Suite</h2><p>Kaku ships a curated set of shell plugins that load automatically inside Kaku sessions.</p>
-<p><strong>Zsh plugins (built-in)</strong></p>
-<ul>
-<li><strong>z</strong>: Smarter <code>cd</code> that learns your most-used directories. Use <code>z &lt;dir&gt;</code>, <code>z -l &lt;dir&gt;</code> to list matches, <code>z -t</code> for recent directories.</li>
-<li><strong>zsh-completions</strong>: Extended completions for common CLI tools.</li>
-<li><strong>zsh-syntax-highlighting</strong>: Real-time command coloring and error highlighting.</li>
-<li><strong>zsh-autosuggestions</strong>: Fish-style history-based completions as you type.</li>
-</ul>
-<p><strong>Fish support</strong></p>
-<p>Run <code>kaku init</code> to provision <code>~/.config/kaku/fish/kaku.fish</code> for fish users. <code>kaku doctor</code> verifies both zsh and fish integration paths.</p>
-<p><strong>Optional tools (installed via <code>kaku init</code>)</strong></p>
-<ul>
-<li><strong>Starship</strong>: Fast, customizable prompt with git and environment info.</li>
-<li><strong>Delta</strong>: Syntax-highlighting pager for git diff and grep.</li>
-<li><strong>Lazygit</strong>: Terminal git UI.</li>
-<li><strong>Yazi</strong>: Terminal file manager.</li>
-</ul>
-<p><strong>Smart Tab</strong></p>
-<p>Kaku&#39;s Smart Tab overrides the Tab key in zsh to provide smarter completion behavior. It supports three modes:</p>
-<table>
-<thead>
-<tr>
-<th align="left">Mode</th>
-<th align="left">Behavior</th>
-<th align="left">Environment Variable</th>
-</tr>
-</thead>
-<tbody><tr>
-<td align="left">Completion First (default)</td>
-<td align="left">Tab shows the completion list; use <code>-&gt;</code> to accept autosuggestions</td>
-<td align="left">-</td>
-</tr>
-<tr>
-<td align="left">Suggestion First</td>
-<td align="left">Tab accepts autosuggestions when available, falls back to completion</td>
-<td align="left"><code>KAKU_TAB_ACCEPT_SUGGEST_FIRST=1</code></td>
-</tr>
-<tr>
-<td align="left">Off</td>
-<td align="left">Disables Smart Tab entirely, restoring native zsh Tab behavior</td>
-<td align="left"><code>KAKU_SMART_TAB_DISABLE=1</code></td>
-</tr>
-</tbody></table>
-<p>You can also set the mode via <code>kaku config</code> (the <strong>Smart Tab</strong> option under Behavior) or in <code>kaku.lua</code>:</p>
-<pre><code class="language-lua">config.smart_tab_mode = &quot;completion_first&quot;   -- default
+          <p>在 Script Editor 里打开 <code>/Applications/Kaku.app</code>，File → Open Dictionary 即可浏览完整字典。Kaku 没有 <code>do script</code> 动词，不会把 shell 执行暴露给 AppleScript。</p>
+          <h2 id="features-lazygit-integration"><a class="anchor" href="#features-lazygit-integration" aria-label="链接到「Lazygit 集成」">#</a>Lazygit 集成</h2><p>按 <code>Cmd + Shift + G</code> 在当前分屏里启动 lazygit。Kaku 会自动从 PATH 或常见的 Homebrew 位置找到 lazygit 二进制。</p>
+          <p>当一个 git 仓库有未提交改动、且还没在这个目录用过 lazygit 时，Kaku 会显示一次性提示，提醒你可以用它。</p>
+          <p>用 <code>brew install lazygit</code> 或 <code>kaku init</code> 安装 lazygit。</p>
+          <h2 id="features-yazi-file-manager"><a class="anchor" href="#features-yazi-file-manager" aria-label="链接到「Yazi 文件管理器」">#</a>Yazi 文件管理器</h2><p>按 <code>Cmd + Shift + Y</code> 在当前分屏里启动 yazi。shell 包装 <code>y</code> 同样会启动 yazi，并在退出时同步 shell 的当前工作目录。</p>
+          <p><strong>主题同步</strong>：Kaku 会自动更新 <code>~/.config/yazi/theme.toml</code>，匹配当前色彩方案（Kaku Dark 或 Kaku Light）。无需手动配置 yazi 主题。</p>
+          <p>用 <code>brew install yazi</code> 或 <code>kaku init</code> 安装 yazi。</p>
+          <h2 id="features-remote-files"><a class="anchor" href="#features-remote-files" aria-label="链接到「远端文件」">#</a>远端文件</h2><p>按 <code>Cmd + Shift + R</code> 通过 <code>sshfs</code> 把当前 SSH 会话的远端文件系统挂到本地，并用 yazi 打开。</p>
+          <p>Kaku 会从当前活动分屏自动识别 SSH 目标。挂载点在 <code>~/Library/Caches/dev.kaku/sshfs/&lt;host&gt;</code>。</p>
+          <p>前置条件：装好 <code>sshfs</code>（<code>brew install macfuse sshfs</code>），并对远端主机配好免密 SSH 鉴权（基于密钥）。</p>
+          <h2 id="features-shell-suite"><a class="anchor" href="#features-shell-suite" aria-label="链接到「Shell 套件」">#</a>Shell 套件</h2><p>Kaku 内置一套精选的 shell 插件，会在 Kaku 会话里自动加载。</p>
+          <p><strong>Zsh 插件（内置）</strong></p>
+          <ul>
+          <li><strong>zsh-z</strong>：更聪明的 <code>cd</code>，会学习你最常用的目录，并复用已有的 <code>~/.z</code> 历史。用 <code>z &lt;dir&gt;</code>，用 <code>z -l &lt;dir&gt;</code> 列出匹配项，用 <code>z -t</code> 看最近目录。当文件系统补全没有匹配时，<code>cd</code> + Tab 也会回退到这份历史。</li>
+          <li><strong>zsh-completions</strong>：常见 CLI 工具的扩展补全。</li>
+          <li><strong>fast-syntax-highlighting</strong>：实时命令着色和错误高亮，颜色比 zsh-syntax-highlighting 更丰富、启动也更快。</li>
+          <li><strong>zsh-autosuggestions</strong>：fish 风格的历史补全，边打字边提示。</li>
+          </ul>
+          <p><strong>Fish 支持</strong></p>
+          <p>fish 用户运行 <code>kaku init</code> 即可生成 <code>~/.config/kaku/fish/kaku.fish</code>。<code>kaku doctor</code> 会同时检查 zsh 和 fish 的集成路径。</p>
+          <p><strong>可选工具（通过 <code>kaku init</code> 安装）</strong></p>
+          <ul>
+          <li><strong>Starship</strong>：快速、可定制的提示符，带 git 和环境信息。</li>
+          <li><strong>Delta</strong>：给 git diff 和 grep 用的语法高亮分页器。</li>
+          <li><strong>Lazygit</strong>：终端里的 git 界面。</li>
+          <li><strong>Yazi</strong>：终端文件管理器。</li>
+          </ul>
+          <p><strong>Smart Tab</strong></p>
+          <p>Kaku 的 Smart Tab 接管了 zsh 里的 Tab 键，提供更聪明的补全行为。它支持三种模式：</p>
+          <table>
+          <thead>
+          <tr>
+          <th align="left">模式</th>
+          <th align="left">行为</th>
+          <th align="left">环境变量</th>
+          </tr>
+          </thead>
+          <tbody><tr>
+          <td align="left">Completion First（默认）</td>
+          <td align="left">Tab 显示补全列表；用 <code>-&gt;</code> 接受自动建议</td>
+          <td align="left">-</td>
+          </tr>
+          <tr>
+          <td align="left">Suggestion First</td>
+          <td align="left">有自动建议时 Tab 先接受建议，否则回退到补全</td>
+          <td align="left"><code>KAKU_TAB_ACCEPT_SUGGEST_FIRST=1</code></td>
+          </tr>
+          <tr>
+          <td align="left">Off</td>
+          <td align="left">完全关闭 Smart Tab，恢复 zsh 原生的 Tab 行为</td>
+          <td align="left"><code>KAKU_SMART_TAB_DISABLE=1</code></td>
+          </tr>
+          </tbody></table>
+          <p>也可以通过 <code>kaku config</code>（Behavior 下的 <strong>Smart Tab</strong> 选项）或在 <code>kaku.lua</code> 里设置：</p>
+          <pre><code class="language-lua">config.smart_tab_mode = &quot;completion_first&quot;   -- default
 config.smart_tab_mode = &quot;suggestion_first&quot;   -- Tab accepts autosuggestions first
 config.smart_tab_mode = &quot;off&quot;                -- disable Smart Tab
 </code></pre>
-<p>If you prefer environment variables (for example, because you share your zshrc across terminals), add one of these before sourcing the Kaku shell integration:</p>
-<pre><code class="language-zsh">export KAKU_TAB_ACCEPT_SUGGEST_FIRST=1  # suggestion-first mode
+          <p>如果你更想用环境变量（比如因为你在多个终端之间共享同一份 zshrc），在 source Kaku 的 shell 集成之前加上其中一行：</p>
+          <pre><code class="language-zsh">export KAKU_TAB_ACCEPT_SUGGEST_FIRST=1  # suggestion-first mode
 # or
 export KAKU_SMART_TAB_DISABLE=1         # disable Smart Tab
 </code></pre>
-<pre><code class="language-fish">set -gx KAKU_SMART_TAB_DISABLE 1
+          <pre><code class="language-fish">set -gx KAKU_SMART_TAB_DISABLE 1
 </code></pre>
-<p>Environment variables set in your shell rc take precedence over <code>kaku.lua</code> settings. Smart Tab is only active inside Kaku sessions (<code>TERM_PROGRAM=Kaku</code>).</p>
-          <nav class="doc-pager" aria-label="文档翻页"><a href="/zh/docs/install"><span>上一篇</span><strong>安装</strong></a><a href="/zh/docs/cli"><span>下一篇</span><strong>CLI 参考</strong></a></nav>
+          <p>在 shell rc 里设置的环境变量优先级高于 <code>kaku.lua</code> 的设置。Smart Tab 只在 Kaku 会话里生效（<code>TERM_PROGRAM=Kaku</code>）。</p>
+          <nav class="doc-pager" aria-label="Pagination"><a href="/zh/docs/"><span>上一页</span><strong>安装</strong></a><a href="/zh/docs/cli"><span>下一页</span><strong>CLI 参考</strong></a></nav>
         </article>
       </div>
     </section>
   </main>
-  <footer class="site-footer"><div class="wide"><div class="footer-brand"><a href="/zh/">Kaku</a><p>AI 编码时代的 macOS 终端。</p></div><div class="footer-cols"><div class="footer-col"><h2>产品</h2><a href="/zh/roadmap">Roadmap</a><a href="/zh/changelog">Changelog</a><a href="https://github.com/tw93/Kaku/releases" target="_blank" rel="noopener noreferrer">Releases</a></div><div class="footer-col"><h2>文档</h2><a href="/zh/docs/install">安装</a><a href="/zh/docs/features">AI 功能</a><a href="/zh/docs/configuration">配置</a></div><div class="footer-col"><h2>社区</h2><a href="https://github.com/tw93/Kaku">GitHub</a><a href="https://github.com/tw93/Kaku/issues">Issues</a><a href="https://twitter.com/HiTw93">X / Twitter</a></div><div class="footer-col"><h2>项目</h2><a href="https://github.com/wez/wezterm">Built on WezTerm</a><a href="https://github.com/tw93/Kaku/blob/main/LICENSE.md">MIT License</a><a href="https://github.com/tw93">Tw93</a></div></div><div class="footer-ethos">Tw93 出品。愿终端不再挡你的路。</div><div class="footer-bottom">Kaku · Built on WezTerm · MIT License · © 2026 Tw93</div></div></footer>
+  <footer class="site-footer"><div class="wide footer-inner"><div class="footer-mark"><img src="/img/kaku-mark.png" width="64" height="64" alt="Kaku" loading="lazy"><div><p class="wm-name">Kaku · 書</p><p class="wm-sub">AI 编码时代的 macOS 终端。</p></div></div><div class="footer-colophon"><p class="footer-links"><a href="/zh/roadmap">Roadmap</a> · <a href="/zh/changelog">Changelog</a> · <a href="/zh/docs/">文档</a> · <a href="https://github.com/tw93/Kaku">GitHub</a> · <a href="https://github.com/tw93/Kaku/issues">Issues</a> · <a href="https://twitter.com/HiTw93">X</a></p><p class="footer-ethos">Tw93 出品。愿终端不再挡你的路。 · Built on WezTerm · MIT · © 2026</p></div></div></footer>
 </body>
 </html>
