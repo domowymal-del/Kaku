@@ -2559,7 +2559,20 @@ impl TermWindow {
             return tab_overlay.pane_id() == pane_id;
         }
 
-        tab.contains_pane(pane_id)
+        if tab.contains_pane(pane_id) {
+            return true;
+        }
+
+        // A per-pane overlay (e.g. the AI chat) renders in place of its
+        // underlying pane and lives in pane_state, not the tab's pane tree. Its
+        // PaneOutput would otherwise be judged invisible and never trigger a
+        // window repaint, so the overlay would only update on input events.
+        self.pane_state.borrow().values().any(|state| {
+            state
+                .overlay
+                .as_ref()
+                .is_some_and(|o| o.pane.pane_id() == pane_id)
+        })
     }
 
     fn mux_pane_output_event(&mut self, pane_id: PaneId) {

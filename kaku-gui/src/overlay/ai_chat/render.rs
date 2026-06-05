@@ -162,7 +162,6 @@ fn build_line_runs(
     line: &DisplayLine,
     pal: &ChatPalette,
     spinner_char: &str,
-    spinner_char_tool: &str,
     content_width: usize,
 ) -> Vec<(CellAttributes, String)> {
     let mut runs: Vec<(CellAttributes, String)> = Vec::new();
@@ -179,12 +178,12 @@ fn build_line_runs(
             runs.push((pal.ai_header_cell(), strings::header_assistant()));
             if !tools.is_empty() {
                 // Render tool status in a dimmer tone so the "AI" header still pops.
-                let suffix = format_tool_suffix(tools, spinner_char_tool);
+                let suffix = format_tool_suffix(tools, spinner_char);
                 let avail = content_width.saturating_sub(4); // 4 = "  AI"
                 let suffix = if unicode_column_width(&suffix, None) > avail {
                     let last_suffix = format_tool_suffix(
                         std::slice::from_ref(tools.last().unwrap()),
-                        spinner_char_tool,
+                        spinner_char,
                     );
                     if unicode_column_width(&last_suffix, None) <= avail {
                         last_suffix
@@ -364,9 +363,15 @@ fn emit_styled_line(
 
 pub(super) fn render(term: &mut TermWizTerminal, app: &App) -> termwiz::Result<()> {
     match &app.mode {
-        AppMode::Chat => render_chat(term, app),
-        AppMode::ResumePicker { items, cursor } => render_picker(term, app, items, *cursor),
+        AppMode::Chat => render_chat(term, app)?,
+        AppMode::ResumePicker { items, cursor } => render_picker(term, app, items, *cursor)?,
     }
+    // render_chat/render_picker write through term.render() into a BufWriter; the
+    // bytes only reach the pane pipe (and thus trigger a window repaint via
+    // PaneOutput) once flushed. Without this, small frames such as a spinner-only
+    // change sit buffered until the 8KB buffer fills or an input event forces a
+    // repaint, so the animation and streamed output appear frozen.
+    term.flush()
 }
 
 /// Emit a bordered separator row containing the given styled runs.
@@ -504,13 +509,7 @@ fn render_chat(term: &mut TermWizTerminal, app: &App) -> termwiz::Result<()> {
         changes.push(Change::AllAttributes(pal.border_dim_cell()));
         changes.push(Change::Text("│".to_string()));
 
-        let runs = build_line_runs(
-            line,
-            pal,
-            app.spinner_char(),
-            app.spinner_char_tool(),
-            inner_w,
-        );
+        let runs = build_line_runs(line, pal, app.spinner_char(), inner_w);
         let line_idx = visible_start + i;
 
         // Determine the selection column range for this line (content columns, 0-based).

@@ -322,10 +322,13 @@ pub(crate) struct InputSnapshot {
     pub(crate) cursor: usize,
 }
 
-pub(crate) const SPINNER_FRAMES: &[&str] = &["✦", "✶", "✺", "✵", "✸", "✹", "✺"];
-pub(crate) const SPINNER_FRAMES_INPUT: &[&str] = &["◉", "◎"];
-pub(crate) const SPINNER_FRAMES_TOOL: &[&str] = &["●", "∙"];
-pub(crate) const SPINNER_INTERVAL_MS: u128 = 50;
+/// One sparkle pulse used by every chat loader (input prompt, "Thinking…",
+/// model fetch, running tools, approval) so they animate in unison. All frames
+/// are single-cell width so the prompt never shifts as it animates.
+pub(crate) const SPINNER_FRAMES: &[&str] = &["✦", "✶", "✸", "✷"];
+/// 140ms/frame (~560ms per cycle): calm, unhurried pulse. The overlay polls at
+/// 30ms while streaming, so the spinner advances on time.
+pub(crate) const SPINNER_INTERVAL_MS: u128 = 140;
 
 /// Cap on how many wrapped rows the input box can occupy before it starts to
 /// scroll internally. Keeps the message area from collapsing when a user

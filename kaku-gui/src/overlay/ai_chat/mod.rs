@@ -161,6 +161,7 @@ pub fn ai_chat_overlay(
             || app.stream_pending_done
             || app.model_status_flash.is_some()
             || app.suggest_rx.is_some()
+            || app.pending_approval.is_some()
             || matches!(app.model_fetch, ModelFetch::Loading)
         {
             Some(Duration::from_millis(30))
@@ -232,8 +233,9 @@ pub fn ai_chat_overlay(
             }
             Some(_) => {}
             None => {
-                // Timeout: if streaming or queue draining, trigger a redraw.
+                // Timeout: advance the spinner whenever a loader is on screen.
                 let spinner_changed = (app.is_streaming
+                    || app.pending_approval.is_some()
                     || matches!(app.model_fetch, ModelFetch::Loading))
                     && app.try_advance_spinner();
                 if app.is_streaming

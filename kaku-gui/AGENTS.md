@@ -62,6 +62,7 @@
 - Alternate-screen wheel behavior is config-controlled; do not hard-code one terminal behavior across normal and alternate screens.
 - Inline `#` AI query status belongs below the buffer, not as a toast, so terminal content remains stable.
 - `fast_model` and proxy config are part of the AI UX contract; verify both when changing provider selection or transport.
+- Per-pane overlays (AI chat) render in place of their underlying pane and live in `pane_state`, not the tab's pane tree. They have no window handle, so their output only repaints the window through `PaneOutput` -> `mux_pane_output_event` -> `is_pane_visible` -> `window.invalidate()`. `is_pane_visible` (`termwindow/mod.rs`) MUST treat an active per-pane overlay pane as visible, and the overlay's `render()` MUST `term.flush()`, or streamed output and the loading spinner freeze until an input event forces a repaint. Symptom-to-cause: if `top` refreshes on its own but the AI chat needs a click, the break is one of these two.
 
 ## Cross-References
 

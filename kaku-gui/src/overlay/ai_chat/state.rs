@@ -832,14 +832,6 @@ impl App {
         SPINNER_FRAMES[self.spinner_frame % SPINNER_FRAMES.len()]
     }
 
-    pub(crate) fn spinner_char_input(&self) -> &'static str {
-        SPINNER_FRAMES_INPUT[self.spinner_frame % SPINNER_FRAMES_INPUT.len()]
-    }
-
-    pub(crate) fn spinner_char_tool(&self) -> &'static str {
-        SPINNER_FRAMES_TOOL[self.spinner_frame % SPINNER_FRAMES_TOOL.len()]
-    }
-
     /// Push the current (input, cursor) onto the undo stack before a
     /// destructive edit. Empty inputs are skipped to avoid polluting the
     /// stack with no-op restorations; when the cap is reached the oldest
@@ -1196,7 +1188,7 @@ impl App {
 
     pub(crate) fn current_input_prompt(&self) -> String {
         if self.is_streaming {
-            format!("  {} ", self.spinner_char_input())
+            format!("  {} ", self.spinner_char())
         } else {
             "  > ".to_string()
         }
