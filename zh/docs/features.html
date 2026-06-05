@@ -64,9 +64,8 @@
           不同时，在面板里按 <code>Shift + Tab</code> 在两者之间切换。在面板里输入 <code>/suggest</code>，
           让 Kaku 预测你接下来可能想发的内容。</p>
           <p>在 shell 里用 <code>k</code> 或 <code>kaku chat</code> 可以共享同一份对话存储：</p>
-          <pre><code class="language-bash">k &quot;summarize the current project&quot;
-kaku chat
-</code></pre>
+          <pre><code class="language-bash">k <span class="tok-s">"summarize the current project"</span>
+kaku chat</code></pre>
           <p>独立 CLI 比 overlay 更简单，只输出纯终端文本，支持
           <code>/new</code>、<code>/resume</code>、<code>/clear</code>、<code>/status</code>、<code>/memory</code> 和 <code>/exit</code>。</p>
           <p><strong>命令失败修复</strong></p>
@@ -152,13 +151,12 @@ kaku chat
           <code>Cmd + Option + Shift + T</code> 重新打开上次保存的布局。快照文件缺失或损坏时
           Kaku 也能容错，只会提示没有可用快照。</p>
           <h2 id="features-applescript"><a class="anchor" href="#features-applescript" aria-label="链接到「AppleScript」">#</a>AppleScript</h2><p>Kaku 内置一份极简的 AppleScript 字典，因此它会出现在 Script Editor 和其他自动化工具里。暴露的接口故意做得很小，除了 <code>quit</code> 之外都是只读的。</p>
-          <pre><code class="language-applescript">tell application &quot;Kaku&quot;
-  get name        -- &quot;Kaku&quot;
-  get version     -- e.g. &quot;0.12.0&quot;
-  get frontmost   -- true / false
-  quit            -- optional `saving ask|yes|no`
-end tell
-</code></pre>
+          <pre><code class="language-applescript"><span class="tok-k">tell</span> <span class="tok-b">application</span> <span class="tok-s">"Kaku"</span>
+  <span class="tok-k">get</span> name        <span class="tok-c">-- "Kaku"</span>
+  <span class="tok-k">get</span> <span class="tok-b">version</span>     <span class="tok-c">-- e.g. "0.12.0"</span>
+  <span class="tok-k">get</span> frontmost   <span class="tok-c">-- true / false</span>
+  <span class="tok-b">quit</span>            <span class="tok-c">-- optional `saving ask|yes|no`</span>
+<span class="tok-k">end</span> <span class="tok-k">tell</span></code></pre>
           <p>在 Script Editor 里打开 <code>/Applications/Kaku.app</code>，File → Open Dictionary 即可浏览完整字典。Kaku 没有 <code>do script</code> 动词，不会把 shell 执行暴露给 AppleScript。</p>
           <h2 id="features-lazygit-integration"><a class="anchor" href="#features-lazygit-integration" aria-label="链接到「Lazygit 集成」">#</a>Lazygit 集成</h2><p>按 <code>Cmd + Shift + G</code> 在当前分屏里启动 lazygit。Kaku 会自动从 PATH 或常见的 Homebrew 位置找到 lazygit 二进制。</p>
           <p>当一个 git 仓库有未提交改动、且还没在这个目录用过 lazygit 时，Kaku 会显示一次性提示，提醒你可以用它。</p>
@@ -213,17 +211,15 @@ end tell
           </tr>
           </tbody></table>
           <p>也可以通过 <code>kaku config</code>（Behavior 下的 <strong>Smart Tab</strong> 选项）或在 <code>kaku.lua</code> 里设置：</p>
-          <pre><code class="language-lua">config.smart_tab_mode = &quot;completion_first&quot;   -- default
-config.smart_tab_mode = &quot;suggestion_first&quot;   -- Tab accepts autosuggestions first
-config.smart_tab_mode = &quot;off&quot;                -- disable Smart Tab
-</code></pre>
+          <pre><code class="language-lua">config.smart_tab_mode = <span class="tok-s">"completion_first"</span>   <span class="tok-c">-- default</span>
+config.smart_tab_mode = <span class="tok-s">"suggestion_first"</span>   <span class="tok-c">-- Tab accepts autosuggestions first</span>
+config.smart_tab_mode = <span class="tok-s">"off"</span>                <span class="tok-c">-- disable Smart Tab</span></code></pre>
           <p>如果你更想用环境变量（比如因为你在多个终端之间共享同一份 zshrc），在 source Kaku 的 shell 集成之前加上其中一行：</p>
-          <pre><code class="language-zsh">export KAKU_TAB_ACCEPT_SUGGEST_FIRST=1  # suggestion-first mode
+          <pre><code class="language-zsh"><span class="tok-b">export</span> KAKU_TAB_ACCEPT_SUGGEST_FIRST=<span class="tok-n">1</span>  <span class="tok-c"># suggestion-first mode
 # or
-export KAKU_SMART_TAB_DISABLE=1         # disable Smart Tab
-</code></pre>
-          <pre><code class="language-fish">set -gx KAKU_SMART_TAB_DISABLE 1
-</code></pre>
+</span><span class="tok-b">export</span> KAKU_SMART_TAB_DISABLE=<span class="tok-n">1</span>         <span class="tok-c"># disable Smart Tab
+</span></code></pre>
+          <pre><code class="language-fish"><span class="tok-k">set</span> -gx KAKU_SMART_TAB_DISABLE 1</code></pre>
           <p>在 shell rc 里设置的环境变量优先级高于 <code>kaku.lua</code> 的设置。Smart Tab 只在 Kaku 会话里生效（<code>TERM_PROGRAM=Kaku</code>）。</p>
           <nav class="doc-pager" aria-label="Pagination"><a href="/zh/docs/"><span>上一页</span><strong>安装</strong></a><a href="/zh/docs/cli"><span>下一页</span><strong>CLI 参考</strong></a></nav>
         </article>

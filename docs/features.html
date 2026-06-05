@@ -65,9 +65,8 @@
           are different. Type <code>/suggest</code> in the panel to have Kaku predict the next
           message you might want to send.</p>
           <p>From a shell, use <code>k</code> or <code>kaku chat</code> for the same conversation store:</p>
-          <pre><code class="language-bash">k &quot;summarize the current project&quot;
-kaku chat
-</code></pre>
+          <pre><code class="language-bash">k <span class="tok-s">"summarize the current project"</span>
+kaku chat</code></pre>
           <p>The standalone CLI is intentionally simpler than the overlay: it streams plain
           terminal text and supports <code>/new</code>, <code>/resume</code>, <code>/clear</code>, <code>/status</code>, <code>/memory</code>,
           and <code>/exit</code>.</p>
@@ -155,13 +154,12 @@ kaku chat
           missing or corrupted snapshot files and simply reports that no snapshot is
           available.</p>
           <h2 id="features-applescript"><a class="anchor" href="#features-applescript" aria-label="Link to AppleScript">#</a>AppleScript</h2><p>Kaku ships a minimal AppleScript dictionary so it shows up in Script Editor and other automation tools. The exposed surface is intentionally small and read-only apart from <code>quit</code>.</p>
-          <pre><code class="language-applescript">tell application &quot;Kaku&quot;
-  get name        -- &quot;Kaku&quot;
-  get version     -- e.g. &quot;0.12.0&quot;
-  get frontmost   -- true / false
-  quit            -- optional `saving ask|yes|no`
-end tell
-</code></pre>
+          <pre><code class="language-applescript"><span class="tok-k">tell</span> <span class="tok-b">application</span> <span class="tok-s">"Kaku"</span>
+  <span class="tok-k">get</span> name        <span class="tok-c">-- "Kaku"</span>
+  <span class="tok-k">get</span> <span class="tok-b">version</span>     <span class="tok-c">-- e.g. "0.12.0"</span>
+  <span class="tok-k">get</span> frontmost   <span class="tok-c">-- true / false</span>
+  <span class="tok-b">quit</span>            <span class="tok-c">-- optional `saving ask|yes|no`</span>
+<span class="tok-k">end</span> <span class="tok-k">tell</span></code></pre>
           <p>Open <code>/Applications/Kaku.app</code> in Script Editor → File → Open Dictionary to browse the full dictionary. There is no <code>do script</code> verb, Kaku does not expose shell execution to AppleScript.</p>
           <h2 id="features-lazygit-integration"><a class="anchor" href="#features-lazygit-integration" aria-label="Link to Lazygit Integration">#</a>Lazygit Integration</h2><p>Press <code>Cmd + Shift + G</code> to launch lazygit in the current pane. Kaku auto-detects the lazygit binary from PATH or common Homebrew locations.</p>
           <p>When a git repo has uncommitted changes and lazygit has not been used in that directory yet, Kaku shows a one-time hint to remind you it is available.</p>
@@ -216,17 +214,15 @@ end tell
           </tr>
           </tbody></table>
           <p>You can also set the mode via <code>kaku config</code> (the <strong>Smart Tab</strong> option under Behavior) or in <code>kaku.lua</code>:</p>
-          <pre><code class="language-lua">config.smart_tab_mode = &quot;completion_first&quot;   -- default
-config.smart_tab_mode = &quot;suggestion_first&quot;   -- Tab accepts autosuggestions first
-config.smart_tab_mode = &quot;off&quot;                -- disable Smart Tab
-</code></pre>
+          <pre><code class="language-lua">config.smart_tab_mode = <span class="tok-s">"completion_first"</span>   <span class="tok-c">-- default</span>
+config.smart_tab_mode = <span class="tok-s">"suggestion_first"</span>   <span class="tok-c">-- Tab accepts autosuggestions first</span>
+config.smart_tab_mode = <span class="tok-s">"off"</span>                <span class="tok-c">-- disable Smart Tab</span></code></pre>
           <p>If you prefer environment variables (for example, because you share your zshrc across terminals), add one of these before sourcing the Kaku shell integration:</p>
-          <pre><code class="language-zsh">export KAKU_TAB_ACCEPT_SUGGEST_FIRST=1  # suggestion-first mode
+          <pre><code class="language-zsh"><span class="tok-b">export</span> KAKU_TAB_ACCEPT_SUGGEST_FIRST=<span class="tok-n">1</span>  <span class="tok-c"># suggestion-first mode
 # or
-export KAKU_SMART_TAB_DISABLE=1         # disable Smart Tab
-</code></pre>
-          <pre><code class="language-fish">set -gx KAKU_SMART_TAB_DISABLE 1
-</code></pre>
+</span><span class="tok-b">export</span> KAKU_SMART_TAB_DISABLE=<span class="tok-n">1</span>         <span class="tok-c"># disable Smart Tab
+</span></code></pre>
+          <pre><code class="language-fish"><span class="tok-k">set</span> -gx KAKU_SMART_TAB_DISABLE 1</code></pre>
           <p>Environment variables set in your shell rc take precedence over <code>kaku.lua</code> settings. Smart Tab is only active inside Kaku sessions (<code>TERM_PROGRAM=Kaku</code>).</p>
           <nav class="doc-pager" aria-label="Pagination"><a href="/docs/"><span>Previous</span><strong>Install</strong></a><a href="/docs/cli"><span>Next</span><strong>CLI Reference</strong></a></nav>
         </article>

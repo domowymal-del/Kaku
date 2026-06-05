@@ -28,72 +28,58 @@
           <h2 id="faq-what-should-i-run-after-installing"><a class="anchor" href="#faq-what-should-i-run-after-installing" aria-label="链接到「安装后先跑什么」">#</a>安装后先跑什么？</h2><p>先打开一次 Kaku，再运行 <code>kaku doctor</code>。如果 shell 找不到 <code>kaku</code>，运行 <code>/Applications/Kaku.app/Contents/MacOS/kaku init --update-only</code>，再用 <code>exec zsh -l</code> 重启 shell。</p>
           <h2 id="faq-is-there-a-windows-or-linux-version"><a class="anchor" href="#faq-is-there-a-windows-or-linux-version" aria-label="链接到「有 Windows 或 Linux 版本吗」">#</a>有 Windows 或 Linux 版本吗？</h2><p>暂时没有。Kaku 现在只做 macOS，等 macOS 体验打磨稳定后再考虑 Windows 和 Linux。</p>
           <h2 id="faq-can-i-use-a-transparent-window"><a class="anchor" href="#faq-can-i-use-a-transparent-window" aria-label="链接到「开半透明窗口」">#</a>怎么开半透明窗口？</h2><p>在 <code>~/.config/kaku/kaku.lua</code> 里加：</p>
-          <pre><code class="language-lua">local config = require(&quot;kaku&quot;).config
-config.window_background_opacity = 0.92
-config.macos_window_background_blur = 20  -- 可选模糊度，0–100
-return config
-</code></pre>
-          <h2 id="faq-how-do-i-turn-off-copy-on-select"><a class="anchor" href="#faq-how-do-i-turn-off-copy-on-select" aria-label="链接到「关掉选中即复制」">#</a>怎么关掉「选中即复制」？</h2><pre><code class="language-lua">config.copy_on_select = false
-</code></pre>
+          <pre><code class="language-lua"><span class="tok-k">local</span> config = <span class="tok-b">require</span>(<span class="tok-s">"kaku"</span>).config
+config.window_background_opacity = <span class="tok-n">0.92</span>
+config.macos_window_background_blur = <span class="tok-n">20</span>  <span class="tok-c">-- 可选模糊度，0–100</span>
+<span class="tok-k">return</span> config</code></pre>
+          <h2 id="faq-how-do-i-turn-off-copy-on-select"><a class="anchor" href="#faq-how-do-i-turn-off-copy-on-select" aria-label="链接到「关掉选中即复制」">#</a>怎么关掉「选中即复制」？</h2><pre><code class="language-lua">config.copy_on_select = <span class="tok-b">false</span></code></pre>
           <h2 id="faq-how-do-i-customize-keybindings"><a class="anchor" href="#faq-how-do-i-customize-keybindings" aria-label="链接到「自定义快捷键」">#</a>怎么自定义快捷键？</h2><p>追加到 <code>config.keys</code>，不要整体覆盖：</p>
-          <pre><code class="language-lua">config.keys[#config.keys + 1] = {
-  key = &quot;RightArrow&quot;,
-  mods = &quot;CMD|SHIFT&quot;,
-  action = wezterm.action.ActivatePaneDirection(&quot;Right&quot;),
-}
-</code></pre>
+          <pre><code class="language-lua">config.keys[#config.keys + <span class="tok-n">1</span>] = {
+  key = <span class="tok-s">"RightArrow"</span>,
+  mods = <span class="tok-s">"CMD|SHIFT"</span>,
+  action = wezterm.action.<span class="tok-f">ActivatePaneDirection</span>(<span class="tok-s">"Right"</span>),
+}</code></pre>
           <p>更多示例见 <a href="/zh/docs/keybindings">快捷键</a> 和 <a href="/zh/docs/configuration">配置</a>。</p>
           <h2 id="faq-can-i-control-working-directory-inheritance"><a class="anchor" href="#faq-can-i-control-working-directory-inheritance" aria-label="链接到「工作目录继承」">#</a>工作目录继承能控制吗？</h2><p>可以，窗口、标签、分屏各自独立：</p>
-          <pre><code class="language-lua">config.window_inherit_working_directory = true
-config.tab_inherit_working_directory = true
-config.split_pane_inherit_working_directory = true
-</code></pre>
+          <pre><code class="language-lua">config.window_inherit_working_directory = <span class="tok-b">true</span>
+config.tab_inherit_working_directory = <span class="tok-b">true</span>
+config.split_pane_inherit_working_directory = <span class="tok-b">true</span></code></pre>
           <p>三个默认都开。</p>
           <h2 id="faq-how-do-i-disable-kaku-assistant"><a class="anchor" href="#faq-how-do-i-disable-kaku-assistant" aria-label="链接到「关掉 Kaku Assistant」">#</a>怎么关掉 Kaku Assistant？</h2><p>运行 <code>kaku ai</code> 打开 Assistant 设置，把 Enabled 关掉。或者直接改 <code>~/.config/kaku/assistant.toml</code>：</p>
-          <pre><code class="language-toml">enabled = false
-</code></pre>
+          <pre><code class="language-toml">enabled = <span class="tok-b">false</span></code></pre>
           <h2 id="faq-how-do-i-use-a-custom-llm-provider"><a class="anchor" href="#faq-how-do-i-use-a-custom-llm-provider" aria-label="链接到「自定义 LLM Provider」">#</a>怎么用自定义的 LLM Provider？</h2><p>运行 <code>kaku ai</code>，Provider 下拉里选 &quot;Custom&quot;，填 base URL 和 API key。URL 需要 OpenAI 兼容格式（<code>/v1/chat/completions</code>）。</p>
-          <h2 id="faq-how-do-i-restore-default-config"><a class="anchor" href="#faq-how-do-i-restore-default-config" aria-label="链接到「恢复默认配置」">#</a>怎么恢复默认配置？</h2><pre><code class="language-bash">kaku reset
-</code></pre>
+          <h2 id="faq-how-do-i-restore-default-config"><a class="anchor" href="#faq-how-do-i-restore-default-config" aria-label="链接到「恢复默认配置」">#</a>怎么恢复默认配置？</h2><pre><code class="language-bash">kaku reset</code></pre>
           <p>会用默认值覆盖 <code>~/.config/kaku/kaku.lua</code>。</p>
           <h2 id="faq-the-kaku-command-is-missing-how-do-i-recover-it"><a class="anchor" href="#faq-the-kaku-command-is-missing-how-do-i-recover-it" aria-label="链接到「kaku 命令找不到」">#</a><code>kaku</code> 命令找不到了，怎么恢复？</h2><pre><code class="language-bash">/Applications/Kaku.app/Contents/MacOS/kaku init --update-only
-exec zsh -l
-</code></pre>
+<span class="tok-b">exec</span> zsh -l</code></pre>
           <p>然后跑 <code>kaku doctor</code> 验证一切正常。</p>
           <h2 id="faq-how-do-i-use-kaku-s-cli-from-scripts"><a class="anchor" href="#faq-how-do-i-use-kaku-s-cli-from-scripts" aria-label="链接到「脚本里用 CLI」">#</a>怎么在脚本里用 Kaku 的 CLI？</h2><pre><code class="language-bash">kaku cli split-pane
-kaku cli split-pane -- bash -c &quot;echo hello&quot;
-kaku cli --help
-</code></pre>
+kaku cli split-pane -- bash -c <span class="tok-s">"echo hello"</span>
+kaku cli --help</code></pre>
           <p>完整参考见 <a href="/zh/docs/cli">CLI 参考</a>。</p>
           <h2 id="faq-how-do-i-enable-the-scrollbar"><a class="anchor" href="#faq-how-do-i-enable-the-scrollbar" aria-label="链接到「显示滚动条」">#</a>怎么显示滚动条？</h2><p>打开 <code>kaku config</code> 切换滚动条选项，或者改 <code>~/.config/kaku/kaku.lua</code>：</p>
-          <pre><code class="language-lua">config.enable_scroll_bar = true
-</code></pre>
+          <pre><code class="language-lua">config.enable_scroll_bar = <span class="tok-b">true</span></code></pre>
           <h2 id="faq-how-do-i-scroll-inside-nano-vim-or-another-full-screen-terminal-app"><a class="anchor" href="#faq-how-do-i-scroll-inside-nano-vim-or-another-full-screen-terminal-app" aria-label="链接到「在 nano / vim 里滚动」">#</a>怎么在 nano、vim 这类全屏终端应用里滚动？</h2><p>打开备用屏幕的滚轮转发：</p>
-          <pre><code class="language-lua">config.alternate_screen_wheel_scrolls_terminal = true
-</code></pre>
+          <pre><code class="language-lua">config.alternate_screen_wheel_scrolls_terminal = <span class="tok-b">true</span></code></pre>
           <h2 id="faq-how-do-i-change-the-font-my-font-change-isn-t-taking-effect"><a class="anchor" href="#faq-how-do-i-change-the-font-my-font-change-isn-t-taking-effect" aria-label="链接到「改字体不生效」">#</a>怎么改字体？我改了字体没生效。</h2><p>字体改动需要显式设置 <code>config.font</code>：</p>
-          <pre><code class="language-lua">config.font = wezterm.font(&#39;Your Font Name&#39;)
-</code></pre>
+          <pre><code class="language-lua">config.font = wezterm.<span class="tok-f">font</span>(<span class="tok-s">'Your Font Name'</span>)</code></pre>
           <p>提示：Kaku 主题感知的字重系统只对默认的 JetBrains Mono 字体栈生效。设了自定义字体之后，Kaku 不会再自动覆盖字重。</p>
           <h2 id="faq-my-window-padding-change-isn-t-working"><a class="anchor" href="#faq-my-window-padding-change-isn-t-working" aria-label="链接到「window_padding 不生效」">#</a><code>window_padding</code> 改了没效果。</h2><p><code>window_padding</code> 的值需要带 <code>&#39;px&#39;</code> 单位：</p>
-          <pre><code class="language-lua">config.window_padding = { left = &#39;24px&#39;, right = &#39;24px&#39;, top = &#39;40px&#39;, bottom = &#39;20px&#39; }
-</code></pre>
+          <pre><code class="language-lua">config.window_padding = { left = <span class="tok-s">'24px'</span>, right = <span class="tok-s">'24px'</span>, top = <span class="tok-s">'40px'</span>, bottom = <span class="tok-s">'20px'</span> }</code></pre>
           <p>纯数字（不带 <code>&#39;px&#39;</code>）会被当成终端 cell 单位，通常不是你想要的。</p>
           <h2 id="faq-the-screen-jumps-to-the-top-while-claude-code-is-generating-output"><a class="anchor" href="#faq-the-screen-jumps-to-the-top-while-claude-code-is-generating-output" aria-label="链接到「Claude Code 输出时屏幕跳顶」">#</a>Claude Code 输出过程中屏幕会跳到顶部。</h2><p>这是触控板滚动和 Claude Code 流式输出之间的已知交互。如果中途不小心滚到了顶，按向下方向键或往下滚就能回到当前输出。跳跃行为在最近几个版本里已经修。</p>
           <h2 id="faq-cmd-shift-y-sends-a-local-path-when-inside-an-ssh-session"><a class="anchor" href="#faq-cmd-shift-y-sends-a-local-path-when-inside-an-ssh-session" aria-label="链接到「SSH 里 Cmd+Shift+Y 是本地路径」">#</a>SSH 会话里按 Cmd+Shift+Y 打开的是本地路径。</h2><p>yazi 远端文件功能（<code>Cmd+Shift+R</code>）是为 SSH 会话设计的，通过 sshfs 挂载远端文件系统。<code>Cmd+Shift+Y</code> 是本地 yazi。SSH 分屏里要用 <code>Cmd+Shift+R</code>。</p>
           <h2 id="faq-the-y-shell-wrapper-doesn-t-sync-my-directory-on-exit"><a class="anchor" href="#faq-the-y-shell-wrapper-doesn-t-sync-my-directory-on-exit" aria-label="链接到「y 包装退出不同步目录」">#</a><code>y</code> 这个 shell 包装退出时不同步当前目录。</h2><p>确认 shell 集成已 source，用 <code>kaku doctor</code> 检查。<code>y</code> 包装依赖 shell init，直接调用 <code>yazi</code> 不同步目录。</p>
           <h2 id="faq-homebrew-can-t-find-the-binary-wrong-kaku-gets-updated"><a class="anchor" href="#faq-homebrew-can-t-find-the-binary-wrong-kaku-gets-updated" aria-label="链接到「Homebrew 找不到二进制」">#</a>Homebrew 找不到二进制 / 升级错了 kaku 包。</h2><p>Homebrew 上有一个同名但无关的旧 <code>kaku</code> 包。装 Kaku 要用 tap 才能避免冲突：</p>
-          <pre><code class="language-bash">brew install tw93/tap/kakuku
-</code></pre>
+          <pre><code class="language-bash">brew install tw93/tap/kakuku</code></pre>
           <p>如果 <code>kaku update</code> 出 checksum 错误，直接用 <code>brew upgrade tw93/tap/kakuku</code>。</p>
           <h2 id="faq-claude-code-notifications-don-t-appear"><a class="anchor" href="#faq-claude-code-notifications-don-t-appear" aria-label="链接到「Claude Code 通知不出现」">#</a>Claude Code 的通知不出现。</h2><p>Kaku 可能没拿到通知权限。打开 System Settings &gt; Notifications &gt; Kaku，开启 Allow Notifications，然后重启 Kaku。</p>
           <h2 id="faq-the-global-hotkey-doesn-t-work-on-non-qwerty-keyboards-e-g-colemak"><a class="anchor" href="#faq-the-global-hotkey-doesn-t-work-on-non-qwerty-keyboards-e-g-colemak" aria-label="链接到「非 QWERTY 键位上全局热键不工作」">#</a>全局快捷键在非 QWERTY 键位（比如 Colemak）上不工作。</h2><p><code>Cmd + Opt + Ctrl + K</code> 用的是物理 QWERTY 的 K 位置，Colemak 上对应的是不同键位。在配置里 remap：</p>
-          <pre><code class="language-lua">table.insert(config.keys, {
-  key = &#39;k&#39;,  -- 改成你布局上的物理键
-  mods = &#39;CMD|OPT|CTRL&#39;,
-  action = wezterm.action.EmitEvent(&#39;toggle-global-window&#39;),
-})
-</code></pre>
+          <pre><code class="language-lua"><span class="tok-b">table.insert</span>(config.keys, {
+  key = <span class="tok-s">'k'</span>,  <span class="tok-c">-- 改成你布局上的物理键</span>
+  mods = <span class="tok-s">'CMD|OPT|CTRL'</span>,
+  action = wezterm.action.<span class="tok-f">EmitEvent</span>(<span class="tok-s">'toggle-global-window'</span>),
+})</code></pre>
           <h2 id="faq-can-i-use-kaku-with-tiling-window-managers-yabai-aerospace"><a class="anchor" href="#faq-can-i-use-kaku-with-tiling-window-managers-yabai-aerospace" aria-label="链接到「配合 yabai / AeroSpace」">#</a>Kaku 能和 yabai、AeroSpace 这类平铺窗口管理器一起用吗？</h2><p>Kaku 兼容 yabai 和 AeroSpace。如果遇到持续闪烁，通常是平铺 WM 和 Kaku 的全屏/resize 逻辑在打架。把 Kaku 的原生全屏关掉（<code>config.native_macos_fullscreen_mode = false</code>）或者在平铺 WM 的管理列表里排除 Kaku，通常就能解决。</p>
           <nav class="doc-pager" aria-label="Pagination"><a href="/zh/docs/keybindings"><span>上一页</span><strong>快捷键</strong></a><a href="/zh/docs/contributing"><span>下一页</span><strong>贡献</strong></a></nav>
         </article>

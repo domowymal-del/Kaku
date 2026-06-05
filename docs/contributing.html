@@ -28,19 +28,19 @@
           <h2 id="contributing-setup"><a class="anchor" href="#contributing-setup" aria-label="Link to Setup">#</a>Setup</h2>
                     <p>Clone the repo, install the Rust toolchain, then install the local dev tools and the git hook.</p>
                     <pre><code class="language-bash">git clone https://github.com/tw93/Kaku.git
-cd Kaku
+<span class="tok-b">cd</span> Kaku
 
-# Install Rust if it isn't already available (Homebrew keeps rustup keg-only)
-brew install rustup
-echo "export PATH=\"$(brew --prefix rustup)/bin:\$HOME/.cargo/bin:\$PATH\"" >> ~/.zprofile
-exec zsh -l
-rustup toolchain install 1.93.0
+<span class="tok-c"># Install Rust if it isn't already available (Homebrew keeps rustup keg-only)
+</span>brew install rustup
+<span class="tok-b">echo</span> <span class="tok-s">"export PATH=\"</span><span class="tok-k">$(</span>brew --prefix rustup<span class="tok-k">)</span><span class="tok-s">/bin:\$HOME/.cargo/bin:\$PATH\""</span> &gt;&gt; ~/.zprofile
+<span class="tok-b">exec</span> zsh -l
+rustup toolchain install <span class="tok-n">1</span>.93.0
 
-# Install required tools (cargo-nextest, cargo-watch, nightly rustfmt)
-make install-tools
+<span class="tok-c"># Install required tools (cargo-nextest, cargo-watch, nightly rustfmt)
+</span>make install-tools
 
-# Install pre-commit hook (format + test before each commit)
-make install-hooks</code></pre>
+<span class="tok-c"># Install pre-commit hook (format + test before each commit)
+</span>make install-hooks</code></pre>
                     <p>After setup, <code>make app</code> builds a local debug app bundle at <code>dist/Kaku.app</code>. Use it for development and verification; normal users should install from the DMG or Homebrew.</p>
                     <h2 id="contributing-development"><a class="anchor" href="#contributing-development" aria-label="Link to Development">#</a>Development</h2>
                     <p>Make targets cover formatting, type checks, tests, and local runs.</p>
@@ -57,26 +57,27 @@ make install-hooks</code></pre>
                       </tbody>
                     </table>
                     <p>Recommended workflow:</p>
-                    <pre><code class="language-bash">make fmt        # format first
-make check      # verify it compiles
-make test       # run tests
-make dev        # fast local run without packaging</code></pre>
+                    <pre><code class="language-bash">make fmt        <span class="tok-c"># format first
+</span>make check      <span class="tok-c"># verify it compiles
+</span>make <span class="tok-b">test</span>       <span class="tok-c"># run tests
+</span>make dev        <span class="tok-c"># fast local run without packaging
+</span></code></pre>
                     <p>Override the log level for <code>make dev</code>:</p>
                     <pre><code class="language-bash">RUST_LOG=debug make dev</code></pre>
                     <h2 id="contributing-build-release"><a class="anchor" href="#contributing-build-release" aria-label="Link to Build Release">#</a>Build Release</h2>
                     <p>Reproduce release artifacts locally. Official releases run through <code>scripts/release.sh</code>.</p>
-                    <pre><code class="language-bash"># Build app and DMG, release, universal binary
-./scripts/build.sh
-# Outputs: dist/Kaku.app and dist/Kaku.dmg
+                    <pre><code class="language-bash"><span class="tok-c"># Build app and DMG, release, universal binary
+</span>./scripts/build.sh
+<span class="tok-c"># Outputs: dist/Kaku.app and dist/Kaku.dmg
+</span>
+<span class="tok-c"># Build for current architecture only, faster for local testing
+</span>./scripts/build.sh --native-arch
 
-# Build for current architecture only, faster for local testing
-./scripts/build.sh --native-arch
+<span class="tok-c"># Build app bundle only, skip DMG creation
+</span>./scripts/build.sh --native-arch --app-only
 
-# Build app bundle only, skip DMG creation
-./scripts/build.sh --native-arch --app-only
-
-# Build and open the app automatically
-./scripts/build.sh --native-arch --open</code></pre>
+<span class="tok-c"># Build and open the app automatically
+</span>./scripts/build.sh --native-arch --open</code></pre>
                     <h2 id="contributing-pull-requests"><a class="anchor" href="#contributing-pull-requests" aria-label="Link to Pull Requests">#</a>Pull Requests</h2>
                     <ol>
                       <li>Fork the repo and branch from <code>main</code>.</li>

@@ -262,20 +262,19 @@
           </tr>
           </tbody></table>
           <h2 id="keybindings-custom-keybindings"><a class="anchor" href="#keybindings-custom-keybindings" aria-label="链接到「自定义快捷键」">#</a>自定义快捷键</h2><p>往 <code>~/.config/kaku/kaku.lua</code> 里<strong>追加</strong>绑定到 <code>config.keys</code>。不要赋一个新表，那会清掉 Kaku 的默认值。</p>
-          <pre><code class="language-lua">-- ~/.config/kaku/kaku.lua (after loading bundled config)
-table.insert(config.keys, {
-  key = &#39;RightArrow&#39;,
-  mods = &#39;CMD|SHIFT&#39;,
-  action = wezterm.action.ActivatePaneDirection(&#39;Right&#39;),
+          <pre><code class="language-lua"><span class="tok-c">-- ~/.config/kaku/kaku.lua (after loading bundled config)</span>
+<span class="tok-b">table.insert</span>(config.keys, {
+  key = <span class="tok-s">'RightArrow'</span>,
+  mods = <span class="tok-s">'CMD|SHIFT'</span>,
+  action = wezterm.action.<span class="tok-f">ActivatePaneDirection</span>(<span class="tok-s">'Right'</span>),
 })
 
--- Example: rebind AI Chat to Cmd+Shift+Space (original default):
-table.insert(config.keys, {
-  key = &#39;Space&#39;,
-  mods = &#39;CMD|SHIFT&#39;,
-  action = wezterm.action.EmitEvent(&#39;kaku-ai-chat&#39;),
-})
-</code></pre>
+<span class="tok-c">-- Example: rebind AI Chat to Cmd+Shift+Space (original default):</span>
+<span class="tok-b">table.insert</span>(config.keys, {
+  key = <span class="tok-s">'Space'</span>,
+  mods = <span class="tok-s">'CMD|SHIFT'</span>,
+  action = wezterm.action.<span class="tok-f">EmitEvent</span>(<span class="tok-s">'kaku-ai-chat'</span>),
+})</code></pre>
           <p>可用动作的完整列表见 <a href="https://wezfurlong.org/wezterm/config/lua/keyassignment/" target="_blank" rel="noopener noreferrer">WezTerm KeyAssignment 参考</a>。</p>
           <nav class="doc-pager" aria-label="Pagination"><a href="/zh/docs/configuration"><span>上一页</span><strong>配置</strong></a><a href="/zh/docs/faq"><span>下一页</span><strong>FAQ</strong></a></nav>
         </article>

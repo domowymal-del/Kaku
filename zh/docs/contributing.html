@@ -28,19 +28,19 @@
           <h2 id="contributing-setup"><a class="anchor" href="#contributing-setup" aria-label="链接到「环境准备」">#</a>环境准备</h2>
                     <p>克隆仓库，装 Rust 工具链，再装本地开发需要的工具和 git hook。</p>
                     <pre><code class="language-bash">git clone https://github.com/tw93/Kaku.git
-cd Kaku
+<span class="tok-b">cd</span> Kaku
 
-# Homebrew 把 rustup 装在 keg-only，需要手动 export PATH
-brew install rustup
-echo "export PATH=\"$(brew --prefix rustup)/bin:\$HOME/.cargo/bin:\$PATH\"" >> ~/.zprofile
-exec zsh -l
-rustup toolchain install 1.93.0
+<span class="tok-c"># Homebrew 把 rustup 装在 keg-only，需要手动 export PATH
+</span>brew install rustup
+<span class="tok-b">echo</span> <span class="tok-s">"export PATH=\"</span><span class="tok-k">$(</span>brew --prefix rustup<span class="tok-k">)</span><span class="tok-s">/bin:\$HOME/.cargo/bin:\$PATH\""</span> &gt;&gt; ~/.zprofile
+<span class="tok-b">exec</span> zsh -l
+rustup toolchain install <span class="tok-n">1</span>.93.0
 
-# 装 cargo-nextest、cargo-watch、nightly rustfmt
-make install-tools
+<span class="tok-c"># 装 cargo-nextest、cargo-watch、nightly rustfmt
+</span>make install-tools
 
-# 装 pre-commit hook：每次提交前会跑 format + test
-make install-hooks</code></pre>
+<span class="tok-c"># 装 pre-commit hook：每次提交前会跑 format + test
+</span>make install-hooks</code></pre>
                     <p>环境准备好后，<code>make app</code> 会把本地 debug app bundle 编译到 <code>dist/Kaku.app</code>。它用于开发和验证，不是普通用户的安装方式。</p>
                     <h2 id="contributing-development"><a class="anchor" href="#contributing-development" aria-label="链接到「日常开发」">#</a>日常开发</h2>
                     <p>常用 Make 目标如下，覆盖格式化、类型检查、测试和本地运行。</p>
@@ -57,26 +57,27 @@ make install-hooks</code></pre>
                       </tbody>
                     </table>
                     <p>推荐的开发循环：</p>
-                    <pre><code class="language-bash">make fmt        # 先格式化
-make check      # 确认能编译
-make test       # 跑测试
-make dev        # 本地快速运行，不打包</code></pre>
+                    <pre><code class="language-bash">make fmt        <span class="tok-c"># 先格式化
+</span>make check      <span class="tok-c"># 确认能编译
+</span>make <span class="tok-b">test</span>       <span class="tok-c"># 跑测试
+</span>make dev        <span class="tok-c"># 本地快速运行，不打包
+</span></code></pre>
                     <p>需要调整日志等级时给 <code>make dev</code> 加环境变量：</p>
                     <pre><code class="language-bash">RUST_LOG=debug make dev</code></pre>
                     <h2 id="contributing-build-release"><a class="anchor" href="#contributing-build-release" aria-label="链接到「发布构建」">#</a>发布构建</h2>
                     <p>本地复现发布产物的几条命令，正式发布走 <code>scripts/release.sh</code>。</p>
-                    <pre><code class="language-bash"># 完整发布：app + DMG，universal 二进制
-./scripts/build.sh
-# 输出：dist/Kaku.app 和 dist/Kaku.dmg
+                    <pre><code class="language-bash"><span class="tok-c"># 完整发布：app + DMG，universal 二进制
+</span>./scripts/build.sh
+<span class="tok-c"># 输出：dist/Kaku.app 和 dist/Kaku.dmg
+</span>
+<span class="tok-c"># 只为当前架构构建，速度更快，本地测试用
+</span>./scripts/build.sh --native-arch
 
-# 只为当前架构构建，速度更快，本地测试用
-./scripts/build.sh --native-arch
+<span class="tok-c"># 只打 app bundle，跳过 DMG
+</span>./scripts/build.sh --native-arch --app-only
 
-# 只打 app bundle，跳过 DMG
-./scripts/build.sh --native-arch --app-only
-
-# 构建完直接打开 app
-./scripts/build.sh --native-arch --open</code></pre>
+<span class="tok-c"># 构建完直接打开 app
+</span>./scripts/build.sh --native-arch --open</code></pre>
                     <h2 id="contributing-pull-requests"><a class="anchor" href="#contributing-pull-requests" aria-label="链接到「Pull Request」">#</a>Pull Request</h2>
                     <ol>
                       <li>Fork 仓库，从 <code>main</code> 切出分支。</li>

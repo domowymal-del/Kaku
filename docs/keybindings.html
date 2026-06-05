@@ -262,20 +262,19 @@
           </tr>
           </tbody></table>
           <h2 id="keybindings-custom-keybindings"><a class="anchor" href="#keybindings-custom-keybindings" aria-label="Link to Custom Keybindings">#</a>Custom Keybindings</h2><p>Add bindings to <code>~/.config/kaku/kaku.lua</code> by <strong>appending</strong> to <code>config.keys</code>. Do not assign a new table, this would erase Kaku&#39;s defaults.</p>
-          <pre><code class="language-lua">-- ~/.config/kaku/kaku.lua (after loading bundled config)
-table.insert(config.keys, {
-  key = &#39;RightArrow&#39;,
-  mods = &#39;CMD|SHIFT&#39;,
-  action = wezterm.action.ActivatePaneDirection(&#39;Right&#39;),
+          <pre><code class="language-lua"><span class="tok-c">-- ~/.config/kaku/kaku.lua (after loading bundled config)</span>
+<span class="tok-b">table.insert</span>(config.keys, {
+  key = <span class="tok-s">'RightArrow'</span>,
+  mods = <span class="tok-s">'CMD|SHIFT'</span>,
+  action = wezterm.action.<span class="tok-f">ActivatePaneDirection</span>(<span class="tok-s">'Right'</span>),
 })
 
--- Example: rebind AI Chat to Cmd+Shift+Space (original default):
-table.insert(config.keys, {
-  key = &#39;Space&#39;,
-  mods = &#39;CMD|SHIFT&#39;,
-  action = wezterm.action.EmitEvent(&#39;kaku-ai-chat&#39;),
-})
-</code></pre>
+<span class="tok-c">-- Example: rebind AI Chat to Cmd+Shift+Space (original default):</span>
+<span class="tok-b">table.insert</span>(config.keys, {
+  key = <span class="tok-s">'Space'</span>,
+  mods = <span class="tok-s">'CMD|SHIFT'</span>,
+  action = wezterm.action.<span class="tok-f">EmitEvent</span>(<span class="tok-s">'kaku-ai-chat'</span>),
+})</code></pre>
           <p>For the full list of available actions, see <a href="https://wezfurlong.org/wezterm/config/lua/keyassignment/" target="_blank" rel="noopener noreferrer">WezTerm KeyAssignment reference</a>.</p>
           <nav class="doc-pager" aria-label="Pagination"><a href="/docs/configuration"><span>Previous</span><strong>Configuration</strong></a><a href="/docs/faq"><span>Next</span><strong>FAQ</strong></a></nav>
         </article>
