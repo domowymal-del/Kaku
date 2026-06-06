@@ -1525,7 +1525,7 @@ fi
 # users who picked their own color are preserved.
 _kaku_apply_highlight_styles() {
     # Both fast-syntax-highlighting and zsh-syntax-highlighting ship the same
-    # invisible default for `[comment]`: fg=black,bold (older versions: fg=8).
+    # invisible default for \`[comment]\`: fg=black,bold (older versions: fg=8).
     # Kaku Dark's color_overrides collapse those to #3A3942 against #1F1D2C,
     # so the # character and any zsh-style # comment becomes unreadable.
     # Replace ONLY the known defaults; leave any other value alone so a user
