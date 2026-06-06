@@ -23,3 +23,14 @@ pub(crate) fn header_assistant() -> String {
 pub(crate) fn approval_notification_title() -> String {
     "Kaku AI needs confirmation".to_string()
 }
+
+/// Title shown by the system notification when a chat task finishes
+/// while the Kaku window is unfocused.
+pub(crate) fn task_complete_notification_title() -> String {
+    "Kaku AI task complete".to_string()
+}
+
+/// Body shown by the task-complete system notification.
+pub(crate) fn task_complete_notification_body() -> String {
+    "The AI has finished responding.".to_string()
+}

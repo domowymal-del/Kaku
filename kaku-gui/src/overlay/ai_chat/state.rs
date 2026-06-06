@@ -1611,7 +1611,10 @@ impl App {
             let was_transient = self.stream_is_transient;
             self.stream_is_transient = false;
             if !was_transient && self.stream_pending_err.is_none() {
-                send_unfocused_notification("Kaku AI 任务完成", "AI 已完成回复，可以查看结果");
+                send_unfocused_notification(
+                    &strings::task_complete_notification_title(),
+                    &strings::task_complete_notification_body(),
+                );
             }
             if !was_transient {
                 self.save_history();
