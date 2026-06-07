@@ -611,6 +611,32 @@ fn is_tab_hover(mouse_x: Option<usize>, x: usize, tab_title_len: usize) -> bool 
         .unwrap_or(false)
 }
 
+/// Maximum width, in cell columns, that each tab title may occupy on the
+/// non-fancy tab bar. Titles wider than this are truncated, so this is the
+/// budget that governs the "tab gets cut off / squeezed to nothing" class of
+/// layout bugs. Returns `usize::MAX` when no per-tab cap applies (the fancy
+/// bar lays itself out and is never truncated here).
+fn tab_width_budget(
+    title_width: usize,
+    controls_width: usize,
+    number_of_tabs: usize,
+    tab_max_width: usize,
+    use_fancy_tab_bar: bool,
+) -> usize {
+    let tab_max_width = tab_max_width.max(1);
+    if number_of_tabs == 0 {
+        tab_max_width
+    } else if use_fancy_tab_bar {
+        usize::MAX
+    } else {
+        let available_cells = title_width.saturating_sub(controls_width);
+        // Floor at 1 so a tab is never squeezed to zero width (it would vanish
+        // and become unclickable); cap at the configured per-tab maximum.
+        let per_tab = (available_cells / number_of_tabs).max(1);
+        per_tab.min(tab_max_width)
+    }
+}
+
 impl TabBarState {
     pub fn default() -> Self {
         Self {
@@ -792,15 +818,13 @@ impl TabBarState {
         } else {
             0
         };
-        let available_cells = title_width.saturating_sub(controls_width);
-        let tab_width_max = if number_of_tabs == 0 {
-            config.tab_max_width.max(1)
-        } else if config.use_fancy_tab_bar {
-            usize::MAX
-        } else {
-            let per_tab = (available_cells / number_of_tabs).max(1);
-            per_tab.min(config.tab_max_width.max(1))
-        };
+        let tab_width_max = tab_width_budget(
+            title_width,
+            controls_width,
+            number_of_tabs,
+            config.tab_max_width,
+            config.use_fancy_tab_bar,
+        );
         let tab_title_max_width_for_callback = if tab_width_max == usize::MAX {
             config.tab_max_width.max(1)
         } else {
@@ -1210,6 +1234,57 @@ mod test {
             window_id: 0,
             tab_title: title.to_string(),
         }
+    }
+
+    #[test]
+    fn tab_width_budget_caps_single_tab_to_max() {
+        // One tab in a wide window is capped at tab_max_width, not the window.
+        assert_eq!(tab_width_budget(200, 0, 1, 25, false), 25);
+    }
+
+    #[test]
+    fn tab_width_budget_divides_narrow_window_evenly() {
+        // 6 tabs sharing 60 cells -> 10 each, under the 25 cap.
+        assert_eq!(tab_width_budget(60, 0, 6, 25, false), 10);
+    }
+
+    #[test]
+    fn tab_width_budget_reserves_controls() {
+        // The new-tab button width is taken off the top before dividing.
+        assert_eq!(tab_width_budget(64, 4, 6, 25, false), 10);
+    }
+
+    #[test]
+    fn tab_width_budget_never_zero_when_crowded() {
+        // Many tabs in a tiny window must still leave each tab at least 1 cell,
+        // otherwise a tab renders to nothing and becomes unclickable (#439/#445).
+        assert_eq!(tab_width_budget(10, 0, 40, 25, false), 1);
+        // Controls wider than the window saturate to 0 available, still >= 1.
+        assert_eq!(tab_width_budget(3, 8, 5, 25, false), 1);
+    }
+
+    #[test]
+    fn tab_width_budget_zero_tabs_uses_max() {
+        assert_eq!(tab_width_budget(80, 0, 0, 25, false), 25);
+        // tab_max_width is clamped to at least 1.
+        assert_eq!(tab_width_budget(80, 0, 0, 0, false), 1);
+    }
+
+    #[test]
+    fn tab_width_budget_fancy_bar_is_uncapped() {
+        assert_eq!(tab_width_budget(80, 0, 6, 25, true), usize::MAX);
+    }
+
+    #[test]
+    fn hover_hits_only_within_tab_span() {
+        // Tab occupies columns [10, 15): inclusive start, exclusive end.
+        assert!(!is_tab_hover(Some(9), 10, 5));
+        assert!(is_tab_hover(Some(10), 10, 5));
+        assert!(is_tab_hover(Some(14), 10, 5));
+        assert!(!is_tab_hover(Some(15), 10, 5));
+        // No mouse, or a zero-width tab, never registers a hover.
+        assert!(!is_tab_hover(None, 10, 5));
+        assert!(!is_tab_hover(Some(10), 10, 0));
     }
 
     #[test]
