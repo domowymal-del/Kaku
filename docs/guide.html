@@ -1,0 +1,109 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="color-scheme" content="light">
+  <title>Guide · Kaku Docs</title>
+  <meta name="description" content="A plain-language walkthrough of Kaku: what you see on first launch, how tabs and panes work, the ready-to-go shell, the AI assistant, and built-in tools.">
+  <link rel="icon" type="image/png" sizes="32x32" href="/img/favicon-kaku-32.png"><link rel="icon" type="image/png" sizes="192x192" href="/img/favicon-kaku-192.png"><link rel="apple-touch-icon" href="/img/favicon-kaku-180.png">
+  <link rel="canonical" href="https://kaku.fun/docs/guide">
+  <link rel="alternate" hreflang="en" href="https://kaku.fun/docs/guide">
+  <link rel="alternate" hreflang="zh-CN" href="https://kaku.fun/zh/docs/guide">
+  <link rel="alternate" hreflang="x-default" href="https://kaku.fun/docs/guide">
+  <link rel="stylesheet" href="/styles.css">
+</head>
+<body>
+  <a class="skip-link" href="#main-content">Skip to content</a>
+  <nav class="site-nav" aria-label="Primary navigation"><div class="wide nav-inner"><a class="brand" href="/"><strong>Kaku</strong></a><span class="eyebrow-sep">·</span><a class="version-link" href="https://github.com/tw93/Kaku/releases" target="_blank" rel="noopener noreferrer">v0.12.1</a><div class="nav-links"><a href="/docs/" aria-current="page">Docs</a></div><div class="nav-actions"><a class="nav-pill" href="/zh/docs/guide" hreflang="zh-CN">中</a><a class="nav-pill" aria-current="page" href="/docs/guide" hreflang="en">EN</a><a class="nav-icon" href="https://github.com/tw93/Kaku" target="_blank" rel="noopener noreferrer" aria-label="GitHub"><svg width="16" height="16" viewBox="0 0 16 16" fill="currentColor"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.01 8.01 0 0016 8c0-4.42-3.58-8-8-8z"/></svg></a><a class="nav-icon" href="https://x.com/HiTw93" target="_blank" rel="noopener noreferrer" aria-label="X"><svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg></a></div></div></nav>
+  <main id="main-content" class="docs-page">
+    <header class="page-hero doc-hero"><div class="wide"><span class="label">Docs</span><h1>Guide</h1><p>A plain-language tour of Kaku: what you see, where to click, and what each shortcut does.</p></div></header>
+    <section class="section docs-section">
+      <div class="wide docs-layout">
+        <aside class="docs-sidebar">
+          <a class="docs-home" href="/docs/">Docs</a>
+          <nav class="docs-menu" aria-label="Documentation pages"><a href="/docs/"><span>Install</span></a><a href="/docs/guide" aria-current="page"><span>Guide</span></a><a href="/docs/features"><span>Features</span></a><a href="/docs/cli"><span>CLI Reference</span></a><a href="/docs/configuration"><span>Configuration</span></a><a href="/docs/keybindings"><span>Keybindings</span></a><a href="/docs/faq"><span>FAQ</span></a><a href="/docs/contributing"><span>Contributing</span></a></nav>
+          <div class="section-toc"><p>On this page</p><a class="depth-2" href="#guide-first-launch">First launch</a><a class="depth-2" href="#guide-tabs-panes">Tabs &amp; panes</a><a class="depth-2" href="#guide-shell">The shell, ready to go</a><a class="depth-2" href="#guide-assistant">The AI assistant</a><a class="depth-2" href="#guide-tools">Built-in tools</a><a class="depth-2" href="#guide-settings">Settings &amp; health</a></div>
+        </aside>
+        <article class="doc-content">
+          <blockquote>
+            <p>New to Kaku? This page walks through the app the way you actually use it, from the first window to the AI assistant. For full reference, see <a href="/docs/features">Features</a>, <a href="/docs/keybindings">Keybindings</a>, and <a href="/docs/configuration">Configuration</a>.</p>
+          </blockquote>
+          <figure class="shot"><img src="/shots/kaku-dark.webp" width="1920" height="1192" loading="lazy" alt="Kaku terminal showing the tab bar, panes, and shell prompt"><figcaption>One Kaku window: tabs along the bottom, panes side by side, and a ready-to-go shell.</figcaption></figure>
+
+          <h2 id="guide-first-launch"><a class="anchor" href="#guide-first-launch" aria-label="Link to First launch">#</a>First launch</h2>
+          <p>Open Kaku and you get a single terminal window with a shell prompt, ready to type. There is no setup wizard and no account to create.</p>
+          <ul>
+            <li><strong>Theme follows macOS.</strong> Kaku starts in dark or light to match your system appearance, and switches automatically when the system does.</li>
+            <li><strong>Window controls sit in the tab bar.</strong> The macOS close, minimize, and zoom buttons are tucked into the top-left of the tab strip, so the window stays clean.</li>
+            <li><strong>The tab bar hides itself.</strong> With one tab open there is nothing extra on screen; it appears the moment you open a second tab.</li>
+          </ul>
+          <p>If your shell cannot find the <code>kaku</code> command afterwards, run <code>kaku doctor</code> to check the setup. See <a href="/docs/">Install</a> for first-run details.</p>
+
+          <h2 id="guide-tabs-panes"><a class="anchor" href="#guide-tabs-panes" aria-label="Link to Tabs and panes">#</a>Tabs &amp; panes</h2>
+          <p>Tabs and splits use the macOS shortcuts you already expect, so you rarely need the menu.</p>
+          <table>
+          <thead>
+          <tr><th align="left">You want to</th><th align="left">Press</th><th align="left">What happens</th></tr>
+          </thead>
+          <tbody>
+          <tr><td align="left">Open a new tab</td><td align="left"><code>Cmd + T</code></td><td align="left">Adds a tab in the same folder and reveals the tab bar.</td></tr>
+          <tr><td align="left">Split left / right</td><td align="left"><code>Cmd + D</code></td><td align="left">Splits the current pane into two side by side.</td></tr>
+          <tr><td align="left">Split top / bottom</td><td align="left"><code>Cmd + Shift + D</code></td><td align="left">Stacks a second pane below the current one.</td></tr>
+          <tr><td align="left">Move between panes</td><td align="left"><code>Cmd + Opt + arrows</code></td><td align="left">Moves focus to the pane in that direction.</td></tr>
+          <tr><td align="left">Close pane / tab</td><td align="left"><code>Cmd + W</code></td><td align="left">Closes the active pane, or the tab if it is the last pane, otherwise hides the app.</td></tr>
+          <tr><td align="left">Reopen a closed tab</td><td align="left"><code>Cmd + Shift + T</code></td><td align="left">Restores the last tab you closed, in its old folder.</td></tr>
+          <tr><td align="left">Rename a tab</td><td align="left">Double-click its title</td><td align="left">Type a name; press Enter to keep it.</td></tr>
+          </tbody>
+          </table>
+          <p>Need to type the same thing into several panes at once? Press <code>Cmd + Opt + I</code> to broadcast your keystrokes to every pane in the current tab. The full list lives in <a href="/docs/keybindings">Keybindings</a>.</p>
+
+          <h2 id="guide-shell"><a class="anchor" href="#guide-shell" aria-label="Link to The shell, ready to go">#</a>The shell, ready to go</h2>
+          <p>Kaku sets up a curated zsh (and fish) on first launch, so the shell feels modern without you editing config files.</p>
+          <ul>
+            <li><strong>Autosuggestions.</strong> As you type, a grey suggestion from your history appears ahead of the cursor.</li>
+            <li><strong>Smart Tab.</strong> Press <code>Tab</code> to accept that grey suggestion when one is showing, or to open the completion list when it is not. This is the default; you can switch it in <a href="/docs/configuration">Configuration</a>.</li>
+            <li><strong>Jump to folders.</strong> Type <code>z proj</code> to jump straight to a folder you visit often, no full path needed.</li>
+            <li><strong>Readable output.</strong> Commands and errors are colored as you type, and <code>git diff</code> is paged through Delta when it is installed.</li>
+          </ul>
+          <p>Two touches save time without a keystroke: selecting text copies it to the clipboard as soon as you release the mouse, and <code>Cmd + Click</code> opens a file path or URL in its default app.</p>
+
+          <h2 id="guide-assistant"><a class="anchor" href="#guide-assistant" aria-label="Link to The AI assistant">#</a>The AI assistant</h2>
+          <p>The assistant is optional and only runs when you ask. Turn it on once with <code>kaku ai</code>: enable it, pick a provider (reuse your <code>codex</code> login, bring an OpenAI key, or point at a custom endpoint), and you are set. After that there are three ways to use it.</p>
+          <ol>
+            <li><strong>Fix a failed command.</strong> When a command exits with an error, Kaku drafts a fix and shows it just under the prompt. Press <code>Cmd + Shift + E</code> to paste the suggestion in. Risky commands like <code>rm -rf</code> are pasted for review but never run on their own.</li>
+            <li><strong>Plain language to a command.</strong> Type <code>#</code> and a sentence, such as <code># find and kill the process on port 3000</code>, then press Enter. Kaku turns it into a real command and drops it at the prompt, ready for you to check and run.</li>
+            <li><strong>Open the chat panel.</strong> Press <code>Cmd + L</code> for a chat that streams formatted answers, highlights code, and can read the current terminal context. From any shell, <code>k "..."</code> or <code>kaku chat</code> opens the same conversation.</li>
+          </ol>
+          <p>Requests only go to the provider you configured, and full setup details are in <a href="/docs/features">Features</a>.</p>
+
+          <h2 id="guide-tools"><a class="anchor" href="#guide-tools" aria-label="Link to Built-in tools">#</a>Built-in tools</h2>
+          <p>A few terminal tools are one shortcut away. Each opens in the current pane and returns you to the shell when you quit.</p>
+          <table>
+          <thead>
+          <tr><th align="left">Tool</th><th align="left">Press</th><th align="left">What it does</th></tr>
+          </thead>
+          <tbody>
+          <tr><td align="left">Lazygit</td><td align="left"><code>Cmd + Shift + G</code></td><td align="left">A visual git interface for the current repo.</td></tr>
+          <tr><td align="left">Yazi</td><td align="left"><code>Cmd + Shift + Y</code></td><td align="left">A file manager that drops you into the folder you pick.</td></tr>
+          <tr><td align="left">Remote files</td><td align="left"><code>Cmd + Shift + R</code></td><td align="left">Mounts the current SSH host's files locally and browses them.</td></tr>
+          </tbody>
+          </table>
+          <p>If a tool is missing, run <code>kaku init</code> and Kaku offers to install it. Theme and behavior details are in <a href="/docs/features">Features</a>.</p>
+
+          <h2 id="guide-settings"><a class="anchor" href="#guide-settings" aria-label="Link to Settings and health">#</a>Settings &amp; health</h2>
+          <p>Kaku ships with sensible defaults, so you can change as little or as much as you like.</p>
+          <ul>
+            <li><strong>Quick settings.</strong> Press <code>Cmd + ,</code> to open the settings panel for common options like the scrollbar, Smart Tab mode, and AI models.</li>
+            <li><strong>Full config.</strong> Run <code>kaku config</code> to open <code>~/.config/kaku/kaku.lua</code>, where you can set font size, window opacity, custom shortcuts, and any Lua override. See <a href="/docs/configuration">Configuration</a>.</li>
+            <li><strong>Check the setup.</strong> Run <code>kaku doctor</code> any time something feels off; it verifies the app bundle, PATH, shell integration, and optional tools.</li>
+          </ul>
+          <p>That is the whole loop: install, optionally set up AI, then tune the terminal to taste. Browse the rest of the docs whenever you need a specific detail.</p>
+          <nav class="doc-pager" aria-label="Pagination"><a href="/docs/"><span>Previous</span><strong>Install</strong></a><a href="/docs/features"><span>Next</span><strong>Features</strong></a></nav>
+        </article>
+      </div>
+    </section>
+  </main>
+  <footer class="site-footer"><div class="wide footer-inner"><div class="footer-mark"><img src="/img/kaku-mark.png" width="64" height="64" alt="Kaku" loading="lazy"><div><p class="wm-name">Kaku · 書</p><p class="wm-sub">A macOS terminal for AI coding.</p></div></div><div class="footer-colophon"><p class="footer-links"><a href="/roadmap">Roadmap</a> · <a href="https://github.com/tw93/Kaku/releases" target="_blank" rel="noopener noreferrer">Changelog</a> · <a href="/docs/">Docs</a> · <a href="https://github.com/tw93/Kaku">GitHub</a> · <a href="https://github.com/tw93/Kaku/issues">Issues</a> · <a href="https://twitter.com/HiTw93">X</a></p><p class="footer-ethos">Built by Tw93. May your terminal stay out of the way. · Built on WezTerm · MIT · © 2026</p></div></div></footer>
+</body>
+</html>

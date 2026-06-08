@@ -6,6 +6,7 @@ Kaku is a macOS-native terminal emulator derived from WezTerm and tuned for AI-a
 
 ## Docs
 
+- [Guide](https://kaku.fun/docs/guide): plain-language walkthrough from first launch to tabs, panes, shell, the AI assistant, and built-in tools
 - [Features](https://kaku.fun/docs/features): tabs and panes, assistant, beautiful defaults, performance, shell suite, Lua config
 - [Configuration](https://kaku.fun/docs/configuration): font, opacity, Smart Tab, close confirmation, shortcuts, Lua overrides
 - [Keybindings](https://kaku.fun/docs/keybindings): tab, pane, window, and tool shortcuts
